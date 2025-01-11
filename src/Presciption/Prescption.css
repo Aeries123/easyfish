@@ -1,0 +1,153 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #f3e5f5; /* Soft purple background */
+    padding: 20px;
+  }
+  
+  .card-container {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(128, 0, 128, 0.2); /* Purple shadow */
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .text-element {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #4a148c; /* Deep purple */
+  }
+  
+  .para {
+    font-size: 1rem;
+    color: #6a1b9a; /* Medium purple */
+    margin-bottom: 20px;
+  }
+  
+  .border-dashed {
+    border: 2px dashed #ab47bc; /* Lighter purple border */
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #ede7f6; /* Very light purple */
+    position: relative;
+  }
+  
+  .border-dashed:hover {
+    background: #d1c4e9; /* Slightly darker light purple */
+    cursor: pointer;
+  }
+  
+  .custom-text-color {
+    color: #4a148c; /* Deep purple */
+    font-size: 1rem;
+    margin: 10px 0;
+  }
+  
+  .spanelement {
+    color: #7b1fa2; /* Bright purple */
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  .label {
+    font-size: 0.9rem;
+    color: #6a1b9a; /* Medium purple */
+    margin-top: 10px;
+  }
+  
+  .heading {
+    font-size: 1.2rem;
+    color: #4a148c; /* Deep purple */
+    margin-bottom: 10px;
+  }
+  
+  .sub-heading-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .visit-type-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .main {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #4a148c; /* Deep purple */
+  }
+  
+  .sub {
+    font-size: 0.85rem;
+    color: #6a1b9a; /* Medium purple */
+  }
+  
+  .main-text {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ab47bc; /* Lighter purple */
+  }
+  
+  .sub-text {
+    font-size: 0.85rem;
+    color: #6a1b9a; /* Medium purple */
+  }
+  
+  .radial-input {
+    margin-right: 10px;
+    accent-color: #ab47bc; /* Lighter purple */
+  }
+  
+  .presciption-button {
+    background: #6a0dad; /* Vibrant purple */
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .presciption-button:hover {
+    background: #4a148c; /* Deep purple */
+  }
+  
+  .text-xs {
+    font-size: 0.75rem;
+    color: #8a8a8a;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  .radio-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  
+  .radio-label {
+    margin: 0;
+    font-size: 1rem;
+    color: #4a148c; /* Deep purple */
+  }
+  
+  .radio-input {
+    margin-right: 0.5rem;
+    cursor: pointer;
+  }
+  

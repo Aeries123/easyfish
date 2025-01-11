@@ -1,0 +1,109 @@
+.sample-main-container {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.sample-card-container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sample-card-data {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+  }
+
+.header-section {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header-title {
+  color: purple;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.content-section {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.text-content {
+  flex: 2;
+  line-height: 1.6;
+}
+
+.form-container {
+  flex: 1;
+  border: 2px solid purple;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.form-title {
+  text-align: center;
+  color: purple;
+  margin-bottom: 15px;
+}
+
+.form-field {
+  margin-bottom: 15px;
+}
+
+.form-field input,
+.form-field textarea {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid purple;
+  border-radius: 4px;
+}
+
+.submit-button {
+  width: 100%;
+  background-color: purple;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.extra-content-section {
+  margin-top: 30px;
+}
+
+.extra-content-title {
+  color: purple;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.benefits-list {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.toggle-button {
+  display: block;
+  margin: 20px auto;
+  background-color: purple;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.read-more-content {
+  margin-top: 20px;
+}

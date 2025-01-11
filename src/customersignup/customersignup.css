@@ -1,0 +1,146 @@
+/* Main container */
+.signup-main-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-family: "Roboto", sans-serif;
+  color: #333;
+  height: 80vh;
+}
+
+/* Slider container */
+.signup-slider-container {
+  flex: 1;
+  padding: 20px;
+  max-width: 600px;
+  border-radius: 20px;
+}
+
+.signup-slider-image-container {
+  text-align: center;
+}
+
+.signup-images {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+/* Form container */
+.signup-form-container {
+  flex: 1;
+  max-width: 400px;
+}
+
+/* Subheading */
+.signup-sub-heading {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #6a0dad;
+  text-align: center;
+}
+
+/* Description */
+.signup-description {
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+}
+
+/* Label styling */
+.signup-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 12px;
+  color: #333;
+}
+
+/* Input field styling */
+.signup-input {
+  width: 100%;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.signup-input:focus {
+  border-color: #6a0dad;
+  outline: none;
+}
+
+/* Button container */
+.signup-input-otp-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* Primary button */
+.signup-button {
+  width: 100%;
+  background-color: #6a0dad;
+  color: #fff;
+  border: none;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.signup-button:hover {
+  background-color: #6a0dad;
+}
+
+/* WhatsApp button */
+.signup-whatsapp-button {
+  width: 100%;
+  background-color: #ffffff;
+  color: #6a0dad;
+  border: 2px solid #6a0dad;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.signup-whatsapp-button:hover {
+  background-color: #6a0dad;
+  color: #ffffff;
+}
+
+/* Terms and conditions */
+.signup-terms {
+  font-size: 13px;
+  margin-top: 20px;
+  color: #999;
+  text-align: center;
+  line-height: 1.5;
+}
+
+
+.signup-alternate {
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.signup-alternate a {
+  color: #6a0dad;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.signup-alternate a:hover {
+  text-decoration: underline;
+}

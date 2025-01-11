@@ -1,0 +1,141 @@
+.test-reports-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    gap: 20px;
+  }
+  
+  .form-container {
+    flex: 1;
+    display: flex;
+    min-width: 50%;
+    /* max-width: 478px; */
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+
+    
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  .form-content-container{
+    
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 90%;
+      padding: 19px;
+  }
+  .form-container h2 {
+    font-size: 35px;
+    /* margin-bottom: 20px; */
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .form-container-label {
+    display: block;
+    font-size: 20px;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .form-container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-weight: 600
+  }
+  
+  .captcha-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+  }
+  
+  .form-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #ffc107;
+    color: #fff;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    font-weight: bold;
+    font-size: 20px;
+  }
+  
+  .form-container button:hover {
+    background-color: #e0a800;
+  }
+  .form-container form{
+    width:70%;
+  }
+  
+  .image-container {
+    flex: 1;
+    width: 40%;
+    /* max-width: 478px; */
+    text-align: center;
+    position: relative;
+    height:50%;
+  }
+  
+  .image-container-img {
+    width: 100%;
+    border-radius: 8px;
+    height:90%;
+    object-fit: fill;
+    
+  }
+  
+  .banner {
+    position: absolute;
+    bottom: 10%;
+    left: 5%;
+    background-color: #f7b500;
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 1.2rem;
+  }
+  /* .form-label{
+    font-size:30px;
+  } */
+  @media (max-width: 478px) {
+    .test-reports-container {
+      flex-direction: column;
+      padding: 10px;
+    }
+  
+    .form-container,
+    .image-container {
+      width: 100%;
+    }
+    .form-content-container{
+      width:100%;
+    }
+  .form-container-label{
+    font-size: 0.9rem;
+  }
+  .image-container-img{
+    width:100%;
+
+  }
+    .banner {
+      font-size: 15px;
+      width:70%;
+      left: 10%;
+
+      /* left: 10%; */
+    }
+  }
+  

@@ -1,0 +1,127 @@
+/* Card Container */
+.service-detail-card {
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: "Roboto", sans-serif;
+  color: #333;
+  text-align: left;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.service-sub-card {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Title Styling */
+.service-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #007bff;
+  margin-bottom: 10px;
+}
+
+/* Price Styling */
+.service-detail-card h1 {
+  font-size: 22px;
+  font-weight: bold;
+  color: #28a745;
+  margin: 5px 0;
+}
+
+/* Description Styling */
+.service-description {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  color: #555;
+}
+
+/* Special Instruction */
+.special-instruction {
+  font-size: 16px;
+  color: #ff5722;
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
+/* Collection Types */
+.collection-type {
+  font-size: 14px;
+  background-color: #e9ecef;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: inline-block;
+  margin-right: 10px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Parameters Covered */
+.service-detail-card div p {
+  font-size: 14px;
+  margin: 5px 0;
+  color: #666;
+
+
+  .service-detail-card button:hover {
+    background-color: #c82333;
+  }
+
+  /* Hover Effect on Card */
+  .service-detail-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease-in-out;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .service-detail-card {
+      padding: 15px;
+    }
+
+    .service-title {
+      font-size: 20px;
+    }
+
+    .service-detail-card h1 {
+      font-size: 18px;
+    }
+
+    .service-description {
+      font-size: 14px;
+    }
+
+    .service-detail-card button {
+      font-size: 12px;
+      padding: 8px 16px;
+    }
+  }
+}
+
+.verified-container {
+  color: #28a745;
+  font-weight: bold;
+  margin-left: 20px;
+}
+
+.service-sub-container-card {
+  display: flex;
+}
+
+.service-button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+

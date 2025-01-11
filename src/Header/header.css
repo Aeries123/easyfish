@@ -1,0 +1,196 @@
+header,
+.header-container,
+.header-img {
+  margin: 0;
+  padding: 0;
+}
+
+/* .header-img {
+    display: block; 
+    width: 100%; 
+} */
+.header-container {
+  background-color: #800080;
+  color: white;
+  margin-top: 0px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  top: 0px;
+}
+.navbar-toggle {
+  display: none;
+}
+.header-elements {
+  font-size: 20px;
+}
+.header-elements-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 5px;
+  width: 90%;
+}
+.header-btn {
+  width: 200px;
+  margin-left: 700px;
+  margin-bottom: 10px;
+  align-self: flex-end;
+}
+
+.header-img {
+  height: 35vh;
+  background-image: url("https://res.cloudinary.com/ddjsaoac6/image/upload/v1736159475/Screenshot_2025-01-06_160018_so8uaf.png");
+
+  width: 100%;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.header-img-content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30%;
+  margin-right: 100px;
+}
+.login-sign-up-button {
+  background-color: purple;
+  color: white !important;
+  width: 30%;
+  padding: 10px;
+  border-width: 0px;
+  border-radius: 10px;
+}
+
+.login-signup-link {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+@media (max-width: 478px) {
+  .header-img {
+    height: 8vh;
+  }
+  .navbar-toggle {
+    display: block;
+  }
+  .header-elements-container {
+    flex-direction: column;
+    /* position:absolute; 
+        top:100%;
+        background-color: #800080;
+        color:white; 
+    width: 100%;
+    padding-top: 10px;
+    margin:-20px;
+         */
+    display: none;
+  }
+
+  
+
+  .header-elements-container.active {
+    display: block;
+    position: absolute;
+    top: 100%;
+    background-color: #800080;
+    color: white;
+    width: 100%;
+    padding-top: 10px;
+    margin: -20px;
+    z-index: 1000;
+  }
+  .header-btn {
+    width: 150px;
+    font-size: 15px;
+  }
+
+  
+  .hidden-input {
+    display: none;
+  }
+  .header-img-content-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 20px;
+    justify-content: flex-end;
+  }
+  .login-sign-up-button {
+    font-size: 15px;
+    padding: 5px;
+    width: 30%;
+    margin: 5px;
+  }
+}
+
+
+
+
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Darker overlay for better contrast */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background: transparent; /* Pure white background */
+  padding: 20px; /* Adequate padding for spacing */
+  border-radius: 15px; /* Softer, rounded edges */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Enhanced shadow for a modern look */
+  display: flex;
+  flex-direction: column; /* Stack content vertically */
+  justify-content: center;
+  align-items: center;
+  max-width: 100%; /* Ensure content doesn't overflow screen width */
+  overflow: auto; /* Enable scrolling for overflow content */
+}
+
+.close-popup-button {
+  background: #ff4d4d; /* Softer red for close button */
+  color: white;
+  border: none;
+  padding: 8px 15px; /* Larger padding for better touch targets */
+  font-size: 14px; /* Slightly smaller font for elegance */
+  cursor: pointer;
+  border-radius: 5px; /* Rounded button edges */
+  align-self: flex-end; /* Align button to the top-right */
+  transition: background 0.3s ease; /* Smooth hover effect */
+  margin-bottom: 10px; /* Add spacing below the button */
+}
+
+.close-popup-button:hover {
+  background: #e60000; /* Darker red on hover */
+}
+
+
+#header-input {
+  width: 400px;
+  height: 50px;
+  border: none;
+  border-radius: 5px;
+  border-width: 0px;
+  padding-left: 10px;
+  font-weight: 700;
+  font-size: 16px;
+  color: #6a1b9a;
+
+}
+
+.cart-icon {
+  margin-right: 50px;
+  padding: 5px;
+}

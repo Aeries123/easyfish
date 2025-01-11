@@ -1,0 +1,121 @@
+.cart-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cart-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.each-item-cart {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    margin: 10px;
+}
+
+.each-item-cart:last-child {
+    border-bottom: none;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #1976d2; /* Blue text for title */
+    margin: 0;
+}
+
+.card-subtitle {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0;
+}
+
+.card-description {
+    font-size: 12px;
+    color: #888;
+    margin: 0;
+}
+
+.card-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #4caf50; /* Green color for price */
+}
+
+.remove-button {
+    color: #f44336; /* Red color for remove */
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.remove-button:hover {
+    text-decoration: underline;
+}
+.cart-remove-button {
+    background-color: #f44336; /* Red color for the remove button */
+    color: #ffffff; /* White text */
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cart-remove-button:hover {
+    background-color: #d32f2f; /* Darker red for hover effect */
+}
+
+.cart-remove-button:focus {
+    outline: none;
+    box-shadow: 0 0 4px #f44336; /* Red focus outline */
+}
+
+
+/* Responsive Styles */
+@media (max-width: 478px) {
+    .cart-container {
+        padding: 15px;
+    }
+
+    .each-item-cart {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 0;
+    }
+
+    .each-item-cart div {
+        margin-bottom: 10px;
+    }
+
+    .card-title {
+        font-size: 16px;
+    }
+
+    .card-subtitle {
+        font-size: 13px;
+    }
+
+    .card-description {
+        font-size: 11px;
+    }
+
+    .card-price {
+        font-size: 16px;
+        text-align: left;
+    }
+}

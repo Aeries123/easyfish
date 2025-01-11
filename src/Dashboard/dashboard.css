@@ -1,0 +1,84 @@
+/* Smooth body transition */
+
+/* Remove card borders and add smooth transition */
+.card {
+    border: none;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-card-container {
+    display: flex;
+}
+
+/* Add consistent image size and center align */
+.card-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    display: block;
+}
+
+/* Center the images using Bootstrap's utilities */
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Add hover and active effects */
+.card-container:hover .card {
+    transform: scale(1.05);
+}
+.active-card .card {
+    background-color: purple; /* Purple background for active card */
+    transform: scale(1.1);
+    color: white; /* White text for better contrast */
+}
+
+/* Heading styles */
+.head {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Add subtle shadow to cards */
+.card.shadow-sm {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.card-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    display: block;
+    background-color: white; /* White background for the image */
+    border-radius: 50%; /* Circular images */
+    padding: 10px; /* Space around the image */
+    margin: 0 auto; /* Center the image horizontally */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+.card-small {
+    width: 100%; /* Adjust the width of the card */
+    max-width: 205px; /* Limit the width to make the card smaller */
+    margin: 0 auto; /* Center the card */
+}
+
+.img-small {
+    width: 40%; /* Adjust image width */
+    height: auto; /* Keep image's aspect ratio */
+    max-width: 150px; /* Limit the image size */
+}
+
+.card-body .card-text {
+    font-size: 14px; /* Reduce the font size of the text */
+}
+.text-purple {
+    color: purple; /* Apply purple color to the text */
+}
+
+.underline {
+    text-decoration: underline; /* Apply underline to the text */
+}
