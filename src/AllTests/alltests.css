@@ -22,6 +22,21 @@
 
 
 }
+.alltests-input{
+  background-color: #D3D3D3;
+  transition: transform 0.9s ease;
+}
+.alltests-input:hover{
+  background-color: purple;
+  transform: scale(1.2);
+  color:white;
+
+
+}
+.alltests-input:active{
+  background-color: black;
+  color:white;
+}
 .buttons{
     background-color:#c5c1c1;
     color:black;

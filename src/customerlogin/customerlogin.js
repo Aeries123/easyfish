@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Slider from "react-slick";
 import "./customerlogin.css";
+import Cookies from "js-cookie"
 
-const CustomerLogin = () => {
+const CustomerLogin = (props) => {
+  const {setUserName}=props
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
+  const [password,setPassword]=useState("")
+
   const navigate = useNavigate();
 
   const sliderSettings = {
@@ -15,30 +19,45 @@ const CustomerLogin = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
   };
+const onSuccesful=(e)=>{
+  Cookies.set('jwtToken',e,{expires:7})
+  navigate("/")
 
-  const handleChange = (e) => {
-    setPhone(e.target.value);
-    if (error) setError(""); // Clear error on input change
-  };
+
+}
+  // const handleChange = (e) => {
+  //   setPhone(e.target.value);
+  //   if (error) setError(""); // Clear error on input change
+  // };
+  const onChangeMobile=(e)=>{
+    setPhone(e.target.value)
+
+  }
+  const onChangePassword=e=>{
+    setPassword(e.target.value)
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!phone) {
       setError("Mobile number is required");
       return;
+    
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/users/login", {
+      const response = await fetch("http://localhost:5000/api/customers/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ phone }),
+        body: JSON.stringify({ phone,password }),
       });
 
       if (response.ok) {
-        navigate("/verify-otp", { state: { phone } });
+        const e=await response.json()
+        // navigate("/verify-otp", { state: { phone } });
+        onSuccesful(e.token)
       } else {
         setError("Failed to send OTP, please try again.");
       }
@@ -82,13 +101,24 @@ const CustomerLogin = () => {
             type="text"
             id="mobile"
             value={phone}
-            onChange={handleChange}
+            onChange={onChangeMobile}
             placeholder="Enter your mobile number"
             className="login-input"
           />
+          <label className="login-label" htmlFor="password">
+            Password
+          </label>
+           <input
+            type="text"
+            id="password"
+            value={password}
+            onChange={onChangePassword}
+            placeholder="Enter your password"
+            className="login-input"
+          />
           {error && <p className="login-error-msg">{error}</p>}
-          <button type="submit" className="login-button">
-            Send OTP
+          <button type="submit" className="login-button" >
+            login
           </button>
         </form>
         <p className="signup-alternate">

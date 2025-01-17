@@ -11,42 +11,42 @@ function Samplecollection() {
   };
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid" >
       <div className="sample-main-container">
         <div className="row">
           <h1 className="head text-center text-purple underline">
-            Book Lab Test at Home
+            Home Sample Collection
           </h1>
         </div>
         <div className="sample-card-container">
           <div className="row">
-            <div className="col-md-8">
-              <p>
+            <div className="col-md-5 col-lg-6">
+              <p className="sample-paragraph">
                 Many people are put off by the concept of waiting in line for
                 hours at a diagnostic lab or hospital or, at the very least,
                 postponing diagnostic lab tests.
               </p>
-              <p>
+              <p className="sample-paragraph">
                 Vijaya Diagnostic Centre recognises the value of health tests
                 and recognises the need to make diagnostic services more
                 convenient and user-friendly, hence Vijaya Diagnostic Centre
                 provides a Home Sample Collection service to get tested at home.
               </p>
-              <p>
+              <p className="sample-paragraph">
                 After getting a call or receiving a home sample collection
                 request from customers, our medically certified professional
                 arrives at the customer's door to collect blood test samples.
               </p>
-              <p>
+              <p className="sample-paragraph">
                 Reports are submitted via WhatsApp and text messages and can
                 even be picked up at our centre. Now you can download blood test
                 reports at home.
               </p>
             </div>
 
-            <div className="col-md-4 d-flex justify-content-center border border-purple p-3">
+            <div className="col-md-7 col-lg-6 d-flex justify-content-center border border-purple p-2">
               <div className="w-75">
-                <h5 className="text-center mb-4 text-purple">Enquiry Form</h5>
+                <h5 className="text-center mb-4 text-purple fs-3 fw-bolder">Enquiry Form</h5>
                 <form>
                   <div className="mb-3">
                     <input
@@ -66,17 +66,17 @@ function Samplecollection() {
                     <input
                       type="email"
                       className="form-control border-purple"
-                      placeholder="Email"
+                      placeholder="Enter Test Name"
                     />
                   </div>
                   <div className="mb-3">
                     <textarea
                       className="form-control border-purple"
-                      placeholder="Enquiry"
+                      placeholder="Address"
                       rows="3"
                     ></textarea>
                   </div>
-                  <button type="submit" className="btn btn-purple w-100">
+                  <button type="submit" className="btn btn-primary w-100">
                     Submit
                   </button>
                 </form>

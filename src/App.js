@@ -18,7 +18,6 @@ import TestReports from "./DownloadReport/download";
 
 import { useState } from "react";
 
-
 function App() {
   const [cartData,setCartData] =useState([])
 
@@ -32,7 +31,7 @@ function App() {
             <Route path="/customer/register" element={<CustomerSignup />} />
             <Route path="/verify-otp" element={<VerifyOTP />} />
             <Route path="/" element={<Home setCartData={setCartData} />} />
-            <Route path="/book-test" element={<Tests />} />
+            <Route path="/book-test" element={<Tests setCartData={setCartData}/>} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/service/:serviceId" element={<ServiceDetail />} />
             <Route path="/my-dashboard" element={<Dashboard />} />

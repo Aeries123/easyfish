@@ -3,7 +3,7 @@ import "./download.css";
 
 const TestReports = () => {
   return (
-    <div className="test-reports-container">
+    <div className="test-reports-container" >
       <div className="form-container">
         <div className="form-content-container">
           <h2 style={{ color: "purple" }}>View All Your Test Reports</h2>

@@ -1,7 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import FaqQuestions from "../FaqQuestions/FaqQuestions";
 import "./Tests.css"; // Custom CSS file
+import { v4 as uuidv4 } from "uuid";
 
 const testArray = [
   {
@@ -84,121 +86,100 @@ const testArray = [
   },
 ];
 
-const stats = [
-  {
-    number: "200+",
-    label: "Professionals",
-    description: "Radiologists, Pathologists & Microbiologists",
-  },
-  {
-    number: "50+",
-    label: "Million Customers and Counting",
-    description: "Trusted by Every Age Group",
-  },
-  {
-    number: "40+",
-    label: "Years of Experience",
-    description: "in Delivering Quality Diagnostic Services",
-  },
-  {
-    number: "140+",
-    label: "Diagnostic Centres and Counting",
-    description: "State-of-the-art Facilities with Best Customer Service",
-  },
-  {
-    number: "20+",
-    label: "Cities Across India",
-    description: "India's Largest Comprehensive Diagnostic Centre",
-  },
-  {
-    number: "250+",
-    label: "Corporate Clients and Counting",
-    description: "Most Preferred Diagnostic Partner",
-  },
-];
+const cardImg1 =
+  "https://res.cloudinary.com/ddjsaoac6/image/upload/v1736228391/info_xtk8xt.png";
+const cardImg2 =
+  "https://res.cloudinary.com/ddjsaoac6/image/upload/v1736228485/edit-info_1_dcyeqi.png";
+const cardImg3 =
+  "https://res.cloudinary.com/ddjsaoac6/image/upload/v1736228581/document_wtfacr.png";
 
-const testCards = [
-  {
-    id: 1,
-    title: "BLOOD PRESSURE MONITORING",
-    description: "A test to monitor your blood pressure levels over time.",
-    price: 250,
-    types: ["Home Collection", "Lab Visit"],
-  },
-  {
-    id: 2,
-    title: "LIPID PROFILE",
-    description: "A comprehensive test to measure your cholesterol levels.",
-    price: 450,
-    types: ["Home Collection", "Lab Visit"],
-  },
-  {
-    id: 3,
-    title: "LIVER FUNCTION TEST",
-    description: "A test to evaluate the health of your liver.",
-    price: 600,
-    types: ["Home Collection", "Lab Visit"],
-  },
-  {
-    id: 4,
-    title: "KIDNEY FUNCTION TEST",
-    description: "A test to assess how well your kidneys are functioning.",
-    price: 550,
-    types: ["Home Collection", "Lab Visit"],
-  },
-  {
-    id: 5,
-    title: "THYROID FUNCTION TEST",
-    description: "A test to check your thyroid gland function.",
-    price: 450,
-    types: ["Home Collection", "Lab Visit"],
-  },
-  {
-    id: 6,
-    title: "URINALYSIS",
-    description: "A test to detect substances in your urine that indicate health problems.",
-    price: 300,
-    types: ["Home Collection", "Lab Visit"],
-  },
-  {
-    id: 7,
-    title: "VITAMIN D TEST",
-    description: "A test to measure vitamin D levels in your blood.",
-    price: 400,
-    types: ["Home Collection", "Lab Visit"],
-  },
-  {
-    id: 8,
-    title: "CALCIUM LEVEL TEST",
-    description: "A test to check the calcium levels in your blood.",
-    price: 350,
-    types: ["Home Collection", "Lab Visit"],
-  },
-  {
-    id: 9,
-    title: "IRON DEFICIENCY TEST",
-    description: "A test to determine if you have an iron deficiency.",
-    price: 300,
-    types: ["Home Collection", "Lab Visit"],
-  },
-  {
-    id: 10,
-    title: "VITAMIN B12 TEST",
-    description: "A test to check for vitamin B12 deficiency.",
-    price: 400,
-    types: ["Home Collection", "Lab Visit"],
-  },
-  {
-    id: 11,
-    title: "BLOOD SUGAR TEST",
-    description: "A test to monitor your blood glucose levels.",
-    price: 250,
-    types: ["Home Collection", "Lab Visit"],
-  },
-];
+const cardAction = "Book Now";
 
 
-function Tests() {
+
+function Tests(props) {
+  const { setCartData } = props;
+  // const [addedItem,setAddedItem]=useState(null)
+  // const onClickButtonId=id=>{
+  //   setAddedItem(id)
+  // }
+  const onClickBookKNow = (each) => {
+    setCartData((prev) => [...prev, each]);
+  };
+  // const [updatedArray, setUpdatedArray] = useState(testCards);
+
+  const [inputValue, setInputValue] = useState("");
+
+  const [clickedIds, setClickedIds] = useState([]);
+
+  const handleButtonClick = (test) => {
+    const test_id = test.test_id;
+  
+    if (clickedIds.includes(test_id)) {
+      setClickedIds((prev) => prev.filter((clickedId) => clickedId !== test_id));
+      setCartData((prev) => prev.filter((cartItem) => cartItem.test_id !== test_id));
+    } else {
+      setClickedIds((prev) => [...prev, test_id]);
+      setCartData((prev) => [...prev, test]);
+    }
+  };
+  
+
+  const [isFullDataVisible, setIsFullDataVisible] = useState(false);
+
+  const [testsData, setTestsData] = useState([]); 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const buttonContent = isFullDataVisible ? "View Less" : "View More";
+
+  // console.log(updatedArray);
+
+  // const onChangeTestNames=e=>{
+  //   const updatedData=updatedArray.filter(eachItem=>eachItem.title.includes(e.target.value))
+  //   setUpdatedArray(updatedData)
+  // }
+
+  useEffect(() => {
+    const endpoint = "http://127.0.0.1:5000/api/tests"; // API endpoint to fetch data from
+
+    // Fetch data from the API
+    fetch(endpoint)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setTestsData(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message); // Handle any errors that occur during the fetch
+        setLoading(false); // Set loading to false if an error occurs
+      });
+  }, []); // Empty dependency array means this effect runs once when the component mounts
+
+  if (loading) {
+    return <div>Loading...</div>; // Show loading message while data is being fetched
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>; // Show error message if there's an issue with the fetch
+  }
+
+  const onClickViewMore = () => {
+    setIsFullDataVisible((prev) => !prev);
+  };
+
+  const onChangeTestNames = (e) => {
+    setInputValue(e.target.value);
+  };
+  const filteringData = testsData.filter((each) =>
+    each.test_name.toLowerCase().includes(inputValue)
+  );
+
   return (
     <div className="custom-tests-container">
       <div className="custom-header-section">
@@ -228,6 +209,8 @@ function Tests() {
             autoComplete="off"
             className="custom-search-input"
             type="search"
+            value={inputValue}
+            onChange={onChangeTestNames}
           />
         </div>
       </div>
@@ -242,56 +225,76 @@ function Tests() {
         </div>
       </div>
       <div className="custom-test-load-more-button-container">
-        <div className="custom-test-cards-container">
-          {testCards.map((test) => (
-            <div key={test.id} className="custom-test-card-container">
-              <div>
-                <div className="custom-test-card-heading-container">
-                  <h1 className="custom-test-card-title">{test.title}</h1>
-                  <p className="custom-test-card-text">{test.description}</p>
-                  <h1 className="custom-test-card-title">Rs: {test.price}</h1>
+        <div className="individual-cards-container">
+          {testsData.length !== 0 ? (
+            filteringData.map((test) => (
+              <div className="individual-card" key={test.test_id}>
+                <h4 className="package-heading">{test.test_name}</h4>
+
+                <hr />
+                <div className="info-container">
+                  <img src={cardImg1} className="info-img" />
+                  <p className="info-container-paragraph">
+                    <strong className="strong">
+                      {test.preparation_instructions}
+                    </strong>
+                  </p>
                 </div>
-                <div className="custom-test-card-type-container">
-                  {test.types.map((type, idx) => (
-                    <p key={idx} className="custom-test-card-type-text">
-                      {type}
-                    </p>
-                  ))}
+                <div className="info-container">
+                  <img src={cardImg2} className="info-img" />
+                  <p className="info-container-paragraph">
+                    <strong className="strong">
+                      Report available in {test.duration}
+                    </strong>
+                  </p>
                 </div>
-              </div>
-              <div className="custom-test-card-footer-container">
-                <button className="custom-test-card-footer-button">
-                  Add to cart
-                </button>
-                <button className="test-service-button">
-                  <Link
-                    to="/service/corporate-wellness"
-                    className="service-link"
+                <div className="info-container">
+                  <img src={cardImg3} className="info-img" />
+                  <p className="info-container-paragraph">
+                    <strong className="strong">{test.parameters}</strong>
+                  </p>
+                </div>
+
+                <div className="home-types-container">
+                  <ul className="home-types-list">
+                    {test.visit_type.split(", ").map((type, index) => (
+                      <li key={index} className="home-type-item">
+                        {type}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <p className="know-more-paragraph">
+                  <strong>Know More</strong>
+                </p>
+                <div className="button-container">
+                  <h5 className="card-price-heading">₹{test.price}</h5>
+                  <button
+                    className="button"
+                    onClick={() => handleButtonClick(test)}
                   >
-                    Know More
-                  </Link>
-                </button>
-                {/* <p className="custom-test-card-footer-text">Know More</p> */}
+                    {clickedIds.includes(test.test_id) ? "Remove" : "Book Now"}
+                    <img
+                      src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736424675/carts_mjdkfo.png"
+                      height="30px"
+                      width="30px"
+                    />
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <img src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736591529/notfound_nyzkyi.jpg" />
+          )}
         </div>
+
+        {/* <button className="view-button" onClick={onClickViewMore}>
+          {buttonContent}
+        </button> */}
+
         <div className="custom-test-load-more-button-container">
           <button className="custom-test-load-more-button">Load More</button>
-        </div>
-      </div>
-      <div>
-        <div className="healthcare-stats">
-          <h1>INDIA'S LARGEST HEALTHCARE PLATFORM</h1>
-          <div className="stats-grid">
-            {stats.map((stat, index) => (
-              <div className="stat-card" key={index}>
-                <h2 className="stat-card-main-heading">{stat.number}</h2>
-                <h3 className="stat-card-sub-heading">{stat.label}</h3>
-                <p className="stat-card-description">{stat.description}</p>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
       <FaqQuestions />

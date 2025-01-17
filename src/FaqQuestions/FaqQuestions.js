@@ -30,7 +30,7 @@ const sampleCollection=[
 
     },{
         question:"Can i prepone/postpone my Home Blood Collection appointment?",
-        Amswer:"Yes, you can prepone/postpone an appointment by calling our customercare number at 7780 175 209."
+        Answer:"Yes, you can prepone/postpone an appointment by calling our customercare number at 7780 175 209."
     }
 ]
 const reports=[

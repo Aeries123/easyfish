@@ -11,16 +11,16 @@ const carouselImages=[
         imageName:"2"
     },
     {
-        imageUrl:"https://res.cloudinary.com/ddjsaoac6/image/upload/v1736510967/doctor3_wlgglx.webp",
+        imageUrl:"https://res.cloudinary.com/ddjsaoac6/image/upload/v1736570779/motherhood_care_dkp_vsfypf.webp",
         imageName:"3"
     }
 ]
 const settings={
     slidesToShow:1,
     slidesToScroll:1,
-    dots:true,
+    dots:false,
     arrows:true,
-    autoplaySpeed:1000,
+    autoplaySpeed:3000,
     autoplay:true
 }
 export const CarouselContainer=()=>{

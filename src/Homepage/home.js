@@ -1,25 +1,13 @@
 import "./home.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import FaqQuestions from "../FaqQuestions/FaqQuestions";
 import { Link } from "react-router-dom";
 import { CarouselContainer } from "../CarouselContainer/carousel";
-// const carouselImages=[
-//     {
-//         imageUrl:"https://res.cloudinary.com/ddjsaoac6/image/upload/v1736510944/doctor_d5ot0q.webp",
-//         imageName:"1"
-//     },
-//     {
-//         imageUrl:"https://res.cloudinary.com/ddjsaoac6/image/upload/v1736510955/doctor1_si4zyz.webp",
-//         imageName:"2"
-//     },
-//     {
-//         imageUrl:"https://res.cloudinary.com/ddjsaoac6/image/upload/v1736510944/doctor_d5ot0q.webp",
-//         imageName:"3"
-//     }
-// ]
+// import Whychooseus from "../whychooseus/whychoose";
+
 const smallData = [
   {
     id: 11,
@@ -243,7 +231,7 @@ const tests = [
   {
     imageUrl:
       "https://res.cloudinary.com/dabzdwxet/image/upload/v1736517117/test_uhyz3y.png",
-    imageName: "Test Menu",
+    imageName: "Home Sample Collection",
   },
   {
     imageUrl:
@@ -256,10 +244,16 @@ const tests = [
     imageName: "Upload Prescription",
   },
 ];
+
 const discountImages = [
   {
     imageUrl:
-      "https://res.cloudinary.com/ddjsaoac6/image/upload/v1736241443/Screenshot_2025-01-07_144649_bmpwlv.png",
+      "https://res.cloudinary.com/ddjsaoac6/image/upload/v1737038715/f-1_fbsaal.jpg",
+    imageName: "image1",
+  },
+  {
+    imageUrl:
+      "https://res.cloudinary.com/ddjsaoac6/image/upload/v1737038715/f-2_d0ufht.jpg",
     imageName: "image1",
   },
   {
@@ -269,17 +263,12 @@ const discountImages = [
   },
   {
     imageUrl:
-      "https://res.cloudinary.com/ddjsaoac6/image/upload/v1736241443/Screenshot_2025-01-07_144649_bmpwlv.png",
+      "https://res.cloudinary.com/ddjsaoac6/image/upload/v1737038715/f-1_fbsaal.jpg",
     imageName: "image1",
   },
   {
     imageUrl:
-      "https://res.cloudinary.com/ddjsaoac6/image/upload/v1736241443/Screenshot_2025-01-07_144649_bmpwlv.png",
-    imageName: "image1",
-  },
-  {
-    imageUrl:
-      "https://res.cloudinary.com/ddjsaoac6/image/upload/v1736241443/Screenshot_2025-01-07_144649_bmpwlv.png",
+      "https://res.cloudinary.com/ddjsaoac6/image/upload/v1737038715/f-2_d0ufht.jpg",
     imageName: "image1",
   },
   {
@@ -288,7 +277,8 @@ const discountImages = [
     imageName: "image1",
   },
 ];
-const qualityData = [
+
+export const qualityData = [
   {
     imageUrl:
       "https://res.cloudinary.com/ddjsaoac6/image/upload/v1736249394/q7_vjt0be.png",
@@ -308,6 +298,7 @@ const qualityData = [
     imageInformation: "Instrumenst used for real time QC monitoring.",
   },
 ];
+
 const instituteImages = [
   {
     imageUrl:
@@ -325,6 +316,7 @@ const instituteImages = [
     imageName: "lab-1",
   },
 ];
+
 const instituteImages2 = [
   {
     imageUrl:
@@ -338,6 +330,7 @@ const instituteImages2 = [
     imageName: "National Reference Laboratory at Rohini",
   },
 ];
+
 const testImages = [
   {
     imageUrl:
@@ -390,6 +383,7 @@ const testImages = [
     imageName: "hands",
   },
 ];
+
 const minTestImages = [
   {
     imageUrl:
@@ -496,11 +490,71 @@ const settings = {
     },
   ],
 };
+
+const cardImg1 =
+  "https://res.cloudinary.com/ddjsaoac6/image/upload/v1736228391/info_xtk8xt.png";
+const cardImg2 =
+  "https://res.cloudinary.com/ddjsaoac6/image/upload/v1736228485/edit-info_1_dcyeqi.png";
+const cardImg3 =
+  "https://res.cloudinary.com/ddjsaoac6/image/upload/v1736228581/document_wtfacr.png";
+
 const Home = (props) => {
   const { setCartData } = props;
   const [isFullDataVisible, setIsFullDataVisible] = useState(false);
   const [isAllImagesVisible, setImagesAllVisible] = useState(false);
+  const [clickedIds, setClickedIds] = useState([]);
+  const [testsData, setTestsData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   // const [cartData,setCartData]=useState([])
+
+  useEffect(() => {
+    const endpoint = "http://127.0.0.1:5000/api/tests"; // API endpoint to fetch data from
+
+    // Fetch data from the API
+    fetch(endpoint)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setTestsData(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message); // Handle any errors that occur during the fetch
+        setLoading(false); // Set loading to false if an error occurs
+      });
+  }, []); // Empty dependency array means this effect runs once when the component mounts
+
+  if (loading) {
+    return <div>Loading...</div>; // Show loading message while data is being fetched
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>; // Show error message if there's an issue with the fetch
+  }
+
+  const handleButtonClick = (test) => {
+    const test_id = test.test_id;
+
+    if (clickedIds.includes(test_id)) {
+      setClickedIds((prev) =>
+        prev.filter((clickedId) => clickedId !== test_id)
+      );
+      setCartData((prev) =>
+        prev.filter((cartItem) => cartItem.test_id !== test_id)
+      );
+    } else {
+      setClickedIds((prev) => [...prev, test_id]);
+      setCartData((prev) => [...prev, test]);
+    }
+  };
+
   const onClickBookKNow = (each) => {
     setCartData((prev) => [...prev, each]);
   };
@@ -544,58 +598,69 @@ const Home = (props) => {
       </div>
       <div className="cards-container">
         <h2 className="package-heading">Popular Tests / Packages</h2>
+
         <div className="individual-cards-container">
-          {visibleData.map((each) => {
-            const {
-              cardName,
-              cardPara1,
-              cardPara2,
-              cardPara3,
-              cardAction,
-              cardKnowMore,
-              cardTestPrice,
-              cardImg1,
-              cardImg2,
-              cardImg3,
-            } = each;
-            return (
-              <div className="individual-card">
-                <h4 className="package-heading">{cardName}</h4>
+          {testsData.length !== 0 ? (
+            testsData.map((test) => (
+              <div className="individual-card" key={test.test_id}>
+                <h4 className="package-heading">{test.test_name}</h4>
 
                 <hr />
                 <div className="info-container">
                   <img src={cardImg1} className="info-img" />
                   <p className="info-container-paragraph">
-                    <strong className="strong">{cardPara1}</strong>
+                    <strong className="strong">
+                      {test.preparation_instructions}
+                    </strong>
                   </p>
                 </div>
                 <div className="info-container">
                   <img src={cardImg2} className="info-img" />
                   <p className="info-container-paragraph">
-                    <strong className="strong">{cardPara2}</strong>
+                    <strong className="strong">
+                      Report available in {test.duration}
+                    </strong>
                   </p>
                 </div>
                 <div className="info-container">
                   <img src={cardImg3} className="info-img" />
                   <p className="info-container-paragraph">
-                    <strong className="strong">{cardPara3}</strong>
+                    <strong className="strong">{test.parameters}</strong>
                   </p>
                 </div>
+
+                <div className="home-types-container">
+                  <ul className="home-types-list">
+                    {test.visit_type.split(", ").map((type, index) => (
+                      <li key={index} className="home-type-item">
+                        {type}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
                 <p className="know-more-paragraph">
-                  <strong>{cardKnowMore}</strong>
+                  <strong>Know More</strong>
                 </p>
                 <div className="button-container">
-                  <h5 className="card-price-heading">₹{cardTestPrice}</h5>
+                  <h5 className="card-price-heading">₹{test.price}</h5>
                   <button
                     className="button"
-                    onClick={() => onClickBookKNow(each)}
+                    onClick={() => handleButtonClick(test)}
                   >
-                    {cardAction}
+                    {clickedIds.includes(test.test_id) ? "Remove" : "Book Now"}
+                    <img
+                      src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736424675/carts_mjdkfo.png"
+                      height="30px"
+                      width="30px"
+                    />
                   </button>
                 </div>
               </div>
-            );
-          })}
+            ))
+          ) : (
+            <img src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736591529/notfound_nyzkyi.jpg" />
+          )}
         </div>
 
         <button className="view-button" onClick={onClickViewMore}>
@@ -603,22 +668,26 @@ const Home = (props) => {
         </button>
         <div>
           <h2 className="why-choose-us-heading">
-            <strong>Why Choose Us</strong>
+            <strong>AccessPath Labs</strong>
           </h2>
           <p className="why-choose-us-paragraph">
-            <b>
-              Access Pathylabs is your trusted partner for accurate and reliable
-              diagnostic services.With state-of-the-art technology and a team of
-              expert pathologists,offering a wide range of tests, from routine
-              check-ups to advanced diagnostics , we proritize convenience with
-              home sample collection, fast online reports, and 24/7 support. Our
-              commitment to quality and affordability makes diagnostics seamless
-              and accessible for everyone.
-              <br />
-              Choose Access Pathylabs for technology-driven,patient-focused care
-              that puts your health first.Experience precision, reliability, and
-              excellence with every test.
-            </b>
+            Access Pathylabs is your trusted partner in delivering advanced
+            diagnostic solutions with precision, reliability, and care.
+            Combining cutting-edge technology and the expertise of our skilled
+            pathologists, we offer a wide spectrum of tests, from routine health
+            screenings to specialized diagnostics, tailored to meet your unique
+            healthcare needs. With our seamless home sample collection services,
+            secure and fast online reports, and round-the-clock customer
+            support, we prioritize your convenience every step of the way. Our
+            commitment to quality, affordability, and innovation ensures that
+            you receive accurate results and dependable services, empowering you
+            to make informed decisions about your health. By adhering to
+            stringent quality standards and adopting the latest methodologies,
+            Access Pathylabs redefines the diagnostic experience, making
+            healthcare accessible, affordable, and hassle-free for everyone.
+            Choose us to experience the perfect blend of technology-driven
+            solutions and compassionate patient care, because your health
+            deserves nothing but the best.
           </p>
         </div>
       </div>
@@ -637,8 +706,9 @@ const Home = (props) => {
             ))}
           </Slider>
         </div>
-        <h2 className="package-heading">Quality</h2>
-        <div className="quality-container">
+        <h2 className="package-heading">Why Choose Us</h2>
+
+        {/* <div className="quality-container">
           {qualityData.map((each) => {
             return (
               <div className="each-quality">
@@ -651,9 +721,11 @@ const Home = (props) => {
             );
           })}
           <h5 className="know-more-paragraph">Know More</h5>
-        </div>
+        </div> */}
+        {/* <div style={{width:"80%"}}> */}
+        {/* <Whychooseus/> */}
       </div>
-      <div className="stamp-container">
+      {/* <div className="stamp-container">
         <div className="stamp-sub-container-1">
           {instituteImages.map((eachItem) => (
             <>
@@ -671,9 +743,9 @@ const Home = (props) => {
             </>
           ))}
         </div>
-      </div>
+      </div> */}
       {/* <div className="test-container"> */}
-      <div className="test-images-container">
+      {/* <div className="test-images-container">
         {VisibleImages.map((eachItem) => (
           <>
             <div className="each-test-container">
@@ -690,9 +762,10 @@ const Home = (props) => {
 
       <button className="view-button" onClick={onClickViewImages}>
         {visibleContent}
-      </button>
+      </button> */}
       {/* </div> */}
       {/* <div className="questions-container"> */}
+
       <h2 className="questions-heading">Frequently Asked Questions(FAQs)</h2>
 
       <FaqQuestions />

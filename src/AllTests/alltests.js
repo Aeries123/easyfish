@@ -249,42 +249,41 @@ const miniConditions = [
   "Amyloidosis",
 ];
 let testNames = [
-  {
-    testName: "ALLERGY, COCKROACH",
-    testParagraph: "No special preparation required.",
-    testParameter: "2 Parameter(s) Covered",
-    category: "Andrologist",
-    condition: "ABO Incompatibility",
-  },
-  {
-    testName: "HbA1c; GLYCOSYLATED HEMOGLOBIN",
-    testParagraph: "No special preparation required.",
-    testParameter: "2 Parameter(s) Covered",
-    category: "Cardiologist",
-    condition: "Acid Base Imbalance",
-  },
-  {
-    testName: "TROPONIN - T, HIGH SENSITIVE",
-    testParagraph: "No special preparation required.",
-    testParameter: "2 Parameter(s) Covered",
-    category: "Chest Physician",
-    condition: "Acute Phase Reactant",
-  },
-  {
-    testName: "BETA 2 GLYCOPROTEIN 1, IgA",
-    testParagraph: "No special preparation required.",
-    testParameter: "2 Parameter(s) Covered",
-    category: "Dermatologist",
-    condition: "Adrenal gland function",
-  },
-  {
-    testName: "LITHIUM",
-    testParagraph: "No special preparation required.",
-    testParameter: "2 Parameter(s) Covered",
-    category: "Diabetologist",
-    condition: "AIDS",
-  },
+  { testName: "ALLERGY, COCKROACH", testParagraph: "No special preparation required.", testParameter: "2 Parameter(s) Covered", category: "Andrologist", condition: "ABO Incompatibility" },
+  { testName: "HbA1c; GLYCOSYLATED HEMOGLOBIN", testParagraph: "No special preparation required.", testParameter: "2 Parameter(s) Covered", category: "Cardiologist", condition: "Acid Base Imbalance" },
+  { testName: "TROPONIN - T, HIGH SENSITIVE", testParagraph: "No special preparation required.", testParameter: "2 Parameter(s) Covered", category: "Chest Physician", condition: "Acute Phase Reactant" },
+  { testName: "BETA 2 GLYCOPROTEIN 1, IgA", testParagraph: "No special preparation required.", testParameter: "2 Parameter(s) Covered", category: "Dermatologist", condition: "Adrenal gland function" },
+  { testName: "LITHIUM", testParagraph: "No special preparation required.", testParameter: "2 Parameter(s) Covered", category: "Diabetologist", condition: "AIDS" },
+  { testName: "VITAMIN D", testParagraph: "No special preparation required.", testParameter: "3 Parameter(s) Covered", category: "Endocrinologist", condition: "Bone Health" },
+  { testName: "SODIUM", testParagraph: "Fast for 12 hours before test.", testParameter: "1 Parameter(s) Covered", category: "Gastroenterologist", condition: "Electrolyte Imbalance" },
+  { testName: "CORTISOL, SERUM", testParagraph: "No special preparation required.", testParameter: "2 Parameter(s) Covered", category: "Hematologist", condition: "Cushing’s Syndrome" },
+  { testName: "LIVER FUNCTION TEST (LFT)", testParagraph: "No special preparation required.", testParameter: "6 Parameter(s) Covered", category: "Hepatologist", condition: "Liver Disease" },
+  { testName: "COMPLETE BLOOD COUNT (CBC)", testParagraph: "No special preparation required.", testParameter: "12 Parameter(s) Covered", category: "Immunologist", condition: "Infection" },
+  { testName: "INSULIN, FASTING", testParagraph: "No special preparation required.", testParameter: "2 Parameter(s) Covered", category: "Nephrologist", condition: "Insulin Resistance" },
+  { testName: "VITAMIN B12", testParagraph: "No special preparation required.", testParameter: "2 Parameter(s) Covered", category: "Neurologist", condition: "Neuropathy" },
+  { testName: "CHLORIDE", testParagraph: "No special preparation required.", testParameter: "1 Parameter(s) Covered", category: "Obstetrician", condition: "Dehydration" },
+  { testName: "ALBUMIN, SERUM", testParagraph: "No special preparation required.", testParameter: "2 Parameter(s) Covered", category: "Oncologist", condition: "Liver Function" },
+  { testName: "IRON STUDIES", testParagraph: "No special preparation required.", testParameter: "5 Parameter(s) Covered", category: "Orthopedic", condition: "Anemia" },
+  { testName: "THYROID STIMULATING HORMONE (TSH)", testParagraph: "No special preparation required.", testParameter: "1 Parameter(s) Covered", category: "Pediatrician", condition: "Thyroid Imbalance" },
+  { testName: "URIC ACID", testParagraph: "No special preparation required.", testParameter: "1 Parameter(s) Covered", category: "Psychiatrist", condition: "Gout" },
+  { testName: "VITAMIN A", testParagraph: "No special preparation required.", testParameter: "2 Parameter(s) Covered", category: "Pulmonologist", condition: "Vitamin Deficiency" },
+  { testName: "MAGNESIUM", testParagraph: "No special preparation required.", testParameter: "2 Parameter(s) Covered", category: "Radiologist", condition: "Electrolyte Imbalance" },
+  { testName: "PROTEIN ELECTROPHORESIS", testParagraph: "No special preparation required.", testParameter: "4 Parameter(s) Covered", category: "Rheumatologist", condition: "Chronic Inflammation" },
+  { testName: "HEPATITIS C VIRUS (HCV) RNA", testParagraph: "No special preparation required.", testParameter: "2 Parameter(s) Covered", category: "Urologist", condition: "Liver Health" },
+  { testName: "C-REACTIVE PROTEIN (CRP)", testParagraph: "No special preparation required.", testParameter: "1 Parameter(s) Covered", category: "Vascular Surgeon", condition: "Inflammation" },
+  { testName: "PROLACTIN", testParagraph: "No special preparation required.", testParameter: "2 Parameter(s) Covered", category: "Geneticist", condition: "Hormonal Imbalance" },
+  { testName: "ALANINE AMINOTRANSFERASE (ALT)", testParagraph: "No special preparation required.", testParameter: "1 Parameter(s) Covered", category: "Geriatrician", condition: "Liver Damage" },
+  { testName: "BILIRUBIN, TOTAL", testParagraph: "No special preparation required.", testParameter: "2 Parameter(s) Covered", category: "Nutritionist", condition: "Liver Function" },
+  { testName: "FOLIC ACID", testParagraph: "No special preparation required.", testParameter: "2 Parameter(s) Covered", category: "Pathologist", condition: "Nutritional Deficiency" },
+  { testName: "SUGAR (FBS)", testParagraph: "No special preparation required.", testParameter: "1 Parameter(s) Covered", category: "Pulmonary", condition: "Diabetes" },
+  { testName: "VITAMIN C", testParagraph: "No special preparation required.", testParameter: "2 Parameter(s) Covered", category: "Radiation Oncologist", condition: "Immune Function" },
+  { testName: "ZINC", testParagraph: "No special preparation required.", testParameter: "2 Parameter(s) Covered", category: "Surgical Oncologist", condition: "Wound Healing" },
+  { testName: "HEMOGLOBIN", testParagraph: "No special preparation required.", testParameter: "1 Parameter(s) Covered", category: "Trauma Surgeon", condition: "Blood Health" },
+  { testName: "SPEECH-LANGUAGE PATHOLOGY TEST", testParagraph: "No special preparation required.", testParameter: "3 Parameter(s) Covered", category: "ENT Specialist", condition: "Speech Disorder" },
+  { testName: "D-DIMER", testParagraph: "No special preparation required.", testParameter: "2 Parameter(s) Covered", category: "Plastic Surgeon", condition: "Blood Clotting" },
+  { testName: "ELECTROLYTE PANEL", testParagraph: "No special preparation required.", testParameter: "5 Parameter(s) Covered", category: "General Surgeon", condition: "Electrolyte Imbalance" }
 ];
+
 const balu = testNames;
 let allTestNames = [...balu];
 
@@ -323,13 +322,14 @@ export const AllTestsPage = () => {
             (each) =>
               each.testName[0] === charachter ||
               each.category === category ||
-              each.condition === condition
+           each.condition === condition
           )
-        : testNames;
-    setFilteredList(updatedFilters);
-  }, [charachter, category, condition]);
+         : testNames;
+  setFilteredList(updatedFilters);
+   }, [charachter, category, condition]);
   //let filteredList=charachter?testNames.filter(each=>each.testName[0]===charachter):testNames
   // setFilteredList(updatedFilters)
+  // let filteredData=testNames.filter(eachItem=>eachItem.testName[0]===charachter||eachItem.category[0]===)
 
   const onClickButton = (i) => {
     if (i === "AllTests") {
@@ -362,9 +362,10 @@ export const AllTestsPage = () => {
               {AllTests.map((each) => (
                 <input
                   type="button"
-                  className="buttons"
+                  className="buttons alltests-input"
                   value={each}
-                  style={{ backgroundColor: "#D3D3D3" }}
+                  
+                  
                   onClick={onChangeCharacter}
                 />
               ))}
@@ -375,9 +376,9 @@ export const AllTestsPage = () => {
               {Speciality.map((each) => (
                 <input
                   type="button"
-                  className="buttons"
+                  className="buttons alltests-input"
                   value={each}
-                  style={{ backgroundColor: "#D3D3D3" }}
+                  
                   onClick={onChangeCategory}
                 />
               ))}
@@ -388,9 +389,9 @@ export const AllTestsPage = () => {
               {visibleConditions.map((each) => (
                 <input
                   type="button"
-                  className="buttons"
+                  className="buttons alltests-input"
                   value={each}
-                  style={{ backgroundColor: "#D3D3D3" }}
+                  
                   onClick={onChangeCondition}
                 />
               ))}

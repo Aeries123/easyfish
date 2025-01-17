@@ -23,11 +23,13 @@
 
 .each-question {
     font-size: 20px;
+    color:black;
 }
 
 .each-answer {
     font-weight: 500;
     font-size: 18px;
+    color:purple;
 }
 
 .each-main-heading {

@@ -4,6 +4,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 const headerElements = [
   {
+    elementName:"Home",
+    elementPath:"/"
+  },
+  {
     elementName: "About us",
     elementPath: "/about-us",
   },
@@ -31,14 +35,15 @@ export const Header = () => {
     <>
       <div>
         <div className="header-img">
-          <div>
+          {/* <div>
             <input
               type="search"
-              className="hidden-input"
+              className="hidden-input header-input"
               id="header-input"
               placeholder="Search Tests Here"
+              // className="header-input"
             />
-          </div>
+          </div> */}
           <div className="header-img-content-container">
             <div style={{ display: "flex" }}>
               <img
@@ -46,7 +51,7 @@ export const Header = () => {
                 height="30px"
                 width="30px"
               />
-              <p style={{marginLeft: "10px"}}>914 227 1111</p>
+              <p style={{marginLeft: "10px",fontSize:"20px"}}>914 227 1111</p>
             </div>
             <button className="login-sign-up-button">
               <Link className="login-signup-link" to="/customer/login">Login/Signup</Link>{" "}
@@ -72,6 +77,7 @@ export const Header = () => {
               <Link
                 to={each.elementPath}
                 style={{ textDecoration: "none", color: "white" }}
+                key={each.elementPath}
               >
                 <h6 key={each.elementName} className="header-elements">
                   {each.elementName}
@@ -82,9 +88,9 @@ export const Header = () => {
           {/* <button className="btn btn-primary header-btn"> */}
           <Link to="/cart">
             <img
-              src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736424675/carts_mjdkfo.png"
-              height="50px"
-              width="50px"
+              src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736573349/shopping_mapkoe.png"
+              height="70px"
+              width="70px"
               className="cart-icon"
             />
           </Link>

@@ -2,6 +2,10 @@ import "./payment.css";
 
 export const PaymentSummary = (props) => {
     const {totalPrice}=props
+
+    const onClickBooking=()=> {
+        alert("Booked successfully")
+    }
     return (
         <div className="payment-card">
             <div className="summary-item">
@@ -16,7 +20,7 @@ export const PaymentSummary = (props) => {
                 <span className="label">Net Payable Amount</span>
                 <span className="value">₹{totalPrice}.00</span>
             </div>
-            <button className="proceed-button">Proceed / Add patient</button>
+            <button className="proceed-button" onClick={onClickBooking}>Proceed / Add patient</button>
         </div>
     );
 };
