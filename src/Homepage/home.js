@@ -6,8 +6,10 @@ import "slick-carousel/slick/slick-theme.css";
 import FaqQuestions from "../FaqQuestions/FaqQuestions";
 import { Link } from "react-router-dom";
 import { CarouselContainer } from "../CarouselContainer/carousel";
-// import Whychooseus from "../whychooseus/whychoose";
-
+import Test from "../Test/Test";
+import { MdAddCircleOutline } from "react-icons/md";
+import { FiMinusCircle } from "react-icons/fi";
+import Whychooseus from '../WhyChooseUs/whychoose'
 const smallData = [
   {
     id: 11,
@@ -586,6 +588,7 @@ const Home = (props) => {
                 </Slider>
                 </div> */}
       <CarouselContainer />
+      <Test />
       <div className="tests-container">
         {tests.map((each) => (
           <div className="home-image-container">
@@ -603,9 +606,12 @@ const Home = (props) => {
           {testsData.length !== 0 ? (
             testsData.map((test) => (
               <div className="individual-card" key={test.test_id}>
-                <h4 className="package-heading">{test.test_name}</h4>
+                <div className="test-card-heading-container">
+                  <h4 className="package-heading">{test.test_name}</h4>
+                  <h5 className="card-price-heading">₹{test.price}</h5>
+                </div>
 
-                <hr />
+                {/* <hr /> */}
                 <div className="info-container">
                   <img src={cardImg1} className="info-img" />
                   <p className="info-container-paragraph">
@@ -629,7 +635,7 @@ const Home = (props) => {
                   </p>
                 </div>
 
-                <div className="home-types-container">
+                <div className="home-types-booking-container">
                   <ul className="home-types-list">
                     {test.visit_type.split(", ").map((type, index) => (
                       <li key={index} className="home-type-item">
@@ -637,24 +643,25 @@ const Home = (props) => {
                       </li>
                     ))}
                   </ul>
-                </div>
-
-                <p className="know-more-paragraph">
-                  <strong>Know More</strong>
-                </p>
-                <div className="button-container">
-                  <h5 className="card-price-heading">₹{test.price}</h5>
-                  <button
-                    className="button"
-                    onClick={() => handleButtonClick(test)}
-                  >
-                    {clickedIds.includes(test.test_id) ? "Remove" : "Book Now"}
-                    <img
-                      src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736424675/carts_mjdkfo.png"
-                      height="30px"
-                      width="30px"
-                    />
-                  </button>
+                  <div className="button-container">
+                    <button
+                      className="buttton"
+                      onClick={() => handleButtonClick(test)}
+                    >
+                      {clickedIds.includes(test.test_id) ? (
+                        <FiMinusCircle className="cart-add-remove-icons" />
+                      ) : (
+                        <p>
+                          <MdAddCircleOutline className="cart-add-remove-icons" />
+                        </p>
+                      )}
+                      {/* <img
+                                      src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736424675/carts_mjdkfo.png"
+                                      height="30px"
+                                      width="30px"
+                                    /> */}
+                    </button>
+                  </div>
                 </div>
               </div>
             ))
@@ -765,6 +772,8 @@ const Home = (props) => {
       </button> */}
       {/* </div> */}
       {/* <div className="questions-container"> */}
+
+      <Whychooseus />
 
       <h2 className="questions-heading">Frequently Asked Questions(FAQs)</h2>
 

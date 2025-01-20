@@ -1,0 +1,37 @@
+.each-whychooseus{
+    margin: 30px;text-align: center;
+    /* display:flex; */
+    transition: transform 0.9s ease;
+
+}
+.whychoose-container{
+    align-self: center;
+    width: 80%;
+    display:flex;
+    justify-content: space-around;
+    
+}
+.whychoose-img{
+height: 300px; width: 300px;
+object-fit: cover;
+}
+.each-whychooseus:hover{
+    transform: scale(1.1);
+
+}
+
+@media (max-width:478px){
+    .whychoose-container{
+        width: 100%;
+    }
+    .each-whychooseus{
+        width:100%;
+        text-align: center;
+        display: flex !important;
+        justify-content: center;
+    }
+    .whychoose-img{
+        height:100%;
+        width: 100%;
+    }
+}

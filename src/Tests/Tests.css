@@ -474,18 +474,3 @@
     width: auto;
   }
 }
-
-.home-types-container {
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-.home-types-list {
-  display: flex;
-  justify-content: space-between;
-}
-
-.home-type-item {
-  color: #0ea13f;
-  font-weight: bold;
-}

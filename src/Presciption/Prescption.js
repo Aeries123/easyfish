@@ -47,7 +47,7 @@ const Prescription = () => {
   };
 
   return (
-    <div className="container">
+    <div className="presciption-container">
       <div className="card-container">
         <div className="small-container">
           <div className="text-center">

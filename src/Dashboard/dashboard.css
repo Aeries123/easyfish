@@ -1,84 +1,200 @@
-/* Smooth body transition */
 
-/* Remove card borders and add smooth transition */
-.card {
-    border: none;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-}
+/* dashboard.css */
 
+/* Main container */
 .dashboard-container {
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Dashboard Heading */
+  .dashboard-heading {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    color: #6f42c1;
+    text-decoration: underline;
+    margin-bottom: 40px;
+  }
+  
+  /* Overall Content Column */
+  .dashboard-content {
     display: flex;
     flex-direction: column;
-}
-
-.dashboard-card-container {
+    align-items: center;
+  }
+  
+  /* Card Row (all cards will be in this row) */
+  .card-row {
     display: flex;
-}
-
-/* Add consistent image size and center align */
-.card-img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    display: block;
-}
-
-/* Center the images using Bootstrap's utilities */
-.mx-auto {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Add hover and active effects */
-.card-container:hover .card {
-    transform: scale(1.05);
-}
-.active-card .card {
-    background-color: purple; /* Purple background for active card */
-    transform: scale(1.1);
-    color: white; /* White text for better contrast */
-}
-
-/* Heading styles */
-.head {
+    /* flex-wrap: wrap; */
+    justify-content: space-between;
+    margin-bottom: 40px;
+    gap: 20px;
+  }
+  
+  /* Card Container (applies to each card) */
+  .card-container {
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex-basis: 22%;
+    min-width: 250px;
+    margin: 30px;
+  }
+  
+  .card-container:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    background-color: purple;
+  }
+  
+  /* Active Card (to highlight when selected) */
+  .active-card {
+    border: 2px solid #6f42c1;
+  }
+  
+  /* Profile Card */
+  .profile-card {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    width:100%;
+  }
+  
+  .profile-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  
+  .profile-info {
+    text-align: left;
+  }
+  
+  .profile-name {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+  
+  .profile-email, .profile-phone {
+    color: #555;
+  }
+  
+  .edit-profile-btn {
+    background-color: #6f42c1;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    margin-top: 15px;
+    cursor: pointer;
+    width:100%;
+    font-size: 15px;
+  }
+  
+  .edit-profile-btn:hover {
+    background-color: #5a2c8d;
+  }
+  
+  /* Small Card for Bookings, Sample Tracking, Reports */
+  .small-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .card-img {
+    width: 60%;
+    max-width: 180px;
+    margin-bottom: 15px;
+  }
+  
+  .card-title {
+    font-size: 1.2rem;
     font-weight: bold;
     color: #333;
-}
+  }
+  
+  /* Order History Card */
+  .order-history-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2),-1px -1px 1px 1px rgba(0,0,0,0.2);
+    width:109%;
+    display:flex;
+    flex-direction: column;
+  }
+  
+  .order-history-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #6f42c1;
+  }
+  
+  .search-input {
+    width: 200px;
+    padding: 8px;
+    margin-top: 10px;
+    align-self: flex-end;
+  }
+  
+  .order-type-section {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    
+    margin-top: 20px;
+  }
+  .order-buttons-container{
+    display:flex;
+    justify-content: space-around;
+    margin-bottom:10px ;
 
-/* Add subtle shadow to cards */
-.card.shadow-sm {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.card-img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    display: block;
-    background-color: white; /* White background for the image */
-    border-radius: 50%; /* Circular images */
-    padding: 10px; /* Space around the image */
-    margin: 0 auto; /* Center the image horizontally */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-}
-.card-small {
-    width: 100%; /* Adjust the width of the card */
-    max-width: 205px; /* Limit the width to make the card smaller */
-    margin: 0 auto; /* Center the card */
-}
 
-.img-small {
-    width: 40%; /* Adjust image width */
-    height: auto; /* Keep image's aspect ratio */
-    max-width: 150px; /* Limit the image size */
-}
-
-.card-body .card-text {
-    font-size: 14px; /* Reduce the font size of the text */
-}
-.text-purple {
-    color: purple; /* Apply purple color to the text */
-}
-
-.underline {
-    text-decoration: underline; /* Apply underline to the text */
-}
+  }
+  .order-button{
+    width:20%;
+    background-color: black;
+    color:white;
+    padding: 10px;
+    border-width:0px;
+    border-radius: 10px;
+    margin: 10px;
+  }
+  
+  
+  .order-type {
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .order-type:hover {
+    color: #6f42c1;
+  }
+  
+  .order-details {
+    margin-top: 20px;
+  }
+  
+  /* Tracking Card */
+  .tracking-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 2px 4
+  }  
+  .reports-card{
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    padding-left: 57px ;
+    
+  } 

@@ -1,233 +1,688 @@
-import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
-import './dashboard.css';
+import React, { useState, useEffect } from "react";
+import {Link} from 'react-router-dom'
+import "./dashboard.css";
+import Cookies from "js-cookie";
+import jsPDF from "jspdf";
+import "bootstrap/dist/css/bootstrap.min.css";
+const activeOrders = [
+  {
+    orderId: "ORD001",
+    healthCheckupType: "Blood Test",
+    status: "Active",
+    slotDate: "2025-01-20T10:00:00",
+  },
+  {
+    orderId: "ORD002",
+    healthCheckupType: "X-Ray",
+    status: "Active",
+    slotDate: "2025-01-19T14:00:00",
+  },
+  {
+    orderId: "ORD003",
+    healthCheckupType: "ECG Test",
+    status: "Active",
+    slotDate: "2025-01-21T09:30:00",
+  },
+  {
+    orderId: "ORD004",
+    healthCheckupType: "MRI Scan",
+    status: "Active",
+    slotDate: "2025-01-18T11:00:00",
+  },
+  {
+    orderId: "ORD005",
+    healthCheckupType: "Ultrasound",
+    status: "Active",
+    slotDate: "2025-01-22T13:30:00",
+  },
+  {
+    orderId: "ORD006",
+    healthCheckupType: "Blood Pressure Test",
+    status: "Active",
+    slotDate: "2025-01-19T16:00:00",
+  },
+  {
+    orderId: "ORD007",
+    healthCheckupType: "Chest X-Ray",
+    status: "Active",
+    slotDate: "2025-01-20T14:30:00",
+  },
+  {
+    orderId: "ORD008",
+    healthCheckupType: "CT Scan",
+    status: "Active",
+    slotDate: "2025-01-21T10:15:00",
+  },
+  {
+    orderId: "ORD009",
+    healthCheckupType: "Blood Sugar Test",
+    status: "Active",
+    slotDate: "2025-01-23T12:00:00",
+  },
+  {
+    orderId: "ORD010",
+    healthCheckupType: "ECG Test",
+    status: "Active",
+    slotDate: "2025-01-25T09:00:00",
+  },
+];
+const pastOrders = [
+  {
+    orderId: "ORD011",
+    healthCheckupType: "MRI Scan",
+    status: "Completed",
+    slotDate: "2025-01-10T11:00:00",
+  },
+  {
+    orderId: "ORD012",
+    healthCheckupType: "Ultrasound",
+    status: "Completed",
+    slotDate: "2025-01-05T15:00:00",
+  },
+  {
+    orderId: "ORD013",
+    healthCheckupType: "X-Ray",
+    status: "Completed",
+    slotDate: "2025-01-08T10:30:00",
+  },
+  {
+    orderId: "ORD014",
+    healthCheckupType: "Blood Test",
+    status: "Completed",
+    slotDate: "2025-01-07T14:00:00",
+  },
+  {
+    orderId: "ORD015",
+    healthCheckupType: "ECG Test",
+    status: "Completed",
+    slotDate: "2025-01-11T16:00:00",
+  },
+  {
+    orderId: "ORD016",
+    healthCheckupType: "Chest X-Ray",
+    status: "Completed",
+    slotDate: "2025-01-04T08:00:00",
+  },
+  {
+    orderId: "ORD017",
+    healthCheckupType: "Blood Pressure Test",
+    status: "Completed",
+    slotDate: "2025-01-02T10:00:00",
+  },
+  {
+    orderId: "ORD018",
+    healthCheckupType: "CT Scan",
+    status: "Completed",
+    slotDate: "2025-01-06T09:00:00",
+  },
+  {
+    orderId: "ORD019",
+    healthCheckupType: "MRI Scan",
+    status: "Completed",
+    slotDate: "2025-01-03T14:30:00",
+  },
+  {
+    orderId: "ORD020",
+    healthCheckupType: "Blood Sugar Test",
+    status: "Completed",
+    slotDate: "2025-01-09T12:00:00",
+  },
+];
+const cancelled = [
+  {
+    orderId: "ORD021",
+    healthCheckupType: "Blood Pressure Test",
+    status: "Cancelled",
+    slotDate: "2025-01-12T08:00:00",
+  },
+  {
+    orderId: "ORD022",
+    healthCheckupType: "CT Scan",
+    status: "Cancelled",
+    slotDate: "2025-01-14T13:00:00",
+  },
+  {
+    orderId: "ORD023",
+    healthCheckupType: "MRI Scan",
+    status: "Cancelled",
+    slotDate: "2025-01-16T14:30:00",
+  },
+  {
+    orderId: "ORD024",
+    healthCheckupType: "X-Ray",
+    status: "Cancelled",
+    slotDate: "2025-01-13T11:15:00",
+  },
+  {
+    orderId: "ORD025",
+    healthCheckupType: "Blood Test",
+    status: "Cancelled",
+    slotDate: "2025-01-15T09:00:00",
+  },
+  {
+    orderId: "ORD026",
+    healthCheckupType: "Ultrasound",
+    status: "Cancelled",
+    slotDate: "2025-01-17T10:00:00",
+  },
+  {
+    orderId: "ORD027",
+    healthCheckupType: "Blood Pressure Test",
+    status: "Cancelled",
+    slotDate: "2025-01-18T11:30:00",
+  },
+  {
+    orderId: "ORD028",
+    healthCheckupType: "ECG Test",
+    status: "Cancelled",
+    slotDate: "2025-01-19T08:45:00",
+  },
+  {
+    orderId: "ORD029",
+    healthCheckupType: "CT Scan",
+    status: "Cancelled",
+    slotDate: "2025-01-20T16:00:00",
+  },
+  {
+    orderId: "ORD030",
+    healthCheckupType: "MRI Scan",
+    status: "Cancelled",
+    slotDate: "2025-01-21T13:00:00",
+  },
+];
 
-
+const orderTypeButtons = ["Active", "Past", "Cancelled"];
 function Dashboard() {
-  // Define the state for active card and active order type
   const [activeCard, setActiveCard] = useState(null);
-  const [activeOrderType, setActiveOrderType] = useState(null); // Initialize activeOrderType state
+  const [activeOrderType, setActiveOrderType] = useState(null);
+  const [orderType, setOrderType] = useState(null);
+  const [activeArray, setActiveArray] = useState([]);
+  const [pastArray, setPastArray] = useState([]);
+  const [cancelledArray, setCancelledArray] = useState([]);
+
+  const [userDetails, setUserDetails] = useState({
+    userName: "",
+    userPhoneNumber: "",
+  });
+  const jwtToken = Cookies.get("jwtToken");
+  useEffect(() => {
+    const getBookingDetails = async () => {
+      const bookingDetailsUrl = "http://127.0.0.1:5000/api/mybookings";
+      const options = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      };
+      const response = await fetch(bookingDetailsUrl, options);
+      const currentDate = new Date();
+      try {
+        if (response.ok) {
+          const fetchedBookDetails = await response.json();
+          console.log(fetchedBookDetails);
+          fetchedBookDetails.bookings.forEach((each) => {
+            const convertedDate = new Date(each.slot_date);
+            if (convertedDate > currentDate && each.status !== "cancelled") {
+              setActiveArray((prev) => [...prev, each]);
+            } else if (
+              convertedDate < currentDate &&
+              each.status !== "cancelled"
+            ) {
+              setPastArray((prev) => [...prev, each]);
+            } else {
+              setCancelledArray((prev) => [...prev, each]);
+            }
+          });
+        }
+      } catch (e) {
+        console.log(e.message);
+      }
+      // const currentDate=new Date()
+    };
+    getBookingDetails();
+  }, []);
+  useEffect(() => {
+    const getProfileDetails = async () => {
+      const getUrl = "http://127.0.0.1:5000/api/get/profile";
+      const options = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      };
+      const response = await fetch(getUrl, options);
+      try {
+        if (response.ok) {
+          const fetchDetails = await response.json();
+          setUserDetails({
+            userName: fetchDetails.profile.customer_name,
+            userPhoneNumber: fetchDetails.profile.phone,
+          });
+        } else {
+          console.log("user not found");
+        }
+      } catch (e) {
+        console.log(e.message);
+      }
+    };
+    getProfileDetails();
+  });
 
   const handleCardClick = (cardIndex) => {
-      setActiveCard(cardIndex);
+    setActiveCard(cardIndex);
   };
+  const onClickOrder = (e) => {
+    setOrderType(e.target.value);
+  };
+  const generatePDF = (each, index) => {
+    const doc = new jsPDF();
+    doc.setFontSize(16);
+    doc.text("GeneretedPdf", 16, 20);
+    let y = 40;
+    if (userDetails) {
+      doc.text(`Name:${userDetails.userName || "Not Provided"}`, 20, y);
+      y += 20;
+      doc.text(
+        `phonNumber:${userDetails.userPhoneNumber || "Not Provided"} `,
+        20,
+        y
+      );
+      y += 20;
+    }
+    doc.text(`testNotes:${each.notes}`, 20, y);
+    y += 20;
+    // doc.text(`Status:${each.status}`,20,y)
 
-    return (
-        <div className="container mt-5">
-            {/* Dashboard Heading */}
-            <div className="row">
-                <h1 className="head text-center text-purple underline">MY DASHBOARD</h1>
-            </div>
+    doc.text(`SlotDate:${each.slot_date}`, 20, y);
+    doc.save(`usertestdetails.${index + 1}.pdf`);
+  };
+  //   const generatePDF = (each, index) => {
+  //     const doc = new jsPDF();
+  //     doc.setFontSize(16);
+  //     doc.text('Generated PDF', 16, 20);
 
-            {/* Cards Row */}
-            <div className="row mt-4">
-                {/* Profile Card */}
-                <div
-                    className={`col-md-3 card-container ${activeCard === 0 ? "active-card" : ""}`}
-                    onClick={() => handleCardClick(0)}
-                >
-                    <div className="card p-3 d-flex flex-row align-items-center card-profile border-0 shadow-sm">
-                        {/* Profile Image on the Left */}
-                        <img
-                            src="https://res.cloudinary.com/dkujcnlcs/image/upload/v1736413298/avatar_q2ud5d.png"
-                            alt="Profile"
-                            className="rounded-circle mb-3 card-img"
-                            style={{ width: "80px", height: "80px" }} // Adjusting image size
-                        />
+  //     let yPosition = 40; // Start at y = 40
 
-                        {/* Text Content on the Right */}
-                        <div className="ms-3 text-center">
-                            <h5 className="card-title mb-1">Kartheek</h5>
-                            <p className="card-text mb-0">karthik@gmail.com</p>
-                            <p className="card-text mb-0">9347111897</p>
+  //     // Ensure userDetails is defined and available
+  //     if (userDetails) {
+  //         // Add Name and Phone Number, check if userDetails values exist
+  //         doc.text(`Name: ${userDetails.userName || "Not Provided"}`, 20, yPosition);
+  //         yPosition += 10; // Move down 10 units for the next line
 
-                            {/* Edit Profile Button */}
-                            <button className="btn btn-purple mt-3" style={{ backgroundColor: "purple", color: "white" }}>
-                                Edit Profile
-                            </button>
-                        </div>
-                    </div>
-                </div>
+  //         doc.text(`Phone Number: ${userDetails.userPhoneNumber || "Not Provided"}`, 20, yPosition);
+  //         yPosition += 10; // Move down 10 units for the next line
+  //     }
 
-                {/* My Bookings Card */}
-                <div
-                    className={`col-md-3 card-container ${activeCard === 1 ? "active-card" : ""}`}
-                    onClick={() => handleCardClick(1)}
-                >
-                    <div className="card text-center border-0 shadow-sm card-small">
-                        <img
-                            src="https://res.cloudinary.com/dkujcnlcs/image/upload/v1736413290/ic-mybooking_p2aqjk.webp"
-                            alt="Bookings"
-                            className="card-img-top card-img mx-auto mt-3 img-small"
-                        />
-                        <div className="card-body">
-                            <h5 className="card-text">My Bookings</h5>
-                        </div>
-                    </div>
-                </div>
+  //     // Ensure each.healthCheckupType exists and is a string
+  //     if (each.healthCheckupType) {
+  //         doc.text(`Test Name: ${each.healthCheckupType}`, 20, yPosition);
+  //         yPosition += 10; // Move down 10 units for the next line
+  //     }
 
-                {/* My Sample Tracking Card */}
-                <div
-                    className={`col-md-3 card-container ${activeCard === 2 ? "active-card" : ""}`}
-                    onClick={() => handleCardClick(2)}
-                >
-                    <div className="card text-center border-0 shadow-sm card-small">
-                        <img
-                            src="https://res.cloudinary.com/dkujcnlcs/image/upload/v1736413277/ic-sample-track_yoygzo.webp"
-                            alt="Sample Tracking"
-                            className="card-img-top card-img mx-auto mt-3 img-small"
-                        />
-                        <div className="card-body">
-                            <h5 className="card-text">My Sample Tracking</h5>
-                        </div>
-                    </div>
-                </div>
+  //     // Ensure each.status exists and is a string
+  //     if (each.status) {
+  //         doc.text(`Status: ${each.status}`, 20, yPosition);
+  //         yPosition += 10; // Move down 10 units for the next line
+  //     }
 
-                {/* My Reports Card */}
-                <div
-                    className={`col-md-3 card-container ${activeCard === 3 ? "active-card" : ""}`}
-                    onClick={() => handleCardClick(3)}
-                >
-                    <div className="card text-center border-0 shadow-sm card-small">
-                        <img
-                            src="https://res.cloudinary.com/dkujcnlcs/image/upload/v1736413080/qba7a4rmntgraaukkced.webp"
-                            alt="Reports"
-                            className="card-img-top card-img mx-auto mt-3 img-small"
-                        />
-                        <div className="card-body">
-                            <h5 className="card-text">My Reports</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  //     // Ensure each.slotDate exists and is a valid string that can be split
+  //     if (each.slotDate && typeof each.slotDate === 'string') {
+  //         doc.text(`Slot Date: ${each.slotDate.split("T")[0]}`, 20, yPosition);
+  //     } else {
+  //         // If slotDate is invalid, we can fallback to "Not Provided"
+  //         doc.text(`Slot Date: Not Provided`, 20, yPosition);
+  //     }
 
-            {/* Conditional Rendering of Additional Cards */}
+  //     // Save the PDF with a dynamic filename based on the index
+  //     doc.save(`usertestdetails.${index + 1}.pdf`);
+  // }
+  console.log(activeArray);
+  console.log(pastArray);
+  console.log(cancelledArray);
 
-            {/* Order History Card (only visible when My Bookings is selected) */}
-           {/* Order History Card (only visible when My Bookings is selected) */}
-{activeCard === 1 && (
-    <div className="card mt-4 shadow shadow" style={{ width: "auto", margin: "0 auto" }}>
-        <div className="card-body">
-            <div className="d-flex justify-content-between align-items-center">
-                {/* <h2 className="card-title">Order History</h2> */}
-                <h3 className="head text-center text-purple">Order History</h3>
-                {/* Search Field on the Right */}
-                <input
-                    type="text"
-                    className="form-control w-25"
-                    placeholder="Search Orders"
-                    style={{ maxWidth: "200px" }}
-                />
-            </div>
+  return (
+    <div className="dashboard-container">
+      {/* Dashboard Heading */}
+      <h1 className="dashboard-heading">MY DASHBOARD</h1>
 
-            <hr />
-
-            {/* Active, Past, and Cancelled Orders Section in a Single Row */}
-            <div className="d-flex justify-content-between">
-                {/* Active Orders Section */}
-                <div className="w-30">
-                    <p
-                        className="cursor-pointer"
-                        onClick={() => setActiveOrderType("active")}
-                        style={{ fontWeight: "bold" }}
-                    >
-                        Active Orders
-                    </p>
-                    {activeOrderType === "active" && (
-                        <div>
-                            <hr />
-                            <p>Details of your active orders will be displayed here.</p>
-                        </div>
-                    )}
-                </div>
-
-                {/* Past Orders Section */}
-                <div className="w-30">
-                    <p
-                        className="cursor-pointer"
-                        onClick={() => setActiveOrderType("past")}
-                        style={{ fontWeight: "bold" }}
-                    >
-                        Past Orders
-                    </p>
-                    {activeOrderType === "past" && (
-                        <div>
-                            <hr />
-                            <p>Details of your past orders will be displayed here.</p>
-                        </div>
-                    )}
-                </div>
-
-                {/* Cancelled Orders Section */}
-                <div className="w-30">
-                    <p
-                        className="cursor-pointer"
-                        onClick={() => setActiveOrderType("cancelled")}
-                        style={{ fontWeight: "bold" }}
-                    >
-                        Cancelled Orders
-                    </p>
-                    {activeOrderType === "cancelled" && (
-                        <div>
-                            <hr />
-                            <p>Details of your cancelled orders will be displayed here.</p>
-                        </div>
-                    )}
-                </div>
-            </div>
-        </div>
-    </div>
-)}
-
-            {/* Tracking Card (only visible when My Sample Tracking is selected) */}
-            {activeCard === 2 && (
-              <div className="card mt-4 shadow" style={{ width: "auto", margin: "0 auto" }}>
-              <div className="card-body " style={{ height: "auto" }}>
-              <h3 className="card-title text-purple">Tracking</h3>
-                  <p className="card-text d-flex justify-content-center align-items-center">No orders in progress...</p>
+      {/* Overall Content Column */}
+      <div className="dashboard-content">
+        {/* Cards Row */}
+        <div className="card-row">
+          {/* Profile Card */}
+          <div
+            className={`card-container ${
+              activeCard === 0 ? "active-card" : ""
+            }`}
+            onClick={() => handleCardClick(0)}
+          >
+            <div className="profile-card">
+              <img
+                src="https://res.cloudinary.com/dkujcnlcs/image/upload/v1736413298/avatar_q2ud5d.png"
+                alt="Profile"
+                className="profile-img"
+              />
+              <div className="profile-info">
+                <h5 className="profile-name">{userDetails.userName}</h5>
+                {/* <p className="profile-email">karthik@gmail.com</p> */}
+                <p className="profile-phone">{userDetails.userPhoneNumber}</p>
+                <Link to="/myprofile">
+                  <button className="edit-profile-btn">Edit Profile</button>
+                </Link>
               </div>
-          </div>
-          
-            )}
-
-            {/* Reports Card (only visible when My Reports is selected) */}
-            {activeCard === 3 && (
-                <div className="card mt-4 shadow" style={{ width: "auto", margin: "0 auto" }}>
-                <div className="card-body">
-                    <h3 className="card-title text-purple">My Reports</h3>
-                    
-                    {/* Patient Name */}
-                    <div>
-                        <h6 className="patient-name mt-4">Kartheek</h6>
-                    </div>
-                    
-                    {/* Table for Reports */}
-                    <table className="table mt-3">
-                        <thead>
-                            <tr>
-                                <th scope="col">Registration ID</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Download Report</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td colSpan="3" className="text-center">No reports available</td>
-                            </tr>
-                        </tbody>
-                    </table>
-            
-                    {/* Note below the table */}
-                    <div className="note mt-3">
-                        <small>Note: Only Lab reports are available online</small>
-                    </div>
-                </div>
             </div>
-            
-            )}
+          </div>
+
+          {/* My Bookings Card */}
+          <div
+            className={`card-container ${
+              activeCard === 1 ? "active-card" : ""
+            }`}
+            onClick={() => handleCardClick(1)}
+          >
+            <div className="small-card">
+              <img
+                src="https://res.cloudinary.com/dkujcnlcs/image/upload/v1736413290/ic-mybooking_p2aqjk.webp"
+                alt="Bookings"
+                className="card-img"
+              />
+              <h5 className="card-title">My Bookings</h5>
+            </div>
+          </div>
+
+          {/* My Sample Tracking Card */}
+          <div
+            className={`card-container ${
+              activeCard === 2 ? "active-card" : ""
+            }`}
+            onClick={() => handleCardClick(2)}
+          >
+            <div className="small-card">
+              <img
+                src="https://res.cloudinary.com/dkujcnlcs/image/upload/v1736413277/ic-sample-track_yoygzo.webp"
+                alt="Sample Tracking"
+                className="card-img"
+              />
+              <h5 className="card-title">My Sample Tracking</h5>
+            </div>
+          </div>
+
+          {/* My Reports Card */}
+          <div
+            className={`card-container ${
+              activeCard === 3 ? "active-card" : ""
+            }`}
+            onClick={() => handleCardClick(3)}
+          >
+            <div className="small-card">
+              <img
+                src="https://res.cloudinary.com/dkujcnlcs/image/upload/v1736413080/qba7a4rmntgraaukkced.webp"
+                alt="Reports"
+                className="card-img"
+              />
+              <h5 className="card-title">My Reports</h5>
+            </div>
+          </div>
         </div>
-    );
+
+        {/* Conditional Rendering of Additional Cards */}
+        {activeCard === 1 && (
+          <div className="order-history-card">
+            <h3 className="order-history-title">Order History</h3>
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Search Orders"
+            />
+            <hr style={{ border: "1px solid black", width: "100%" }} />
+            <div className="order-type-section">
+              <div className="order-buttons-container">
+                {orderTypeButtons.map((eachItem) => (
+                  <button
+                    className="order-button"
+                    value={eachItem}
+                    onClick={onClickOrder}
+                  >
+                    {eachItem}
+                  </button>
+                ))}
+              </div>
+
+              <table style={{ width: "100%", border: "1px solid black" }}>
+                <thead style={{ border: "1px solid black" }}>
+                  <tr style={{ border: "1px solid black" }}>
+                    <th
+                      style={{ border: "1px solid black" }}
+                      className="text-center"
+                    >
+                      S.No
+                    </th>
+                    <th
+                      style={{ border: "1px solid black" }}
+                      className="text-center"
+                    >
+                      Notes
+                    </th>
+
+                    <th
+                      style={{ border: "1px solid black" }}
+                      className="text-center"
+                    >
+                      Date
+                    </th>
+                    <th
+                      style={{ border: "1px solid black" }}
+                      className="text-center"
+                    >
+                      Download
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {orderType === "Active" &&
+                    activeArray.map((each, index) => {
+                      const isoDate = new Date(each.slot_date);
+                      const convertedisoDate = isoDate.toISOString();
+
+                      return (
+                        <tr style={{ border: "1px solid black" }}>
+                          <td
+                            style={{ border: "1px solid black" }}
+                            className="text-center"
+                          >
+                            {index + 1}
+                          </td>
+                          <td
+                            style={{ border: "1px solid black" }}
+                            className="text-center"
+                          >
+                            {each.notes}
+                          </td>
+                          {/* <td style={{border:"1px solid black"}} className='text-center'>{each.status}</td> */}
+                          <td
+                            style={{ border: "1px solid black" }}
+                            className="text-center"
+                          >
+                            {convertedisoDate.split("T")[0]}
+                          </td>
+                          <td
+                            style={{
+                              border: "1px solid black",
+                              width: "100px",
+                              borderWidth: "0px",
+                              borderRadius: "10px",
+                            }}
+                            className="m-3"
+                          >
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                height: "100%",
+                              }}
+                              className="btn btn-danger m-3"
+                              onClick={() => generatePDF(each, index)}
+                            >
+                              Download
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  {orderType === "Past" &&
+                    pastArray.map((each, index) => {
+                      const isoDate = new Date(each.slot_date);
+                      const convertedisoDate = isoDate.toISOString();
+                      return (
+                        <tr style={{ border: "1px solid black" }}>
+                          <td
+                            style={{ border: "1px solid black" }}
+                            className="text-center"
+                          >
+                            {index + 1}
+                          </td>
+                          {/* <td style={{border:"1px solid black"}} className='text-center'>{each.healthCheckupType}</td> */}
+                          <td
+                            style={{ border: "1px solid black" }}
+                            className="text-center"
+                          >
+                            {each.notes}
+                          </td>
+                          <td
+                            style={{ border: "1px solid black" }}
+                            className="text-center"
+                          >
+                            {convertedisoDate.split("T")[0]}
+                          </td>
+                          <td
+                            style={{
+                              border: "1px solid black",
+                              width: "100px",
+                              borderWidth: "0px",
+                              borderRadius: "10px",
+                            }}
+                            className="m-3"
+                          >
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                height: "100%",
+                              }}
+                              className="btn btn-danger m-3"
+                              onClick={() => generatePDF(each, index)}
+                            >
+                              Download
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  {orderType === "Cancelled" &&
+                    cancelledArray.map((each, index) => {
+                      const isoDate = new Date(each.slot_date);
+                      const convertedisoDate = isoDate.toISOString();
+
+                      return (
+                        <tr style={{ border: "1px solid black" }}>
+                          <td
+                            style={{ border: "1px solid black" }}
+                            className="text-center"
+                          >
+                            {index + 1}
+                          </td>
+                          <td
+                            style={{ border: "1px solid black" }}
+                            className="text-center"
+                          >
+                            {each.notes}
+                          </td>
+                          {/* <td style={{border:"1px solid black"}} className='text-center'>{each.status}</td> */}
+                          <td
+                            style={{ border: "1px solid black" }}
+                            className="text-center"
+                          >
+                            {convertedisoDate.split("T")[0]}
+                          </td>
+                          <td
+                            style={{
+                              border: "1px solid black",
+                              width: "100px",
+                              borderWidth: "0px",
+                              borderRadius: "10px",
+                            }}
+                            className="m-3"
+                          >
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                height: "100%",
+                              }}
+                              className="btn btn-danger m-3"
+                              onClick={() => generatePDF(each, index)}
+                            >
+                              Download
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </table>
+              <div></div>
+            </div>
+            {activeOrderType && (
+              <p className="order-details">
+                Details of your {activeOrderType} orders.
+              </p>
+            )}
+          </div>
+        )}
+
+        {activeCard === 2 && (
+          <div className="tracking-card">
+            <h3 className="tracking-title">Tracking</h3>
+            <p className="tracking-message">No orders in progress...</p>
+          </div>
+        )}
+
+        {activeCard === 3 && (
+          <div className="reports-card order-history-card">
+            <h3 className="order-history-title">My Reports</h3>
+            <h6 className="patient-name">Kartheek</h6>
+            <table className="reports-table">
+              <thead>
+                <tr style={{ marginLeft: "20px" }}>
+                  <th style={{ marginLeft: "20px" }}>Registration ID</th>
+                  <th style={{ marginLeft: "20px" }}>Date</th>
+                  <th style={{ marginLeft: "20px" }}>Download Report</th>
+                </tr>
+              </thead>
+
+              <hr style={{ border: "1px solid black", width: "250%" }} />
+
+              {/* <hr style={{border:"1px solid black",width:"100%"}}/> */}
+              <tbody>
+                <tr>
+                  <td colSpan="3" className="text-center">
+                    No reports available
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <hr style={{ border: "1px solid black", width: "100%" }} />
+            <div className="note">
+              <small>Note: Only Lab reports are available online</small>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
 
 export default Dashboard;

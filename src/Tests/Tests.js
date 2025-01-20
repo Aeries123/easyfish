@@ -2,6 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import FaqQuestions from "../FaqQuestions/FaqQuestions";
+import Carousel from "../Carousel/Carousel";
+import { MdAddCircleOutline } from "react-icons/md";
+import { FiMinusCircle } from "react-icons/fi";
+
 import "./Tests.css"; // Custom CSS file
 import { v4 as uuidv4 } from "uuid";
 
@@ -95,8 +99,6 @@ const cardImg3 =
 
 const cardAction = "Book Now";
 
-
-
 function Tests(props) {
   const { setCartData } = props;
   // const [addedItem,setAddedItem]=useState(null)
@@ -114,20 +116,23 @@ function Tests(props) {
 
   const handleButtonClick = (test) => {
     const test_id = test.test_id;
-  
+
     if (clickedIds.includes(test_id)) {
-      setClickedIds((prev) => prev.filter((clickedId) => clickedId !== test_id));
-      setCartData((prev) => prev.filter((cartItem) => cartItem.test_id !== test_id));
+      setClickedIds((prev) =>
+        prev.filter((clickedId) => clickedId !== test_id)
+      );
+      setCartData((prev) =>
+        prev.filter((cartItem) => cartItem.test_id !== test_id)
+      );
     } else {
       setClickedIds((prev) => [...prev, test_id]);
       setCartData((prev) => [...prev, test]);
     }
   };
-  
 
   const [isFullDataVisible, setIsFullDataVisible] = useState(false);
 
-  const [testsData, setTestsData] = useState([]); 
+  const [testsData, setTestsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const buttonContent = isFullDataVisible ? "View Less" : "View More";
@@ -224,14 +229,18 @@ function Tests(props) {
           </select>
         </div>
       </div>
+      {/* <Carousel /> */}
       <div className="custom-test-load-more-button-container">
         <div className="individual-cards-container">
           {testsData.length !== 0 ? (
             filteringData.map((test) => (
               <div className="individual-card" key={test.test_id}>
-                <h4 className="package-heading">{test.test_name}</h4>
+                <div className="test-card-heading-container">
+                  <h4 className="package-heading">{test.test_name}</h4>
+                  <h5 className="card-price-heading">₹{test.price}</h5>
+                </div>
 
-                <hr />
+                {/* <hr /> */}
                 <div className="info-container">
                   <img src={cardImg1} className="info-img" />
                   <p className="info-container-paragraph">
@@ -255,7 +264,7 @@ function Tests(props) {
                   </p>
                 </div>
 
-                <div className="home-types-container">
+                <div className="home-types-booking-container">
                   <ul className="home-types-list">
                     {test.visit_type.split(", ").map((type, index) => (
                       <li key={index} className="home-type-item">
@@ -263,24 +272,25 @@ function Tests(props) {
                       </li>
                     ))}
                   </ul>
-                </div>
-
-                <p className="know-more-paragraph">
-                  <strong>Know More</strong>
-                </p>
-                <div className="button-container">
-                  <h5 className="card-price-heading">₹{test.price}</h5>
-                  <button
-                    className="button"
-                    onClick={() => handleButtonClick(test)}
-                  >
-                    {clickedIds.includes(test.test_id) ? "Remove" : "Book Now"}
-                    <img
-                      src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736424675/carts_mjdkfo.png"
-                      height="30px"
-                      width="30px"
-                    />
-                  </button>
+                  <div className="button-container">
+                    <button
+                      className="buttton"
+                      onClick={() => handleButtonClick(test)}
+                    >
+                      {clickedIds.includes(test.test_id) ? (
+                        <FiMinusCircle className="cart-add-remove-icons" />
+                      ) : (
+                        <p>
+                          <MdAddCircleOutline className="cart-add-remove-icons" />
+                        </p>
+                      )}
+                      {/* <img
+                        src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736424675/carts_mjdkfo.png"
+                        height="30px"
+                        width="30px"
+                      /> */}
+                    </button>
+                  </div>
                 </div>
               </div>
             ))

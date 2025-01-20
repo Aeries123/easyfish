@@ -1,12 +1,11 @@
-import React, { useState,useContext } from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Slider from "react-slick";
 import "./customerlogin.css";
 import Cookies from "js-cookie"
-import { AuthContext } from "../Context/AuthContext";
 
-const CustomerLogin = () => {
-  const { setUserName } = useContext(AuthContext); // Access the context here
+const CustomerLogin = (props) => {
+  const {setUserName}=props
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
   const [password,setPassword]=useState("")
@@ -21,11 +20,11 @@ const CustomerLogin = () => {
     slidesToScroll: 1,
   };
 const onSuccesful=(e)=>{
-  const jwtToken=e.token
-  const name=e.name
-  Cookies.set('jwtToken',jwtToken,{expires:7})
-  setUserName(name);  
+  Cookies.set('jwtToken',e,{expires:7})
+  
   navigate("/")
+
+
 }
 
   // const handleChange = (e) => {
@@ -62,7 +61,7 @@ const onSuccesful=(e)=>{
       if (response.ok) {
         const e=await response.json()
         // navigate("/verify-otp", { state: { phone } });
-        onSuccesful(e)
+        onSuccesful(e.token)
       } else {
         setError("Failed to send OTP, please try again.");
       }
