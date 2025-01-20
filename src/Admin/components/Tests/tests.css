@@ -1,0 +1,51 @@
+/* tests.css */
+.text-sm {
+    font-size: .875rem;
+    line-height: 1.25rem;
+}
+.test-name {
+    max-width: 100px;
+    word-wrap: break-word;
+}
+.test-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 100px;
+}
+.font-normal {
+    font-weight: 400;
+}
+
+.input {
+    flex-shrink: 1;
+    /* -webkit-appearance: none; */
+    -moz-appearance: none;
+    /* appearance: none; */
+    height: 3rem;
+ width:25rem; 
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 1rem;
+    line-height: 2;
+    line-height: 1.5rem;
+   
+    border-width: 1px;
+    border-color: transparent;
+    --tw-bg-opacity: 1;
+    background-color: var(--fallback-b1, oklch(var(--b1) / var(--tw-bg-opacity)));
+}
+.p-\[10px\] {
+    padding: 10px;
+}
+.bg-\[\#EDEEF0\] {
+    --tw-bg-opacity: 1;
+    background-color: rgb(237 238 240 / var(--tw-bg-opacity));
+}
+.rounded-md {
+    border-radius: .375rem;
+}
+/* [type=search] {
+    -webkit-appearance: textfield;
+    outline-offset: -2px; */
+/* } */
