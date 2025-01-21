@@ -31,37 +31,39 @@ export const Header = () => {
       <div>
         <div className="header-img">
           <div>
-            <img
-              className="header-logo-img-1"
-              src="https://res.cloudinary.com/dabzdwxet/image/upload/v1737127742/header-element-1_lbdnd0.png"
-              alt="logo-1"
-            />
+            <Link to="/">
+              <img
+                className="header-logo-img-1"
+                src="https://res.cloudinary.com/dabzdwxet/image/upload/v1737127742/header-element-1_lbdnd0.png"
+                alt="logo-1"
+              />
+            </Link>
             <img
               className="header-logo-img-2"
               src="https://res.cloudinary.com/dabzdwxet/image/upload/v1737127742/header-element-2_bdtwkn.png"
               alt="logo-2"
             />
           </div>
-          <div className="header-heading-names">
-            <Link to="/book-test">
-              <button className="header-elements">Book a Test</button>
-            </Link>
-            <Link to="/sample">
+
+          <div className="header-right-component">
+            <div className="header-heading-names">
+              <Link to="/book-test">
+                <button className="header-elements">Book a Test</button>
+              </Link>
+              {/* <Link to="/sample">
               {" "}
               <button className="header-elements">
                 Home Sample Collection
               </button>
-            </Link>
-          </div>
+            </Link> */}
+            </div>
 
-          <div>
-            <Link className="cart-icon-container" to="/cart">
-              <IoCart className="cart-icon" />
-              Cart
-            </Link>
-          </div>
-
-          <div>
+            <div>
+              <Link className="cart-icon-container" to="/cart">
+                <IoCart className="cart-icon" />
+                {/* Cart */}
+              </Link>
+            </div>
             <div className="header-img-content-container">
               <div className="header-logged-in-support">
                 <BiSupport className="header-user-icon" />
@@ -80,14 +82,14 @@ export const Header = () => {
                 </button>
               )}
             </div>
+            <img
+              className="header-logo-img"
+              src="https://res.cloudinary.com/dabzdwxet/image/upload/v1737127742/header-element-3_puddrj.png"
+              alt="logo-3"
+            />
           </div>
-          <img
-            className="header-logo-img"
-            src="https://res.cloudinary.com/dabzdwxet/image/upload/v1737127742/header-element-3_puddrj.png"
-            alt="logo-3"
-          />
         </div>
-        <header className="header-container">
+        {/* <header className="header-container">
           <div className="navbar-toggle">
             <img
               src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736163989/menu_tyorem.png"
@@ -121,7 +123,7 @@ export const Header = () => {
               alt="cart icon"
             />
           </Link>
-        </header>
+        </header> */}
       </div>
     </>
   );

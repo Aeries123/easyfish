@@ -5,6 +5,11 @@ header,
   padding: 0;
 }
 
+.header-right-component {
+  display: flex;
+  align-items: center;
+}
+
 /* .main-header{
   position: fixed;
   width:100%;
@@ -48,6 +53,7 @@ header,
 }
 
 .header-logo-img {
+  margin-left: 15px;
   height: 90px;
   padding-top: 10px;
 }
@@ -282,6 +288,7 @@ header,
   padding: 10px;
   border-radius: 10px;
   border-width: 2px;
+  margin-right: 15px;
 }
 
 .cart-icon {

@@ -1,11 +1,24 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import Cookies from 'js-cookie'
+import {useNavigate} from "react-router-dom"
 import "./cart.css";
 import { PaymentSummary } from "../PaymentSummary/payment";
+
+
 const Cart = (props) => {
   const { cartData = [], setCartData } = props;
+  const navigate=useNavigate()
   console.log(cartData);
- 
+  const jwtToken = Cookies.get("jwtToken");
+  const onClickProceed = () => {
+    if (!jwtToken) {
+      navigate("/");
+    } else {
+      alert("Successfully");
+    }
+  };
+
   // Function to remove an item from the cart
   const onClickRemove = (test_id) => {
     const newCartData = cartData.filter((each) => each.test_id !== test_id);
@@ -13,21 +26,28 @@ const Cart = (props) => {
     setCartData(newCartData);
     console.log(cartData);
   };
- 
+
   useEffect(() => {
     console.log("Updated cartData:", cartData);
   }, [cartData]);
- 
+
   let totalPrice = 0;
   for (let i of cartData) {
     totalPrice += parseInt(i.price);
   }
- 
+
   return (
     <div className="cart-container">
       <h2 style={{ display: cartData.length !== 0 ? "block" : "none" }}>
         Test Added
       </h2>
+      {cartData.length > 0 && (
+        <Link to="/book-test">
+          <div>
+            <button>Add more tests</button>
+          </div>
+        </Link>
+      )}
       <div>
         {cartData.length > 0 ? (
           cartData.map((each) => (
@@ -79,10 +99,11 @@ const Cart = (props) => {
           </div>
         )}
       </div>
+
       <div></div>
       {cartData.length > 0 && <PaymentSummary totalPrice={totalPrice} />}
     </div>
   );
 };
- 
+
 export default Cart;

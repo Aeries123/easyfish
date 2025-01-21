@@ -9,7 +9,7 @@ import { CarouselContainer } from "../CarouselContainer/carousel";
 import Test from "../Test/Test";
 import { MdAddCircleOutline } from "react-icons/md";
 import { FiMinusCircle } from "react-icons/fi";
-import Whychooseus from '../WhyChooseUs/whychoose'
+import Whychooseus from "../WhyChooseUs/whychoose";
 const smallData = [
   {
     id: 11,
@@ -501,13 +501,15 @@ const cardImg3 =
   "https://res.cloudinary.com/ddjsaoac6/image/upload/v1736228581/document_wtfacr.png";
 
 const Home = (props) => {
-  const { setCartData } = props;
+  const { cartData, setCartData } = props;
   const [isFullDataVisible, setIsFullDataVisible] = useState(false);
   const [isAllImagesVisible, setImagesAllVisible] = useState(false);
   const [clickedIds, setClickedIds] = useState([]);
   const [testsData, setTestsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  console.log("home data", testsData);
 
   // const [cartData,setCartData]=useState([])
 
@@ -588,10 +590,14 @@ const Home = (props) => {
                 </Slider>
                 </div> */}
       <CarouselContainer />
-      <Test />
+      <Test
+        testsData={testsData}
+        setCartData={setCartData}
+        cartData={cartData}
+      />
       <div className="tests-container">
         {tests.map((each) => (
-          <div className="home-image-container">
+          <div key={each.imageName} className="home-image-container">
             <div className="individual-test">
               <img src={each.imageUrl} height="50px" width="50px" />
             </div>
@@ -655,11 +661,6 @@ const Home = (props) => {
                           <MdAddCircleOutline className="cart-add-remove-icons" />
                         </p>
                       )}
-                      {/* <img
-                                      src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736424675/carts_mjdkfo.png"
-                                      height="30px"
-                                      width="30px"
-                                    /> */}
                     </button>
                   </div>
                 </div>
@@ -706,6 +707,7 @@ const Home = (props) => {
           <Slider {...settings}>
             {discountImages.map((each) => (
               <img
+              key={each.imageName}
                 src={each.imageUrl}
                 alt={each.imageName}
                 className="discount-images"

@@ -38,84 +38,90 @@ import ManageTestSampleTypes from "./components/ManageTestSampleTypes";
 import ManageTestVisitTypes from "./components/manageTestVisitTypes";
 import AdminLogin from "./components/AdminLogin/AdminLogin";
 import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
+
+import "./AdminRoutes.css";
+
 const AdminRoutes = () => {
   return (
-    <>
+    <div>
       <Header />
-      <Sidebar />
-      <div className="main">
-        <Routes>
-          <Route path="/admin/" element={<AdminDashboard />} />
-          <Route path="/admin/review" element={<Review />} />
+      <div className="admin-route-app-container">
+        <Sidebar />
+        <div  style={{alignSelf:"flex-start"}}>
+          <Routes>
+            <Route path="/admin/" element={<AdminDashboard />} />
+            <Route path="/admin/review" element={<Review />} />
 
-          <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
 
-          <Route path="/admin/manage-category" element={<ManageCategory />} />
-          <Route
-            path="/admin/lab-technician-form"
-            element={<LabTechnicianForm />}
-          />
-          <Route path="/admin/payment" element={<Payment />} />
-          <Route path="/admin/notification" element={<Notification />} />
-          <Route path="/admin/test-results" element={<Testresults />} />
-          <Route path="/admin/test-parameters" element={<TestParameters />} />
-          <Route
-            path="/admin/test-sample-types"
-            element={<TestSampleTypes />}
-          />
-          <Route path="/admin/customer" element={<Customer />} />
-          <Route path="/admin/manage-customer" element={<ManageCustomer />} />
-          <Route
-            path="/admin/manage-appointment"
-            element={<ManageAppointment />}
-          />
-          <Route
-            path="/admin/manage-time-slots"
-            element={<ManageTimeSlots />}
-          />
-          <Route path="/admin/tests-form" element={<TestsForm />} />
-          <Route path="/admin/addresses" element={<Addresses />} />
-          <Route path="/admin/admin-form" element={<AdminForm />} />
-          <Route path="/admin/booking" element={<Booking />} />
-          <Route
-            path="/admin/appointment-summary"
-            element={<AppointmentSummary />}
-          />
-          <Route path="/admin/bookings-form" element={<BookingsForm />} />
-          <Route path="/admin/category" element={<Category />} />
-          <Route path="/admin/manage-booking" element={<ManageBooking />} />
-          <Route
-            path="/admin/manage-notification"
-            element={<ManageNotification />}
-          />
-          <Route path="/admin/manage-admin" element={<ManageAdmin />} />
-          <Route path="/admin/manage-address" element={<ManageAddress />} />
-          <Route path="/admin/manage-review" element={<ManageReview />} />
-          <Route path="/admin/manage-payment" element={<ManagePayment />} />
-          <Route
-            path="/admin/manage-test-results"
-            element={<ManageTestResults />}
-          />
-          <Route path="/admin/manage-tests" element={<ManageTests />} />
-          <Route path="/admin/manage-users" element={<ManageUsers />} />
-          <Route path="/admin/time-slots" element={<TimeSlots />} />
-          <Route path="/admin/users" element={<Users />} />
-          <Route
-            path="/admin/manage-test-parameters"
-            element={<ManageTestParameters />}
-          />
-          <Route
-            path="/admin/manage-test-sample-types"
-            element={<ManageTestSampleTypes />}
-          />
-          <Route
-            path="/admin/manage-test-visit-types"
-            element={<ManageTestVisitTypes />}
-          />
-        </Routes>
+            <Route path="/admin/manage-category" element={<ManageCategory />} />
+            <Route
+              path="/admin/lab-technician-form"
+              element={<LabTechnicianForm />}
+            />
+            <Route path="/admin/payment" element={<Payment />} />
+            <Route path="/admin/notification" element={<Notification />} />
+            <Route path="/admin/test-results" element={<Testresults />} />
+            <Route path="/admin/test-parameters" element={<TestParameters />} />
+            <Route
+              path="/admin/test-sample-types"
+              element={<TestSampleTypes />}
+            />
+            <Route path="/admin/customer" element={<Customer />} />
+            <Route path="/admin/manage-customer" element={<ManageCustomer />} />
+            <Route
+              path="/admin/manage-appointment"
+              element={<ManageAppointment />}
+            />
+            <Route
+              path="/admin/manage-time-slots"
+              element={<ManageTimeSlots />}
+            />
+            <Route path="/admin/tests-form" element={<TestsForm />} />
+            <Route path="/admin/addresses" element={<Addresses />} />
+            <Route path="/admin/admin-form" element={<AdminForm />} />
+            <Route path="/admin/booking" element={<Booking />} />
+            <Route
+              path="/admin/appointment-summary"
+              element={<AppointmentSummary />}
+            />
+            <Route path="/admin/bookings-form" element={<BookingsForm />} />
+            <Route path="/admin/category" element={<Category />} />
+            <Route path="/admin/manage-booking" element={<ManageBooking />} />
+            <Route
+              path="/admin/manage-notification"
+              element={<ManageNotification />}
+            />
+            <Route path="/admin/manage-admin" element={<ManageAdmin />} />
+            <Route path="/admin/manage-address" element={<ManageAddress />} />
+            <Route path="/admin/manage-review" element={<ManageReview />} />
+            <Route path="/admin/manage-payment" element={<ManagePayment />} />
+            <Route
+              path="/admin/manage-test-results"
+              element={<ManageTestResults />}
+            />
+            <Route path="/admin/manage-tests" element={<ManageTests />} />
+            <Route path="/admin/manage-users" element={<ManageUsers />} />
+            <Route path="/admin/time-slots" element={<TimeSlots />} />
+            <Route path="/admin/users" element={<Users />} />
+            <Route
+              path="/admin/manage-test-parameters"
+              element={<ManageTestParameters />}
+            />
+            <Route
+              path="/admin/manage-test-sample-types"
+              element={<ManageTestSampleTypes />}
+            />
+            <Route
+              path="/admin/manage-test-visit-types"
+              element={<ManageTestVisitTypes />}
+            />
+          </Routes>
+        </div>
+        
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

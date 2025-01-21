@@ -17,6 +17,7 @@ import TestReports from "./components/DownloadReport/download";
 import Test from "./components/Test/Test";
 import { AuthProvider } from "./components/Context/AuthContext";
 import MyProfile from "./components/MyProfile/MyProfile";
+import OrderDetailsPage from "./components/OrderDetailsPage";
 
 import { useState } from "react";
 
@@ -27,12 +28,12 @@ function CustomerRoutes() {
     <>
       <AuthProvider>
           <Header />
-          <div className="app-container">
+          <div className="customer-route-app-container">
             <Routes>
               <Route path="/customer/login" element={<CustomerLogin />} />
               <Route path="/customer/register" element={<CustomerSignup />} />
               <Route path="/verify-otp" element={<VerifyOTP />} />
-              <Route path="/" element={<Home setCartData={setCartData} />} />
+              <Route path="/" element={<Home cartData={cartData} setCartData={setCartData} />} />
               <Route
                 path="/book-test"
                 element={<Tests setCartData={setCartData} />}
@@ -50,8 +51,7 @@ function CustomerRoutes() {
               <Route path="/reports" element={<TestReports />} />
               <Route path="/test" element={<Test />} />
               <Route path="/myprofile" element={<MyProfile />} />
-
-
+              <Route path="/orders/page" element={<OrderDetailsPage />} />
             </Routes>
           </div>
           <Footer />

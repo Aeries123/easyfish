@@ -1,43 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+
+import "./ManageBookings.css"
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const ManageBooking = () => {
-  const [bookings, setBookings] = useState([]);  // Store fetched bookings
-  const [searchTerm, setSearchTerm] = useState("");  // For search functionality
-  const [currentPage, setCurrentPage] = useState(1);  // Pagination
-  const rowsPerPage = 9;  // Rows per page for pagination
+  const [bookings, setBookings] = useState([]); // Store fetched bookings
+  const [searchTerm, setSearchTerm] = useState(""); // For search functionality
+  const [currentPage, setCurrentPage] = useState(1); // Pagination
+  const rowsPerPage = 9; // Rows per page for pagination
 
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:5000/api/getbookings', {
-          method: 'GET',
+        const response = await fetch("http://127.0.0.1:5000/api/getbookings", {
+          method: "GET",
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,  // Pass JWT token for authentication
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Pass JWT token for authentication
           },
         });
         const data = await response.json();
-        console.log(data)
+        console.log(data);
 
         if (response.ok && data.bookings) {
-          setBookings(data.bookings);  // Set the fetched bookings
+          setBookings(data.bookings); // Set the fetched bookings
         } else {
-          console.error('Error fetching bookings:', data.message);
+          console.error("Error fetching bookings:", data.message);
         }
       } catch (error) {
-        console.error('Error fetching bookings:', error);
+        console.error("Error fetching bookings:", error);
       }
     };
 
-    fetchBookings();  // Fetch bookings on component mount
+    fetchBookings(); // Fetch bookings on component mount
   }, []);
 
   // Search handler to filter bookings
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
-    setCurrentPage(1);  // Reset to the first page when a new search is performed
+    setCurrentPage(1); // Reset to the first page when a new search is performed
   };
 
   // Filter bookings based on the search term
@@ -50,43 +52,50 @@ const ManageBooking = () => {
   // Pagination logic
   const indexOfLastBooking = currentPage * rowsPerPage;
   const indexOfFirstBooking = indexOfLastBooking - rowsPerPage;
-  const currentBookings = filteredBookings.slice(indexOfFirstBooking, indexOfLastBooking);
+  const currentBookings = filteredBookings.slice(
+    indexOfFirstBooking,
+    indexOfLastBooking
+  );
   const totalPages = Math.ceil(filteredBookings.length / rowsPerPage);
 
   const handlePrevious = () => {
-    if (currentPage > 1) setCurrentPage(prev => prev - 1);
+    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
   };
 
   const handleNext = () => {
-    if (currentPage < totalPages) setCurrentPage(prev => prev + 1);
+    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
   };
 
   // Handle booking deletion
   const handleDeleteBooking = async (appointment_id) => {
     try {
       const response = await fetch(`/api/booktest/${appointment_id}`, {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,  // Pass JWT token for authentication
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // Pass JWT token for authentication
         },
       });
 
       if (response.ok) {
         // If the deletion is successful, remove the booking from the state
-        setBookings(bookings.filter(booking => booking.appointment_id !== appointment_id));
+        setBookings(
+          bookings.filter(
+            (booking) => booking.appointment_id !== appointment_id
+          )
+        );
       } else {
         const data = await response.json();
         alert(data.message || "Failed to delete booking.");
       }
     } catch (error) {
-      console.error('Error deleting booking:', error);
-      alert('Error deleting booking.');
+      console.error("Error deleting booking:", error);
+      alert("Error deleting booking.");
     }
   };
 
   return (
-    <div className="container mt-4">
+    <div className="manage-bookings-container container mt-4">
       <h2>Manage Bookings</h2>
 
       {/* Search Input */}
@@ -138,12 +147,14 @@ const ManageBooking = () => {
                   <Link to={`/admin/bookings-view/${booking.appointment_id}`}>
                     <button className="btn btn-sm btn-info me-2">View</button>
                   </Link>
-                  
+
                   {/* Edit Button */}
                   <Link to={`/admin/bookings-form/${booking.appointment_id}`}>
-                    <button className="btn btn-sm btn-primary me-2">Edit</button>
+                    <button className="btn btn-sm btn-primary me-2">
+                      Edit
+                    </button>
                   </Link>
-                  
+
                   {/* Delete Button */}
                   <button
                     className="btn btn-sm btn-danger"
@@ -156,7 +167,9 @@ const ManageBooking = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="12" className="text-center">No bookings available.</td>
+              <td colSpan="12" className="text-center">
+                No bookings available.
+              </td>
             </tr>
           )}
         </tbody>
@@ -165,13 +178,25 @@ const ManageBooking = () => {
       {/* Pagination Controls */}
       <nav className="mt-3">
         <ul className="pagination justify-content-center">
-          <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-            <button className="page-link" onClick={handlePrevious} disabled={currentPage === 1}>
+          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+            <button
+              className="page-link"
+              onClick={handlePrevious}
+              disabled={currentPage === 1}
+            >
               Previous
             </button>
           </li>
-          <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-            <button className="page-link" onClick={handleNext} disabled={currentPage === totalPages}>
+          <li
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
+          >
+            <button
+              className="page-link"
+              onClick={handleNext}
+              disabled={currentPage === totalPages}
+            >
               Next
             </button>
           </li>
