@@ -44,10 +44,12 @@ import "./AdminRoutes.css";
 const AdminRoutes = () => {
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       <div className="admin-route-app-container">
-        <Sidebar />
-        <div  style={{alignSelf:"flex-start"}}>
+        <div className="admin-route-app-container-1">
+          <Sidebar />
+        </div>
+        <div className="admin-route-app-container-2">
           <Routes>
             <Route path="/admin/" element={<AdminDashboard />} />
             <Route path="/admin/review" element={<Review />} />
@@ -118,9 +120,8 @@ const AdminRoutes = () => {
             />
           </Routes>
         </div>
-        
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

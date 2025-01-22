@@ -214,17 +214,37 @@
   margin: 10px;
   align-items: center;
 }
-.package-heading {
+.popular-package-heading {
   align-self: flex-start;
   margin-top: 5px;
+  font-size: 30px;
+  color: #8a0da5;
   margin-left: 10px;
   font-weight: bold;
 }
+
+.scroll-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+}
+
 .hr-line {
   padding: 0px;
   margin: 0px;
 }
-.individual-card {
+
+.individual-cards-container {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  width: calc(100% - 80px); /* Adjust based on button size */
+}
+
+/* .individual-card {
   display: flex;
   background-color: white;
   flex-direction: column;
@@ -235,7 +255,7 @@
   margin: 5px 5px 15px 5px;
   border-radius: 10px;
   transition: transform 0.9s ease;
-}
+} */
 .individual-card:hover {
   transform: translateY(-10px);
   background-color: purple;
@@ -247,6 +267,7 @@
   width: 90%;
   flex-wrap: wrap;
 }
+
 
 .test-card-heading-container {
   display: flex;
@@ -295,10 +316,12 @@ hr {
   align-self: flex-end;
   margin-right: 5px;
 }
+
 .button-container {
   display: flex;
   align-self: center;
 }
+
 .quality-container {
   display: flex;
   width: 90%;
@@ -307,6 +330,7 @@ hr {
   margin-bottom: 10px;
   margin-left: 10%;
 }
+
 .button {
   background-color: purple;
   color: white;
@@ -317,6 +341,7 @@ hr {
   border-width: 0px;
   width: 130px;
 }
+
 .view-button {
   background-color: purple;
   color: white;
@@ -327,27 +352,51 @@ hr {
   border-radius: 10px;
   border-width: 0px;
 }
+
+.why-choose-us-container {
+  width: 90vw;
+}
+
 .why-choose-us-heading {
   color: purple;
-  text-align: center;
+  text-align: left;
   margin-top: 10px;
 }
+
+.why-choose-us-sub-container {
+   display: flex;
+   justify-content: space-around;
+
+}
+.why-choose-us-card-container-1 {
+  width: 45vw;
+}
+.why-choose-us-card-container-2 {
+  width: 45vw;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
 .why-choose-us-paragraph {
   text-align: left;
   font-size: 25px;
   font-weight: 600;
   padding: 20px;
 }
+
 .discount-images {
   height: 300px;
   width: 300px;
   margin: 10px;
   object-fit: contain;
 }
+
 .slider-container {
   width: 90%;
   align-self: center;
 }
+
 .slider-main-container {
   width: 100%;
   display: flex;
@@ -356,18 +405,22 @@ hr {
     -1px -1px 1px 1px rgba(1, 0, 0, 0.2);
   margin: 20px;
 }
+
 .each-quality {
   display: flex;
   width: 30%;
 }
+
 .quality-content-container {
   align-self: center;
   width: 30%;
   margin-left: 10px;
 }
+
 /* .stamp-image{
       height
     } */
+
 .stamp-sub-container-1 {
   display: flex;
   justify-content: center;
@@ -380,12 +433,14 @@ hr {
   margin-left: 10px;
   margin-bottom: 10px;
 }
+
 .stamp-container {
   display: flex;
   width: 100%;
   background-color: white;
   justify-content: center;
 }
+
 .stamp-content {
   display: flex;
   flex-direction: column;
@@ -576,11 +631,6 @@ hr {
 }
 
 
-.package-heading {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #333;
-}
 
 .card-price-heading {
   color: rgb(133, 11, 163);
@@ -667,4 +717,5 @@ hr {
 .button:hover {
   background-color: #0041a3;
 }
+
 

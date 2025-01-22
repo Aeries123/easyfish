@@ -8,10 +8,10 @@ const MemberDetailsForm = ({ onAddMember }) => {
 
   return (
     <div className="member-form-container">
-      <label className="member-form-label">
+      {/* <label className="member-form-label">
         Testing for myself
         <input className="member-form-input" type="checkbox" checked disabled />
-      </label>
+      </label> */}
       <div className="member-form-name-container">
         <label className="member-form-label">Full name *</label>
         <input

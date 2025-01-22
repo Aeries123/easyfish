@@ -1,16 +1,23 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Cookies from 'js-cookie'
-import {useNavigate} from "react-router-dom"
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 import "./cart.css";
 import { PaymentSummary } from "../PaymentSummary/payment";
-
+import Popup from "../PopUp/Popup";
 
 const Cart = (props) => {
   const { cartData = [], setCartData } = props;
-  const navigate=useNavigate()
-  console.log(cartData);
+  const [testsData, setTestsData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isPopupOpened, setIsPopupOpened] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+  const [clickedIds, setClickedIds] = useState([]);
+  const navigate = useNavigate();
+
   const jwtToken = Cookies.get("jwtToken");
+
   const onClickProceed = () => {
     if (!jwtToken) {
       navigate("/");
@@ -19,17 +26,52 @@ const Cart = (props) => {
     }
   };
 
-  // Function to remove an item from the cart
-  const onClickRemove = (test_id) => {
-    const newCartData = cartData.filter((each) => each.test_id !== test_id);
-    console.log(newCartData);
-    setCartData(newCartData);
-    console.log(cartData);
+  const handleAddMoreTests = () => {
+    setIsPopupOpened(true);
+  };
+
+  const onClickClosePopup = () => {
+    setIsPopupOpened(false);
   };
 
   useEffect(() => {
-    console.log("Updated cartData:", cartData);
-  }, [cartData]);
+    const endpoint = "http://127.0.0.1:5000/api/tests";
+    fetch(endpoint)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setTestsData(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
+
+  const filteredData = testsData.filter((test) =>
+    test.test_name.toLowerCase().includes(searchInput.toLowerCase())
+  );
+
+  const handleAddTestToCart = (test) => {
+    if (!cartData.some((item) => item.test_id === test.test_id)) {
+      setCartData((prev) => [...prev, test]);
+    }
+    setClickedIds((prev) =>
+      prev.includes(test.test_id)
+        ? prev.filter((id) => id !== test.test_id)
+        : [...prev, test.test_id]
+    );
+  };
+
+  const onClickRemove = (test_id) => {
+    const newCartData = cartData.filter((each) => each.test_id !== test_id);
+    setCartData(newCartData);
+  };
 
   let totalPrice = 0;
   for (let i of cartData) {
@@ -42,12 +84,11 @@ const Cart = (props) => {
         Test Added
       </h2>
       {cartData.length > 0 && (
-        <Link to="/book-test">
-          <div>
-            <button>Add more tests</button>
-          </div>
-        </Link>
+        <button onClick={handleAddMoreTests} className="add-tests-button">
+          Add more tests
+        </button>
       )}
+
       <div>
         {cartData.length > 0 ? (
           cartData.map((each) => (
@@ -72,19 +113,11 @@ const Cart = (props) => {
             </div>
           ))
         ) : (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              width: "100%",
-            }}
-            className="empty-cart-container"
-          >
+          <div className="empty-cart-container">
             <img
               src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736576711/empty-cart-shopping-commerce-3d-illustration_66255-2017_ziedxe.avif"
-              width="100%"
+              alt="empty cart"
               className="empty-cart-image"
-              alt="empty cart image"
             />
             <div className="empty-cart-cardcontainer">
               <h2 className="empty-cart-heading">Your Cart is Empty</h2>
@@ -92,16 +125,29 @@ const Cart = (props) => {
                 Looks like you haven’t added any tests / health packages to your
                 cart
               </p>
-              <Link className="empty-cart-button-container" to="/book-test">
-                <button className="empty-cart-button">Add Tests</button>
-              </Link>
+              <button onClick={handleAddMoreTests} className="empty-cart-button">
+                Add Tests
+              </button>
             </div>
           </div>
         )}
       </div>
 
-      <div></div>
       {cartData.length > 0 && <PaymentSummary totalPrice={totalPrice} />}
+
+      {/* Popup Component Integration */}
+      <Popup
+        isPopupOpened={isPopupOpened}
+        onClickClosePopup={onClickClosePopup}
+        filteredData={filteredData}
+        handleButtonClick={handleAddTestToCart}
+        clickedIds={clickedIds}
+        cartData={cartData}
+        totalPrice={totalPrice}
+        name={searchInput}
+        onChangeInput={(e) => setSearchInput(e.target.value)}
+        onClickProceed={onClickProceed}
+      />
     </div>
   );
 };

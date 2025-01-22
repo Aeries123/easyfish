@@ -1,0 +1,65 @@
+/* Container for the entire form */
+.customer-address-container {
+    padding: 20px;
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Heading of the form */
+  .customer-address-heading {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Styling for the input fields */
+  .customer-address-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .customer-address-input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  .customer-address-input:focus {
+    border-color: #007bff;
+  }
+  
+  /* Styling for the buttons */
+  .customer-address-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 15px;
+    transition: background-color 0.3s;
+  }
+  
+  .customer-address-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Close button with a distinct style */
+  .customer-address-button:last-child {
+    background-color: #f44336;
+  }
+  
+  .customer-address-button:last-child:hover {
+    background-color: #d32f2f;
+  }
+  

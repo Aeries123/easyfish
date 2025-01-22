@@ -18,43 +18,80 @@ import Test from "./components/Test/Test";
 import { AuthProvider } from "./components/Context/AuthContext";
 import MyProfile from "./components/MyProfile/MyProfile";
 import OrderDetailsPage from "./components/OrderDetailsPage";
+import Banner from "./components/Banner/Banner";
+import CustomerAddress from "./components/CustomerAddress";
+import ScrollTest from "./components/ScrollTest";
 
 import { useState } from "react";
 
 function CustomerRoutes() {
   const [cartData, setCartData] = useState([]);
+  const [clickedIds, setClickedIds] = useState([]);
 
   return (
     <>
       <AuthProvider>
-          <Header />
-          <div className="customer-route-app-container">
-            <Routes>
-              <Route path="/customer/login" element={<CustomerLogin />} />
-              <Route path="/customer/register" element={<CustomerSignup />} />
-              <Route path="/verify-otp" element={<VerifyOTP />} />
-              <Route path="/" element={<Home cartData={cartData} setCartData={setCartData} />} />
-              <Route
-                path="/book-test"
-                element={<Tests setCartData={setCartData} />}
-              />
-              <Route path="/about-us" element={<AboutUs />} />
-              <Route path="/service/:serviceId" element={<ServiceDetail />} />
-              <Route path="/my-dashboard" element={<Dashboard />} />
-              <Route path="/test/menu" element={<AllTestsPage />} />
-              <Route path="/sample" element={<Samplecollection />} />
-              <Route
-                path="/cart"
-                element={<Cart cartData={cartData} setCartData={setCartData} />}
-              />
-              {/* <Route path="/prescption" element={<Prescription />} /> */}
-              <Route path="/reports" element={<TestReports />} />
-              <Route path="/test" element={<Test />} />
-              <Route path="/myprofile" element={<MyProfile />} />
-              <Route path="/orders/page" element={<OrderDetailsPage />} />
-            </Routes>
-          </div>
-          <Footer />
+        <Header />
+        <div className="customer-route-app-container">
+          <Routes>
+            <Route path="/customer/login" element={<CustomerLogin />} />
+            <Route path="/customer/register" element={<CustomerSignup />} />
+            <Route path="/verify-otp" element={<VerifyOTP />} />
+            <Route
+              path="/"
+              element={
+                <Home
+                  cartData={cartData}
+                  setCartData={setCartData}
+                  clickedIds={clickedIds}
+                  setClickedIds={setClickedIds}
+                />
+              }
+            />
+            <Route
+              path="/book-test"
+              element={
+                <Tests
+                  setCartData={setCartData}
+                  clickedIds={clickedIds}
+                  setClickedIds={setClickedIds}
+                />
+              }
+            />
+
+            <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/service/:serviceId" element={<ServiceDetail />} />
+            <Route path="/my-dashboard" element={<Dashboard />} />
+            <Route path="/test/menu" element={<AllTestsPage />} />
+            <Route path="/sample" element={<Samplecollection />} />
+            <Route
+              path="/cart"
+              element={
+                <Cart
+                  cartData={cartData}
+                  setCartData={setCartData}
+                  clickedIds={setClickedIds}
+                />
+              }
+            />
+            {/* <Route path="/prescption" element={<Prescription />} /> */}
+            <Route path="/reports" element={<TestReports />} />
+            <Route path="/test" element={<Test />} />
+            <Route path="/myprofile" element={<MyProfile />} />
+            <Route
+              path="/orders/page"
+              element={
+                <OrderDetailsPage
+                  cartData={cartData}
+                  setCartData={setCartData}
+                />
+              }
+            />
+            <Route path="/add-address" element={<CustomerAddress />} />
+            <Route path="/scroll-test" element={<ScrollTest />} />
+          </Routes>
+        </div>
+        <Footer />
       </AuthProvider>
     </>
   );

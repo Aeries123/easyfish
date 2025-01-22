@@ -1,7 +1,7 @@
 .tests-checkups-main-container {
     padding: 20px;
     /* border: 1px solid #ddd; */
-    border-radius: 8px;
+    /* border-radius: 8px; */
     background-color: #eee9e2;
     width: 100%;
     max-width: 600px;
@@ -31,14 +31,20 @@
     border: 1px solid #ddd;
     border-radius: 5px;
     background-color: #fff;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    /* transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; */
   }
-  
+/*   
   .test-item-container:hover {
     transform: scale(1.02);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
+  } */
   
+  .test-item-card-container {
+    display: flex;
+    flex-direction: column;
+    margin-right: 5px;
+  }
+
   .test-item-name {
     font-size: 16px;
     color: #555;
@@ -55,10 +61,10 @@
     transition: background-color 0.3s ease, transform 0.2s ease;
   }
   
-  .test-item-button:hover {
+  /* .test-item-button:hover {
     background-color: #6a1b9a;
     transform: translateY(-2px);
-  }
+  } */
   
   .test-item-button:active {
     background-color: #6a1b9a;

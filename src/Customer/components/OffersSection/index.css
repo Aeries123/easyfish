@@ -59,3 +59,78 @@
     transform: translateY(0);
   }
 }
+
+/* Address Popup Container */
+.address-popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Popup Header */
+.address-popup-header {
+  background-color: #fff;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 500px;
+  border-radius: 8px 8px 0 0;
+}
+
+.address-popup-header h4 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.address-popup-close-button {
+  background-color: #f44336;
+  border: none;
+  color: white;
+  font-size: 16px;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+/* Popup Body */
+.address-popup-body {
+  background-color: #fff;
+  padding: 20px;
+  width: 500px;
+  border-radius: 0 0 8px 8px;
+  overflow-y: auto;
+}
+
+.address-item {
+  background-color: #f9f9f9;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.address-add-address-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 4px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.address-add-address-button:hover {
+  background-color: #45a049;
+}
+

@@ -204,7 +204,14 @@ function Dashboard() {
     userName: "",
     userPhoneNumber: "",
   });
+
   const jwtToken = Cookies.get("jwtToken");
+
+  const onClickLogout=()=> {
+    Cookies.remove(jwtToken)
+    alert("You are logged out successfully")
+  }
+
   useEffect(() => {
     const getBookingDetails = async () => {
       const bookingDetailsUrl = "http://127.0.0.1:5000/api/mybookings";
@@ -241,6 +248,7 @@ function Dashboard() {
     };
     getBookingDetails();
   }, []);
+  
   useEffect(() => {
     const getProfileDetails = async () => {
       const getUrl = "http://127.0.0.1:5000/api/get/profile";
@@ -296,46 +304,7 @@ function Dashboard() {
     doc.text(`SlotDate:${each.slot_date}`, 20, y);
     doc.save(`usertestdetails.${index + 1}.pdf`);
   };
-  //   const generatePDF = (each, index) => {
-  //     const doc = new jsPDF();
-  //     doc.setFontSize(16);
-  //     doc.text('Generated PDF', 16, 20);
 
-  //     let yPosition = 40; // Start at y = 40
-
-  //     // Ensure userDetails is defined and available
-  //     if (userDetails) {
-  //         // Add Name and Phone Number, check if userDetails values exist
-  //         doc.text(`Name: ${userDetails.userName || "Not Provided"}`, 20, yPosition);
-  //         yPosition += 10; // Move down 10 units for the next line
-
-  //         doc.text(`Phone Number: ${userDetails.userPhoneNumber || "Not Provided"}`, 20, yPosition);
-  //         yPosition += 10; // Move down 10 units for the next line
-  //     }
-
-  //     // Ensure each.healthCheckupType exists and is a string
-  //     if (each.healthCheckupType) {
-  //         doc.text(`Test Name: ${each.healthCheckupType}`, 20, yPosition);
-  //         yPosition += 10; // Move down 10 units for the next line
-  //     }
-
-  //     // Ensure each.status exists and is a string
-  //     if (each.status) {
-  //         doc.text(`Status: ${each.status}`, 20, yPosition);
-  //         yPosition += 10; // Move down 10 units for the next line
-  //     }
-
-  //     // Ensure each.slotDate exists and is a valid string that can be split
-  //     if (each.slotDate && typeof each.slotDate === 'string') {
-  //         doc.text(`Slot Date: ${each.slotDate.split("T")[0]}`, 20, yPosition);
-  //     } else {
-  //         // If slotDate is invalid, we can fallback to "Not Provided"
-  //         doc.text(`Slot Date: Not Provided`, 20, yPosition);
-  //     }
-
-  //     // Save the PDF with a dynamic filename based on the index
-  //     doc.save(`usertestdetails.${index + 1}.pdf`);
-  // }
   console.log(activeArray);
   console.log(pastArray);
   console.log(cancelledArray);
@@ -344,6 +313,7 @@ function Dashboard() {
     <div className="dashboard-container">
       {/* Dashboard Heading */}
       <h1 className="dashboard-heading">MY DASHBOARD</h1>
+      <button onClick={onClickLogout}>Log out</button>
 
       {/* Overall Content Column */}
       <div className="dashboard-content">

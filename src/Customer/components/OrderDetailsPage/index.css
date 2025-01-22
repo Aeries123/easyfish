@@ -3,6 +3,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-top: 30px;
 }
 
 .order-details-main-container {
@@ -17,16 +18,34 @@
     align-items: flex-start;
 }
 
+.order-details-main-heading {
+    font-size: 40px;
+    align-self: flex-start;
+    padding-left: 218px;
+}
+
 .order-details-heading {
     align-self: flex-start;
 }
 
-.order-details-section-1 {
+.order-details-main-section-1 {
+    margin: 10px;
+}
+
+.order-details-member-details-container {
+    background-color: #f9f9f9;
+}
+
+.order-details-test-checkup-container {
+    background-color: #eee9e2;
+}
+
+.order-details-sub-section-1 {
     display: flex;
     margin-right: 20px;
 }
 
-.order-details-section-2 {
+.order-details-sub-section-2 {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
