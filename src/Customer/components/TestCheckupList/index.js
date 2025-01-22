@@ -11,6 +11,7 @@ const TestCheckupList = ({
   cartData,
   setCartData,
 }) => {
+  const abcd="test"
   const [isPopupOpened, setIsPopupOpened] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [testsData, setTestsData] = useState([]);
