@@ -7,7 +7,7 @@ import { Header } from "./components/Header/header";
 import { Footer } from "./components/Footer/footer";
 import AboutUs from "./components/AboutUs/AboutUs";
 import ServiceDetail from "./components/ServiceDetails/ServiceDetails";
-import Tests from "./components/Tests/Tests";
+import Tests from "./components/BookTests/Tests";
 import Dashboard from "./components/Dashboard/dashboard";
 import { AllTestsPage } from "./components/AllTests/alltests";
 import Samplecollection from "./components/SampleCollection/sample_collection";
