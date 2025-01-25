@@ -21,7 +21,7 @@ import OrderDetailsPage from "./components/OrderDetailsPage";
 import Banner from "./components/Banner/Banner";
 import CustomerAddress from "./components/CustomerAddress";
 import ScrollTest from "./components/ScrollTest";
-
+import UserBookingDetails from "./components/BookingDetails";
 import { useState } from "react";
 
 function CustomerRoutes() {
@@ -52,6 +52,7 @@ function CustomerRoutes() {
               path="/book-test"
               element={
                 <Tests
+                  cartData={cartData}
                   setCartData={setCartData}
                   clickedIds={clickedIds}
                   setClickedIds={setClickedIds}
@@ -70,7 +71,8 @@ function CustomerRoutes() {
                 <Cart
                   cartData={cartData}
                   setCartData={setCartData}
-                  clickedIds={setClickedIds}
+                  clickedIds={clickedIds}
+                  setClickedIds={setClickedIds}
                 />
               }
             />
@@ -84,11 +86,14 @@ function CustomerRoutes() {
                 <OrderDetailsPage
                   cartData={cartData}
                   setCartData={setCartData}
+                  clickedIds={clickedIds}
+                  setClickedIds={setClickedIds}
                 />
               }
             />
             <Route path="/add-address" element={<CustomerAddress />} />
             <Route path="/scroll-test" element={<ScrollTest />} />
+            <Route path="/booking-details" element={<UserBookingDetails />} />
           </Routes>
         </div>
         <Footer />

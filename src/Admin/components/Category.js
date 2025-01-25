@@ -1,10 +1,10 @@
-// src/components/Category.js
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Category = () => {
   const [formData, setFormData] = useState({
     category_name: "",
+    image: null,
   });
 
   const [error, setError] = useState("");
@@ -19,6 +19,15 @@ const Category = () => {
     }));
   };
 
+  // Handle file input change (image upload)
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setFormData((prevState) => ({
+      ...prevState,
+      image: file,
+    }));
+  };
+
   // Handle form submission to add a new category
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,21 +36,32 @@ const Category = () => {
       setError("Category name is required.");
       return;
     }
+    if (!formData.image) {
+      setError("Image file is required.");
+      return;
+    }
+
+    const formDataToSend = new FormData();
+    formDataToSend.append("category_name", formData.category_name);
+    formDataToSend.append("image", formData.image);
 
     try {
-      const response = await fetch("/api/test-category", {
+      const response = await fetch("http://localhost:5000/api/test_category", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        body: formDataToSend,
       });
 
       if (response.ok) {
-        setSuccess("Category added successfully!");
-        setFormData({ category_name: "" }); // Clear the form
+        const result = await response.json();
+        setSuccess(result.message);
+        setError("");  // Clear any previous error messages
+        setFormData({ category_name: "", image: null }); // Clear the form data after successful submission
+        
+        // Clear the file input after successful submission
+        document.getElementById("image").value = ""; // Manually clear the file input
       } else {
-        setError("Failed to add category. Please try again.");
+        const errorResult = await response.json();
+        setError(errorResult.error);
       }
     } catch (error) {
       console.error("Error adding category:", error);
@@ -57,7 +77,7 @@ const Category = () => {
       {error && <div className="alert alert-danger">{error}</div>}
       {success && <div className="alert alert-success">{success}</div>}
 
-      <form onSubmit={handleSubmit} className="mb-4">
+      <form onSubmit={handleSubmit} className="mb-4" encType="multipart/form-data">
         <div className="form-group">
           <label htmlFor="category_name">Category Name</label>
           <input
@@ -70,6 +90,19 @@ const Category = () => {
             required
           />
         </div>
+
+        <div className="form-group">
+          <label htmlFor="image">Category Image</label>
+          <input
+            type="file"
+            id="image"
+            name="image"
+            className="form-control"
+            onChange={handleFileChange}
+            required
+          />
+        </div>
+
         <button type="submit" className="btn btn-primary mt-3">
           Add Category
         </button>

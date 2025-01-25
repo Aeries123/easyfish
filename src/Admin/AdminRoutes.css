@@ -1,13 +1,5 @@
 .admin-route-app-container {
     display: flex;
-    flex-direction: row;
     align-items: flex-start;
 }
 
-.admin-route-app-container-1 {
-    width: 30vw;
-}
-
-.admin-route-app-container-2 {
-    width: 60vw;
-}

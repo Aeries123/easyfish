@@ -3,16 +3,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const BookingsForm = () => {
   const [formData, setFormData] = useState({
-    appointment_id: '',
-    user_id: '',
-    technician_id: '',
     patient_name: '',
     patient_contact: '',
     notes: '',
-    test_ids: '',
+    test_id: '',
     appointment_date: '',
     slot_date: '',
-    status: 'pending',
     total_price: '',
   });
 
@@ -27,33 +23,39 @@ const BookingsForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const apiUrl = 'http://your-api-endpoint.com/add-booking';
+    const apiUrl = 'http://127.0.0.1:5000/api/book-test';
+
+    // Make sure the 'test_id' is converted to an array for the backend
+    const testIds = formData.test_id.split(',').map(id => id.trim());
+
+    const payload = {
+      ...formData,
+      test_id: testIds,
+    };
 
     fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`, // Include your token if required
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(payload),
     })
-      .then((response) => {
-        if (response.ok) {
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.message) {
           alert('Booking added successfully!');
           setFormData({
-            appointment_id: '',
-            user_id: '',
-            technician_id: '',
             patient_name: '',
             patient_contact: '',
             notes: '',
-            test_ids: '',
+            test_id: '',
             appointment_date: '',
             slot_date: '',
-            status: 'pending',
             total_price: '',
           });
         } else {
-          alert('Failed to add booking.');
+          alert(data.error || 'Failed to add booking.');
         }
       })
       .catch((error) => {
@@ -69,47 +71,6 @@ const BookingsForm = () => {
         <div className="row">
           {/* Left Column */}
           <div className="col-md-6">
-            {/* Appointment ID */}
-            <div className="form-group">
-              <label htmlFor="appointment_id">Appointment ID</label>
-              <input
-                type="number"
-                className="form-control"
-                id="appointment_id"
-                name="appointment_id"
-                value={formData.appointment_id}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            {/* User ID */}
-            <div className="form-group">
-              <label htmlFor="user_id">User ID</label>
-              <input
-                type="number"
-                className="form-control"
-                id="user_id"
-                name="user_id"
-                value={formData.user_id}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            {/* Technician ID */}
-            <div className="form-group">
-              <label htmlFor="technician_id">Technician ID</label>
-              <input
-                type="number"
-                className="form-control"
-                id="technician_id"
-                name="technician_id"
-                value={formData.technician_id}
-                onChange={handleChange}
-              />
-            </div>
-
             {/* Patient Name */}
             <div className="form-group">
               <label htmlFor="patient_name">Patient Name</label>
@@ -156,13 +117,13 @@ const BookingsForm = () => {
 
             {/* Test IDs */}
             <div className="form-group">
-              <label htmlFor="test_ids">Test IDs</label>
+              <label htmlFor="test_ids">Test IDs (comma separated)</label>
               <input
-                type="number"
+                type="text"
                 className="form-control"
                 id="test_ids"
-                name="test_ids"
-                value={formData.test_ids}
+                name="test_id"
+                value={formData.test_id}
                 onChange={handleChange}
                 required
               />
@@ -196,23 +157,6 @@ const BookingsForm = () => {
               />
             </div>
 
-            {/* Status */}
-            <div className="form-group">
-              <label htmlFor="status">Status</label>
-              <select
-                className="form-control"
-                id="status"
-                name="status"
-                value={formData.status}
-                onChange={handleChange}
-              >
-                <option value="pending">Pending</option>
-                <option value="confirmed">Confirmed</option>
-                <option value="completed">Completed</option>
-                <option value="cancelled">Cancelled</option>
-              </select>
-            </div>
-
             {/* Total Price */}
             <div className="form-group">
               <label htmlFor="total_price">Total Price</label>
@@ -230,10 +174,9 @@ const BookingsForm = () => {
         </div>
 
         {/* Submit Button */}
-        {/* Submit Button */}
         <div className="form-group col-md-12 text-center mt-4">
-            <button type="submit" className="btn btn-primary" style={{ width: '100px' }}>Submit</button>
-          </div>
+          <button type="submit" className="btn btn-primary" style={{ width: '100px' }}>Submit</button>
+        </div>
       </form>
     </div>
   );

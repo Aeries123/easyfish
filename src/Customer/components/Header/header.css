@@ -21,7 +21,6 @@ header,
     width: 100%; 
 } */
 .header-container {
-  background-color: #800080;
   color: white;
   margin-top: 0px;
   padding-top: 5px;
@@ -93,9 +92,9 @@ header,
   margin-right: 100px;
   margin-top: 100px;
 } */
-.login-sign-up-button {
-  background-color: purple;
-  color: white !important;
+.home-home-login-sign-up-button {
+  /* background-color: purple; */
+  color: purple ;
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 5px;
@@ -109,7 +108,7 @@ header,
 } */
 
 .login-signup-link {
-  color: #ffffff;
+  color: #6a1b9a;
   font-weight: bold;
 }
 .header-input{
@@ -284,7 +283,7 @@ header,
   font-size: 15px;
   font-weight: bold;
   color: #ffffff;
-  background-color: #6a1b9a;
+  /* background-color: #6a1b9a; */
   padding: 10px;
   border-radius: 10px;
   border-width: 2px;
@@ -293,7 +292,7 @@ header,
 
 .cart-icon {
   font-size: 30px;
-  color: #ffffff;
+  color: #6a1b9a;
   margin-right: 5px;
 
 }
@@ -307,16 +306,16 @@ header,
   border-bottom: 2px solid #ddd; /* Subtle bottom border */
 }
 
-.header-elements {
+.header-header-elements {
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 600;
-  color: #fff;
-  background-color: #6a1b9a; /* Primary button color */
+  color: #6a1b9a;
+  /* background-color: #6a1b9a; */
   border: none;
   border-radius: 25px;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  font-weight: bold;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
@@ -418,7 +417,7 @@ header,
 
 .login-sign-up-button {
   background-color: #6a1b9a;
-  color: white;
+  color: #6a1b9a;
   padding: 8px 15px;
   border-radius: 15px;
   border: none;

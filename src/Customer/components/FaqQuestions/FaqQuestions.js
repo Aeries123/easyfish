@@ -91,7 +91,7 @@ const FaqQuestions = () => {
   };
   return (
     <div className="faq-container">
-      <h2 className="each-main-heading">Health Checkup & Packages</h2>
+      <h2 className="faq-each-main-heading">Health Checkup & Packages</h2>
       <div>
         {questionsAndAnswers.map((eachItem, index) => (
           <div

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Popup from "../PopUp/Popup"; // Import the Popup component
+import Popup from "../PopUp/Popup";
+import { MdDelete } from "react-icons/md";
+import { MdAddShoppingCart } from "react-icons/md";
 import "./index.css";
 
 const TestCheckupList = ({
@@ -10,48 +12,44 @@ const TestCheckupList = ({
   onClickProceed,
   cartData,
   setCartData,
+  clickedIds,
+  setClickedIds,
 }) => {
-  const abcd="test"
   const [isPopupOpened, setIsPopupOpened] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [testsData, setTestsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [clickedIds, setClickedIds] = useState([]);
-
-  console.log("cartDataaaaa", cartData);
 
   // Fetch tests data
   useEffect(() => {
-    const endpoint = "http://127.0.0.1:5000/api/tests";
-    fetch(endpoint)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
-        }
-        return response.json();
-      })
-      .then((data) => {
+    const fetchTests = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:5000/api/tests");
+        if (!response.ok) throw new Error("Failed to fetch data");
+        const data = await response.json();
         setTestsData(data);
-        setLoading(false);
-      })
-      .catch((err) => {
+      } catch (err) {
         setError(err.message);
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+    fetchTests();
   }, []);
 
-  // Open popup
-  const handleAddMoreTests = () => {
-    setIsPopupOpened(true);
+  // Open and close popup
+  const handleAddMoreTests = () => setIsPopupOpened(true);
+  const handleClosePopup = () => setIsPopupOpened(false);
+
+  // Handle removing a test
+  const handleRemoveTest = (test) => {
+    const testId = test.test_id;
+    setCartData((prev) => prev.filter((item) => item.test_id !== testId));
+    setClickedIds((prev) => prev.filter((id) => id !== testId));
   };
 
-  // Close popup
-  const onClickClosePopup = () => {
-    setIsPopupOpened(false);
-  };
-
-  // Handle test add/remove button click
+  // Handle add/remove button click
   const handleButtonClick = (test) => {
     if (clickedIds.includes(test.test_id)) {
       setClickedIds(clickedIds.filter((id) => id !== test.test_id));
@@ -70,45 +68,49 @@ const TestCheckupList = ({
   return (
     <div className="tests-checkups-main-container">
       <h4 className="tests-checkups-heading">Tests / Checkups Added</h4>
-      {cartData.map((test, index) => (
-        <div key={index} className="test-item-container">
-          <div className="test-item-card-container">
-            <span className="test-item-name">{test.test_name}</span>
-            <span className="test-item-price">₹ {test.price}</span>
+      {cartData.length > 0 ? (
+        cartData.map((test) => (
+          <div key={test.test_id} className="test-item-container">
+            <div className="test-item-card-container">
+              <span className="test-item-name">{test.test_name}</span>
+              <span className="test-item-price">₹ {test.price}</span>
+            </div>
+            <button
+              className="test-item-delete-button"
+              onClick={() => handleRemoveTest(test)}
+            >
+              <MdDelete />
+            </button>
           </div>
-          <button
-            className="test-item-button"
-            onClick={() => onRemoveTest(index)}
-          >
-            Remove
-          </button>
-        </div>
-      ))}
+        ))
+      ) : (
+        <p className="no-tests-message">No tests added yet.</p>
+      )}
 
       <button className="add-more-tests-button" onClick={handleAddMoreTests}>
+        <MdAddShoppingCart className="add-more-tests-icon" />
         Add More Tests
       </button>
 
-      {/* Use Popup Component */}
+      {/* Popup Component */}
       <Popup
         isPopupOpened={isPopupOpened}
-        onClickClosePopup={onClickClosePopup}
+        onClickClosePopup={handleClosePopup}
         filteredData={filteredTests}
         handleButtonClick={handleButtonClick}
         clickedIds={clickedIds}
+        setClickedIds={setClickedIds}
         cartData={cartData}
         totalPrice={totalPrice}
         name={searchInput}
         onChangeInput={(e) => setSearchInput(e.target.value)}
         onClickProceed={onClickProceed}
+        setCartData={setCartData}
       />
 
-      <div className="total-price-section">
+      {/* <div className="total-price-section">
         <h4>Total Price: ₹{totalPrice}</h4>
-        {/* <button className="proceed-button" onClick={onClickProceed}>
-          Proceed
-        </button> */}
-      </div>
+      </div> */}
     </div>
   );
 };

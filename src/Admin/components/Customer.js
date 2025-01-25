@@ -3,8 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const CustomerForm = () => {
   const [formData, setFormData] = useState({
-    customer_id: '',
-    user_id: '',
+   
     customer_name: '',
     password: '',
     phone: '',
@@ -22,7 +21,7 @@ const CustomerForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const apiUrl = 'http://your-api-endpoint.com/add-customer';
+    const apiUrl = 'http://localhost:5000/api/customers/register';
 
     fetch(apiUrl, {
       method: 'POST',
@@ -35,8 +34,7 @@ const CustomerForm = () => {
         if (response.ok) {
           alert('Customer added successfully!');
           setFormData({
-            customer_id: '',
-            user_id: '',
+           
             customer_name: '',
             password: '',
             phone: '',
@@ -58,31 +56,10 @@ const CustomerForm = () => {
       <form onSubmit={handleSubmit}>
         <div className="row">
           {/* Customer ID */}
-          <div className="form-group col-md-6">
-            <label htmlFor="customer_id">Customer ID</label>
-            <input
-              type="number"
-              className="form-control"
-              id="customer_id"
-              name="customer_id"
-              value={formData.customer_id}
-              onChange={handleChange}
-              required
-            />
-          </div>
+        
 
           {/* User ID */}
-          <div className="form-group col-md-6">
-            <label htmlFor="user_id">User ID</label>
-            <input
-              type="number"
-              className="form-control"
-              id="user_id"
-              name="user_id"
-              value={formData.user_id}
-              onChange={handleChange}
-            />
-          </div>
+       
         </div>
 
         <div className="row">

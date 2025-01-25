@@ -1,0 +1,113 @@
+/* General Layout */
+.slot-slot-booking-container {
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 10px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Step Indicators */
+.slot-slot-step-indicators {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.slot-slot-step {
+  text-align: center;
+  /* flex: 1; */
+  padding: 5px 8px;
+  font-size: 15px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  margin: 0 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.slot-slot-step.completed {
+  background-color: #4caf50;
+  color: white;
+}
+
+.slot-slot-step span {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.slot-slot-step p {
+  font-size: 14px;
+}
+
+/* Date Selector */
+.slot-slot-date-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.slot-slot-date {
+  /* flex: 0 0 calc(33.33% - 10px); */
+  text-align: center;
+  padding: 8px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  transition: background-color 0.3s, color 0.3s;
+  font-size: 14px;
+  color: #6a1b9a;
+  font-weight: 600;
+}
+
+.slot-slot-date.selected {
+  background-color: #6a1b9a;
+  color: white;
+  border-color: #6a1b9a;
+}
+
+.slot-slot-date:hover {
+  background-color: #e8f4ff;
+}
+
+/* Slot Selector */
+.slot-slot-slot-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.slot-slot-slot {
+  /* flex: 0 0 calc(25% - 10px); */
+  font-size: 13px;
+  padding: 4px 12px;
+  font-size: 14px;
+  border: 1px solid #6a1b9a;
+  background-color: white;
+  color: #6a1b9a;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.slot-slot-slot.selected {
+  background-color: #6a1b9a;
+  color: white;
+}
+
+.slot-slot-slot:hover {
+  background-color: #6a1b9a;
+  color: white;
+}
+
+.slot-slot-no-slots-message {
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  margin-top: 20px;
+}

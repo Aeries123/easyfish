@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 import "./dashboard.css";
 import Cookies from "js-cookie";
 import jsPDF from "jspdf";
@@ -207,48 +207,48 @@ function Dashboard() {
 
   const jwtToken = Cookies.get("jwtToken");
 
-  const onClickLogout=()=> {
-    Cookies.remove(jwtToken)
-    alert("You are logged out successfully")
-  }
+  const onClickLogout = () => {
+    Cookies.remove(jwtToken);
+    alert("You are logged out successfully");
+  };
 
-  useEffect(() => {
-    const getBookingDetails = async () => {
-      const bookingDetailsUrl = "http://127.0.0.1:5000/api/mybookings";
-      const options = {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      };
-      const response = await fetch(bookingDetailsUrl, options);
-      const currentDate = new Date();
-      try {
-        if (response.ok) {
-          const fetchedBookDetails = await response.json();
-          console.log(fetchedBookDetails);
-          fetchedBookDetails.bookings.forEach((each) => {
-            const convertedDate = new Date(each.slot_date);
-            if (convertedDate > currentDate && each.status !== "cancelled") {
-              setActiveArray((prev) => [...prev, each]);
-            } else if (
-              convertedDate < currentDate &&
-              each.status !== "cancelled"
-            ) {
-              setPastArray((prev) => [...prev, each]);
-            } else {
-              setCancelledArray((prev) => [...prev, each]);
-            }
-          });
-        }
-      } catch (e) {
-        console.log(e.message);
-      }
-      // const currentDate=new Date()
-    };
-    getBookingDetails();
-  }, []);
-  
+  // useEffect(() => {
+  //   const getBookingDetails = async () => {
+  //     const bookingDetailsUrl = "http://127.0.0.1:5000/api/mybookings";
+  //     const options = {
+  //       method: "GET",
+  //       headers: {
+  //         Authorization: `Bearer ${jwtToken}`,
+  //       },
+  //     };
+  //     const response = await fetch(bookingDetailsUrl, options);
+  //     const currentDate = new Date();
+  //     try {
+  //       if (response.ok) {
+  //         const fetchedBookDetails = await response.json();
+  //         console.log(fetchedBookDetails);
+  //         fetchedBookDetails.bookings.forEach((each) => {
+  //           const convertedDate = new Date(each.slot_date);
+  //           if (convertedDate > currentDate && each.status !== "cancelled") {
+  //             setActiveArray((prev) => [...prev, each]);
+  //           } else if (
+  //             convertedDate < currentDate &&
+  //             each.status !== "cancelled"
+  //           ) {
+  //             setPastArray((prev) => [...prev, each]);
+  //           } else {
+  //             setCancelledArray((prev) => [...prev, each]);
+  //           }
+  //         });
+  //       }
+  //     } catch (e) {
+  //       console.log(e.message);
+  //     }
+  //     // const currentDate=new Date()
+  //   };
+  //   getBookingDetails();
+  // }, []);
+
   useEffect(() => {
     const getProfileDetails = async () => {
       const getUrl = "http://127.0.0.1:5000/api/get/profile";
@@ -258,8 +258,8 @@ function Dashboard() {
           Authorization: `Bearer ${jwtToken}`,
         },
       };
-      const response = await fetch(getUrl, options);
       try {
+        const response = await fetch(getUrl, options);
         if (response.ok) {
           const fetchDetails = await response.json();
           setUserDetails({
@@ -274,7 +274,7 @@ function Dashboard() {
       }
     };
     getProfileDetails();
-  });
+  }, [jwtToken]); // Dependency array ensures this runs only when jwtToken changes
 
   const handleCardClick = (cardIndex) => {
     setActiveCard(cardIndex);
@@ -305,9 +305,9 @@ function Dashboard() {
     doc.save(`usertestdetails.${index + 1}.pdf`);
   };
 
-  console.log(activeArray);
-  console.log(pastArray);
-  console.log(cancelledArray);
+  // console.log(activeArray);
+  // console.log(pastArray);
+  // console.log(cancelledArray);
 
   return (
     <div className="dashboard-container">

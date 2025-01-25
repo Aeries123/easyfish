@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import "./cart.css";
 import { PaymentSummary } from "../PaymentSummary/payment";
 import Popup from "../PopUp/Popup";
+import { MdDelete } from "react-icons/md";
 import { IoCart } from "react-icons/io5";
+import "./index.css";
 
-const Cart = (props) => {
+const PopupCart = (props) => {
   const { cartData, setCartData, clickedIds, setClickedIds } = props;
   const [testsData, setTestsData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -25,8 +26,6 @@ const Cart = (props) => {
       alert("Successfully");
     }
   };
-
-  
 
   const handleAddMoreTests = () => {
     setIsPopupOpened(true);
@@ -73,11 +72,10 @@ const Cart = (props) => {
   const onClickRemove = (test_id) => {
     const newCartData = cartData.filter((each) => each.test_id !== test_id);
     setCartData(newCartData);
-    
+
     const newClickedIds = clickedIds.filter((id) => id !== test_id);
     setClickedIds(newClickedIds);
   };
-  
 
   let totalPrice = 0;
   for (let i of cartData) {
@@ -85,14 +83,15 @@ const Cart = (props) => {
   }
 
   return (
-    <div className="cart-cart-container">
-      <h2 style={{ display: cartData.length !== 0 ? "block" : "none" }}>
+    <div className="popup-cart-cart-container">
+      <h1>Cart</h1>
+      {/* <h2 style={{ display: cartData.length !== 0 ? "block" : "none" }}>
         Tests Added
-      </h2>
+      </h2> */}
       {cartData.length > 0 && (
         <button
           onClick={handleAddMoreTests}
-          className="cart-cart-add-tests-button"
+          className="popup-cart-add-tests-button"
         >
           Add more tests
         </button>
@@ -102,45 +101,40 @@ const Cart = (props) => {
         {cartData.length > 0 ? (
           cartData.map((each) => (
             <>
-              <div key={each.test_id} className="cart-cart-each-item-cart">
+              <div key={each.test_id} className="popup-cart-each-item-cart">
                 <div>
-                  <h3 className="cart-cart-card-title">{each.test_name}</h3>
-                  <h4 className="cart-cart-card-subtitle">{each.cardPara3}</h4>
-                  <p className="cart-cart-card-description">
-                    <strong>Patient Preparation:</strong>{" "}
-                    {each.preparation_instructions}
-                  </p>
+                  <h3 className="popup-cart-card-title">{each.test_name}</h3>
+                  <h4 className="popup-cart-card-subtitle">{each.price}</h4>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column" }}>
-                  <b className="cart-cart-card-price">₹{each.price}</b>
                   <button
-                    className="cart-cart-remove-button"
+                    className="popup-cart-remove-button"
                     onClick={() => onClickRemove(each.test_id)}
                   >
-                    Remove
+                    <MdDelete className="popup-popup-cart-cart-delete-icon" />
                   </button>
                 </div>
               </div>
             </>
           ))
         ) : (
-          <div className="cart-cart-empty-cart-container">
+          <div className="popup-cart-empty-cart-container">
             <img
               src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736576711/empty-cart-shopping-commerce-3d-illustration_66255-2017_ziedxe.avif"
               alt="empty cart"
-              className="cart-cart-empty-cart-image"
+              className="popup-cart-empty-cart-image"
             />
-            <div className="cart-cart-empty-cart-cardcontainer">
-              <h2 className="cart-cart-empty-cart-heading">
+            <div className="popup-cart-empty-cart-cardcontainer">
+              <h2 className="popup-cart-empty-cart-heading">
                 Your Cart is Empty
               </h2>
-              <p className="cart-cart-empty-cart-description">
+              <p className="popup-cart-empty-cart-description">
                 Looks like you haven’t added any tests / health packages to your
                 cart
               </p>
               <button
                 onClick={handleAddMoreTests}
-                className="cart-cart-empty-cart-button"
+                className="popup-cart-empty-cart-button"
               >
                 Add Tests
               </button>
@@ -150,21 +144,21 @@ const Cart = (props) => {
       </div>
 
       {cartData.length > 0 && (
-        <div className="cart-cart-payment-main-container">
-          <div className="cart-cart-payment-icon-container">
-            <IoCart className="cart-icon" />
-            <div className="cart-cart-payment-card-container">
-              <p className="cart-cart-total-amount">₹ {totalPrice}</p>
-              <p className="cart-cart-summary-description">
+        <div className="popup-cart-payment-main-container">
+          <div className="popup-cart-payment-icon-container">
+            <IoCart className="popup-cart-icon" />
+            <div className="popup-cart-payment-card-container">
+              <p className="popup-cart-total-amount">₹ {totalPrice}</p>
+              <p className="popup-cart-summary-description">
                 1 Test & 1 Checkup
               </p>
             </div>
           </div>
           <button
             onClick={onClickProceed}
-            className="cart-cart-payment-button"
+            className="popup-cart-payment-button"
           >
-            <Link className="proceed-button-link" to="/orders/page">
+            <Link className="popup-cart-proceed-button-link" to="/orders/page">
               Proceed
             </Link>
           </button>
@@ -190,4 +184,4 @@ const Cart = (props) => {
   );
 };
 
-export default Cart;
+export default PopupCart;

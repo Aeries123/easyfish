@@ -189,3 +189,21 @@
   overflow-y: auto;
   z-index: 1000;
 }
+
+
+.banner-banner-cart-container {
+  width: 25%;
+  position: fixed;
+  right: 3%;
+  top: 15%;
+  z-index: 9999;
+  overflow-y: scroll;
+  height: 90%;
+
+}
+
+.banner-banner-cart-container::-webkit-scrollbar {
+  display: none; /* Hides scrollbar in WebKit browsers (Chrome, Safari) */
+}
+
+

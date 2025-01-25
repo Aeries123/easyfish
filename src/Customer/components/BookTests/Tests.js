@@ -5,11 +5,17 @@ import FaqQuestions from "../FaqQuestions/FaqQuestions";
 import Carousel from "../Carousel/Carousel";
 import { MdAddCircleOutline } from "react-icons/md";
 import { FiMinusCircle } from "react-icons/fi";
+import Cart from "../Cart/cart";
+import PopupCart from "../PopupCart";
+import Slider from 'react-slick'
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
 
-// import "./Tests.css"; /////// Custom CSS file
+
+import "./Tests.css";
 import { v4 as uuidv4 } from "uuid";
 
-const abcd="test"
+const abcd = "test";
 
 const testArray = [
   {
@@ -102,7 +108,7 @@ const cardImg3 =
 const cardAction = "Book Now";
 
 function Tests(props) {
-  const { setCartData } = props;
+  const { cartData, setCartData, clickedIds, setClickedIds } = props;
   // const [addedItem,setAddedItem]=useState(null)
   // const onClickButtonId=id=>{
   //   setAddedItem(id)
@@ -114,7 +120,7 @@ function Tests(props) {
 
   const [inputValue, setInputValue] = useState("");
 
-  const [clickedIds, setClickedIds] = useState([]);
+  // const [clickedIds, setClickedIds] = useState([]);
 
   const handleButtonClick = (test) => {
     const test_id = test.test_id;
@@ -187,129 +193,199 @@ function Tests(props) {
     each.test_name.toLowerCase().includes(inputValue)
   );
 
+  const PrevArrow = (props) => {
+    const { onClick, style, className } = props;
+    return (
+      <div
+        className={className}
+        style={{
+          ...style,
+          display: "block",
+          color: "white",
+          backgroundColor: "black",
+        }}
+        onClick={onClick}
+      ></div>
+    );
+  };
+  const NextArrow = (props) => {
+    const { onClick, style, className } = props;
+    return (
+      <div
+        className={className}
+        style={{
+          ...style,
+          display: "block",
+          color: "white",
+          backgroundColor: "black",
+        }}
+        onClick={onClick}
+      ></div>
+    );
+  };
+
+  const settings = {
+    slidesToShow: 5,
+    slidesToScroll: 5,
+    centerMode: true,
+    dots: true,
+    arrows: true,
+    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />,
+  };
+
   return (
-    <div className="custom-tests-container">
-      <div className="custom-header-section">
-        <h2 className="custom-main-heading">Book Lab Tests Online</h2>
-        <h2 className="custom-sub-heading">Search By Relevance</h2>
-      </div>
-      <div className="custom-tests-list-container">
-        {testArray.map((test) => (
-          <div className="custom-tests-list-item-container" key={test.id}>
-            <img
-              src={test.image}
-              alt={test.name}
-              className="custom-test-image"
-            />
-            <p className="custom-test-name">{test.name}</p>
+    <div className="tests-tests-main-container-container">
+      <div className="custom-tests-container">
+        <div className="custom-header-section">
+          <h2 className="custom-main-heading">Book Lab Tests Online</h2>
+          <h2 className="custom-sub-heading">Search By Relevance</h2>
+        </div>
+
+        {/* <div className="custom-tests-list-container">
+          <Slider {...settings}>
+            {testArray.map((test) => (
+              <div className="custom-tests-list-item-container" key={test.id}>
+                <img
+                  src={test.image}
+                  alt={test.name}
+                  className="custom-test-image"
+                />
+                <p className="custom-test-name">{test.name}</p>
+              </div>
+            ))}
+          </Slider>
+        </div> */}
+
+
+        <div className="custom-tests-list-container">
+          {testArray.map((test) => (
+            <div className="custom-tests-list-item-container" key={test.id}>
+              <img
+                src={test.image}
+                alt={test.name}
+                className="custom-test-image"
+              />
+              <p className="custom-test-name">{test.name}</p>
+            </div>
+          ))}
+        </div>
+        <div className="custom-tests-search">
+          <div>
+            <h4 className="custom-tests-search-title">Search a Test</h4>
           </div>
-        ))}
-      </div>
-      <div className="custom-tests-search">
-        <div>
-          <h4 className="custom-tests-search-title">Search a Test</h4>
+          <div>
+            <input
+              id="searchTest"
+              placeholder="Search for test and health checkup"
+              autoComplete="off"
+              className="custom-search-input"
+              type="search"
+              value={inputValue}
+              onChange={onChangeTestNames}
+            />
+          </div>
         </div>
-        <div>
-          <input
-            id="searchTest"
-            placeholder="Search for test and health checkup"
-            autoComplete="off"
-            className="custom-search-input"
-            type="search"
-            value={inputValue}
-            onChange={onChangeTestNames}
-          />
-        </div>
-      </div>
-      <div className="custom-tests-sort-section">
-        <div className="custom-tests-sort-sub-section">
-          <span className="custom-sort-label">Sort by:</span>
-          <select name="sort" className="custom-sort-select">
-            <option value="popular">Popular</option>
-            <option value="name">Name</option>
-            <option value="price">Price</option>
-          </select>
-        </div>
-      </div>
-      {/* <Carousel /> */}
-      <div className="custom-test-load-more-button-container">
-        <div className="individual-cards-container">
-          {testsData.length !== 0 ? (
-            filteringData.map((test) => (
-              <div className="individual-card" key={test.test_id}>
-                <div className="test-card-heading-container">
-                  <h4 className="package-heading">{test.test_name}</h4>
-                  <h5 className="card-price-heading">₹{test.price}</h5>
-                </div>
 
-                {/* <hr /> */}
-                <div className="info-container">
-                  <img src={cardImg1} className="info-img" />
-                  <p className="info-container-paragraph">
-                    <strong className="strong">
-                      {test.preparation_instructions}
-                    </strong>
-                  </p>
-                </div>
-                <div className="info-container">
-                  <img src={cardImg2} className="info-img" />
-                  <p className="info-container-paragraph">
-                    <strong className="strong">
-                      Report available in {test.duration}
-                    </strong>
-                  </p>
-                </div>
-                <div className="info-container">
-                  <img src={cardImg3} className="info-img" />
-                  <p className="info-container-paragraph">
-                    <strong className="strong">{test.parameters}</strong>
-                  </p>
-                </div>
+        {/* <div className="custom-tests-sort-section">
+          <div className="custom-tests-sort-sub-section">
+            <span className="custom-sort-label">Sort by:</span>
+            <select name="sort" className="custom-sort-select">
+              <option value="popular">Popular</option>
+              <option value="name">Name</option>
+              <option value="price">Price</option>
+            </select>
+          </div>
+        </div> */}
 
-                <div className="home-types-booking-container">
-                  <ul className="home-types-list">
-                    {test.visit_type.split(", ").map((type, index) => (
-                      <li key={index} className="home-type-item">
-                        {type}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="button-container">
-                    <button
-                      className="buttton"
-                      onClick={() => handleButtonClick(test)}
-                    >
-                      {clickedIds.includes(test.test_id) ? (
-                        <FiMinusCircle className="cart-add-remove-icons" />
-                      ) : (
-                        <p>
-                          <MdAddCircleOutline className="cart-add-remove-icons" />
-                        </p>
-                      )}
-                      {/* <img
+        {/* <Carousel /> */}
+        <div className="custom-test-load-more-button-container">
+          <div className="individual-cards-container">
+            {testsData.length !== 0 ? (
+              filteringData.map((test) => (
+                <div className="individual-card" key={test.test_id}>
+                  <div className="test-card-heading-container">
+                    <h4 className="tests-package-heading">{test.test_name}</h4>
+                    <h5 className="card-price-heading">₹{test.price}</h5>
+                  </div>
+
+                  {/* <hr /> */}
+                  <div className="info-container">
+                    <img src={cardImg1} className="info-img" />
+                    <p className="info-container-paragraph">
+                      <strong className="strong">
+                        {test.preparation_instructions}
+                      </strong>
+                    </p>
+                  </div>
+                  <div className="info-container">
+                    <img src={cardImg2} className="info-img" />
+                    <p className="info-container-paragraph">
+                      <strong className="strong">
+                        Report available in {test.duration}
+                      </strong>
+                    </p>
+                  </div>
+                  <div className="info-container">
+                    <img src={cardImg3} className="info-img" />
+                    <p className="info-container-paragraph">
+                      <strong className="strong">{test.parameters}</strong>
+                    </p>
+                  </div>
+
+                  <div className="home-types-booking-container">
+                    <ul className="home-types-list">
+                      {test.visit_type.split(", ").map((type, index) => (
+                        <li key={index} className="home-type-item">
+                          {type}
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="button-container">
+                      <button
+                        className="buttton"
+                        onClick={() => handleButtonClick(test)}
+                      >
+                        {clickedIds.includes(test.test_id) ? (
+                          <FiMinusCircle className="cart-add-remove-icons" />
+                        ) : (
+                          <p>
+                            <MdAddCircleOutline className="cart-add-remove-icons" />
+                          </p>
+                        )}
+                        {/* <img
                         src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736424675/carts_mjdkfo.png"
                         height="30px"
                         width="30px"
                       /> */}
-                    </button>
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))
-          ) : (
-            <img src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736591529/notfound_nyzkyi.jpg" />
-          )}
-        </div>
+              ))
+            ) : (
+              <img src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736591529/notfound_nyzkyi.jpg" />
+            )}
+          </div>
 
-        {/* <button className="view-button" onClick={onClickViewMore}>
+          {/* <button className="view-button" onClick={onClickViewMore}>
           {buttonContent}
         </button> */}
 
-        <div className="custom-test-load-more-button-container">
-          <button className="custom-test-load-more-button">Load More</button>
+          <div className="custom-test-load-more-button-container">
+            <button className="custom-test-load-more-button">Load More</button>
+          </div>
         </div>
+        <FaqQuestions />
       </div>
-      <FaqQuestions />
+      {/* <div className="tests-tests-cart-cart-container">
+        <PopupCart
+          cartData={cartData}
+          setCartData={setCartData}
+          clickedIds={clickedIds}
+          setClickedIds={setClickedIds}
+        />
+      </div> */}
     </div>
   );
 }

@@ -1,233 +1,181 @@
 import React, { useState, useEffect } from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const ManageCategory = () => {
   const [categories, setCategories] = useState([]);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [categoriesPerPage] = useState(5); // Number of categories per page
-  const [editCategoryId, setEditCategoryId] = useState(null); // For edit functionality
-  const [editCategoryName, setEditCategoryName] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false); // To track deletion state
+  const rowsPerPage = 9;
 
-  // Sample data (you can replace this with actual data from the API)
-  const sampleCategories = [
-    { id: 1, category_name: "Category 1" },
-    { id: 2, category_name: "Category 2" },
-    { id: 3, category_name: "Category 3" },
-    { id: 4, category_name: "Category 4" },
-    { id: 5, category_name: "Category 5" },
-    { id: 6, category_name: "Category 6" },
-    { id: 7, category_name: "Category 7" },
-    { id: 8, category_name: "Category 8" },
-    { id: 9, category_name: "Category 9" },
-    { id: 10, category_name: "Category 10" },
-  ];
-
-  // Fetch categories from the backend when the component mounts
   useEffect(() => {
-    // Simulate fetching categories
-    setCategories(sampleCategories);
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:5000/api/test_category");
+        const data = await response.json();
+        console.log("Fetched categories data:", data);
+
+        if (response.ok) {
+          setCategories(data.data || []);
+        } else {
+          console.error("Error fetching categories:", data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
   }, []);
 
-  // Handle search input change
   const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-    setCurrentPage(1); // Reset to the first page when search query changes
+    setSearchTerm(e.target.value);
+    setCurrentPage(1);
   };
 
-  // Filter categories based on search query
   const filteredCategories = categories.filter((category) =>
-    category.category_name.toLowerCase().includes(searchQuery.toLowerCase())
+    Object.values(category).some(
+      (value) =>
+        value !== null &&
+        value !== undefined &&
+        value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+    )
   );
 
-  // Get current categories for the current page
-  const indexOfLastCategory = currentPage * categoriesPerPage;
-  const indexOfFirstCategory = indexOfLastCategory - categoriesPerPage;
+  const indexOfLastCategory = currentPage * rowsPerPage;
+  const indexOfFirstCategory = indexOfLastCategory - rowsPerPage;
   const currentCategories = filteredCategories.slice(
     indexOfFirstCategory,
     indexOfLastCategory
   );
 
-  // Handle Previous page
-  const handlePrevious = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
+  const totalPages = Math.ceil(filteredCategories.length / rowsPerPage);
 
-  // Handle Next page
-  const handleNext = () => {
-    if (currentPage < Math.ceil(filteredCategories.length / categoriesPerPage)) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
+  const handlePrevious = () => currentPage > 1 && setCurrentPage((prev) => prev - 1);
+  const handleNext = () => currentPage < totalPages && setCurrentPage((prev) => prev + 1);
 
-  // Delete a category
-  const handleDelete = async (categoryId) => {
+  const handleDeleteCategory = async (categoryId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this category?");
+    if (!confirmDelete) return;
+  
+    const updatedCategories = categories.map((category) =>
+      category.category_id === categoryId ? { ...category, isDeleting: true } : category
+    );
+    setCategories(updatedCategories);
+  
     try {
-      // Replace with actual API call to delete category
-      const response = true; // Simulate successful delete
-
-      if (response) {
-        setSuccess("Category deleted successfully!");
-        setCategories(categories.filter((category) => category.id !== categoryId));
+      const response = await fetch(`http://127.0.0.1:5000/api/test_category/${categoryId}`, {
+        method: "DELETE",
+      });
+  
+      if (response.ok) {
+        setCategories(categories.filter((category) => category.category_id !== categoryId));
       } else {
-        setError("Failed to delete category.");
+        console.error("Failed to delete category");
       }
     } catch (error) {
       console.error("Error deleting category:", error);
-      setError("Error connecting to server. Please try again.");
     }
   };
-
-  // Handle editing a category
-  const handleEdit = (categoryId, categoryName) => {
-    setEditCategoryId(categoryId);
-    setEditCategoryName(categoryName);
-  };
-
-  // Handle saving the edited category
-  const handleSaveEdit = () => {
-    if (editCategoryId !== null && editCategoryName.trim() !== "") {
-      // Simulate saving edited category
-      setCategories(
-        categories.map((category) =>
-          category.id === editCategoryId
-            ? { ...category, category_name: editCategoryName }
-            : category
-        )
-      );
-      setSuccess("Category updated successfully!");
-      setEditCategoryId(null); // Close the edit form
-    } else {
-      setError("Category name cannot be empty.");
-    }
-  };
+  
+  
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-4">
       <h2>Manage Categories</h2>
+       <Link to="/admin/category">
+              <button>Add Test</button>
+            </Link>
 
-      {/* Display error or success messages */}
-      {error && <div className="alert alert-danger">{error}</div>}
-      {success && <div className="alert alert-success">{success}</div>}
-
-      {/* Search Bar */}
-      <div className="mb-4">
+      {/* Search Input */}
+      
         <input
           type="text"
           className="form-control"
           placeholder="Search categories..."
-          value={searchQuery}
+          value={searchTerm}
           onChange={handleSearchChange}
         />
-      </div>
+   
 
-      {/* Categories Table */}
-      <table className="table table-bordered mt-4">
-        <thead>
+    
+
+      <table className="table table-bordered">
+        <thead className="thead-dark">
           <tr>
-            <th>Row</th>
+            <th>Category ID</th>
             <th>Category Name</th>
+            <th>Image</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {currentCategories.length > 0 ? (
-            currentCategories.map((category, index) => (
-              <tr key={category.id}>
-                <td>{index + 1}</td> {/* Display row number */}
+            currentCategories.map((category) => (
+              <tr key={category.category_id}>
+                <td>{category.category_id}</td>
                 <td>{category.category_name}</td>
                 <td>
+                  {category.image_url ? (
+                    <img
+                      src={category.image_url}
+                      alt={category.category_name}
+                      width="50"
+                    />
+                  ) : (
+                    "No Image"
+                  )}
+                </td>
+                <td>
+                  <Link to={`/admin/view-category/${category.category_id}`}>
+                    <button className="btn btn-sm btn-info me-2">View</button>
+                  </Link>
+
+                  <Link to={`/admin/edit-category/${category.category_id}`}>
+                    <button className="btn btn-sm btn-primary me-2">
+                      Edit
+                    </button>
+                  </Link>
+
+                  {/* Delete Button */}
                   <button
-                    className="btn btn-primary"
-                    onClick={() => handleEdit(category.id, category.category_name)}
+                    className="btn btn-sm btn-danger"
+                    onClick={() => handleDeleteCategory(category.category_id)}
+                    disabled={isDeleting} // Disable delete while deleting
                   >
-                    Edit
-                  </button>
-                  <button
-                    className="btn btn-danger ms-2"
-                    onClick={() => handleDelete(category.id)}
-                  >
-                    Delete
+                    {isDeleting ? "Deleting..." : "Delete"}
                   </button>
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="3" className="text-center">
-                No categories found.
+              <td colSpan="4" className="text-center">
+                No categories available.
               </td>
             </tr>
           )}
         </tbody>
       </table>
 
-      {/* Edit Category Modal */}
-      {editCategoryId && (
-        <div className="modal" tabIndex="-1" style={{ display: "block" }}>
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Edit Category</h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  onClick={() => setEditCategoryId(null)}
-                ></button>
-              </div>
-              <div className="modal-body">
-                <input
-                  type="text"
-                  className="form-control"
-                  value={editCategoryName}
-                  onChange={(e) => setEditCategoryName(e.target.value)}
-                />
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => setEditCategoryId(null)}
-                >
-                  Close
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={handleSaveEdit}
-                >
-                  Save changes
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Pagination */}
-      <div className="d-flex justify-content-between">
-        {/* Previous Button */}
-        <button
-          className="btn btn-secondary"
-          onClick={handlePrevious}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </button>
-
-        {/* Next Button */}
-        <button
-          className="btn btn-secondary"
-          onClick={handleNext}
-          disabled={currentPage === Math.ceil(filteredCategories.length / categoriesPerPage)}
-        >
-          Next
-        </button>
-      </div>
+      {/* Pagination Controls */}
+      <nav className="mt-3">
+        <ul className="pagination justify-content-center">
+          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+            <button className="page-link" onClick={handlePrevious}>
+              Previous
+            </button>
+          </li>
+          <li
+            className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}
+          >
+            <button className="page-link" onClick={handleNext}>
+              Next
+            </button>
+          </li>
+        </ul>
+      </nav>
     </div>
   );
 };

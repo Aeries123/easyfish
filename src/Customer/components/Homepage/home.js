@@ -10,6 +10,10 @@ import Test from "../Test/Test";
 import { MdAddCircleOutline } from "react-icons/md";
 import { FiMinusCircle } from "react-icons/fi";
 import Whychooseus from "../WhyChooseUs/whychoose";
+import HealthPackages from "../HealthPakages";
+import Banner from "../Banner/Banner";
+import PopupCart from "../PopupCart";
+import Cart from "../Cart/cart";
 
 const tests = [
   {
@@ -67,6 +71,69 @@ const discountImages = [
   },
 ];
 
+const testimonials1 = [
+  {
+    id: 1,
+    text: "This service is absolutely outstanding! The convenience and ease of booking, coupled with the accuracy and speed of the reports, make it a top choice. I highly recommend it to anyone who values quick and reliable health checkups.",
+    author: "John Doe",
+    rating: "⭐ ⭐ ⭐ ⭐ ⭐",
+  },
+  {
+    id: 2,
+    text: "I loved the variety of packages offered and how easy it is to select the one that best fits my needs. The quick turnaround time for reports was impressive, and I felt confident in the results. Great experience overall!",
+    author: "Jane Smith",
+    rating: "⭐ ⭐ ⭐ ⭐",
+  },
+  {
+    id: 3,
+    text: "Affordable, reliable, and efficient! I’ve used their services multiple times, and each experience has been better than the last. The health checkups are thorough, and I always receive accurate results, making this my go-to provider.",
+    author: "Robert Brown",
+    rating: "⭐ ⭐ ⭐ ⭐ ⭐",
+  },
+  {
+    id: 4,
+    text: "Great customer support and timely service. I had some questions about the tests I needed, and their team was quick to provide clear answers. The service was on time, and the reports were delivered as promised. I trust them for all my health checkup needs.",
+    author: "Emily Davis",
+    rating: "⭐ ⭐ ⭐ ⭐ ⭐",
+  },
+  {
+    id: 5,
+    text: "The home sample collection service is so convenient! I didn’t have to leave my home to get the tests done, and the reports were available on the portal in no time. Very efficient and customer-centric.",
+    author: "Michael Wilson",
+    rating: "⭐ ⭐ ⭐ ⭐",
+  },
+  {
+    id: 6,
+    text: "I was a bit skeptical at first, but this service exceeded my expectations. The process was smooth, the staff was friendly, and the reports were delivered faster than expected. I am thoroughly impressed and will definitely continue using it.",
+    author: "Sara Johnson",
+    rating: "⭐ ⭐ ⭐ ⭐ ⭐",
+  },
+  {
+    id: 7,
+    text: "The affordability of the packages was the first thing that attracted me, but the quality of the tests and customer service is what keeps me coming back. I’ve recommended it to all my family and friends!",
+    author: "David Lee",
+    rating: "⭐ ⭐ ⭐ ⭐ ⭐",
+  },
+  {
+    id: 8,
+    text: "I’ve been using this service for regular checkups, and each time it’s been a seamless experience. From booking the tests online to receiving reports on time, everything is top-notch. I wouldn’t trust anyone else with my health.",
+    author: "Olivia Green",
+    rating: "⭐ ⭐ ⭐ ⭐",
+  },
+  {
+    id: 9,
+    text: "I was impressed by how easy it was to book and manage my tests. The clarity of the results was also fantastic, and I appreciated the detailed reports. Excellent service all around!",
+    author: "Ethan Clark",
+    rating: "⭐ ⭐ ⭐ ⭐ ⭐",
+  },
+  {
+    id: 10,
+    text: "As a busy professional, I appreciate the convenience of this service. It’s quick, reliable, and hassle-free. My health checkups have never been more straightforward, and I’m grateful for this service’s efficiency.",
+    author: "Sophia Harris",
+    rating: "⭐ ⭐ ⭐ ⭐ ⭐",
+  },
+];
+
 const PrevArrow = (props) => {
   const { className, style, onClick } = props;
   return (
@@ -98,52 +165,17 @@ const NextArrow = (props) => {
   );
 };
 
-const settings = {
-  //
-  slidesToShow: 3,
-  slidesToScroll: 3,
-  autoplay: true,
-  autoplaySpeed: 2000,
-  // centerMode:true,
-  infinite: true,
-  arrows: true,
-  dots: true,
-  prevArrow: <PrevArrow />,
-  nextArrow: <NextArrow />,
-  responsive: [
-    {
-      breakpoint: 478,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 3,
-        centerMode: false,
-        autoplay: true,
-        autoplaySpeed: 2000,
-        arrows: false,
-      },
-    },
-  ],
-};
-
-const cardImg1 =
-  "https://res.cloudinary.com/ddjsaoac6/image/upload/v1736228391/info_xtk8xt.png";
-const cardImg2 =
-  "https://res.cloudinary.com/ddjsaoac6/image/upload/v1736228485/edit-info_1_dcyeqi.png";
-const cardImg3 =
-  "https://res.cloudinary.com/ddjsaoac6/image/upload/v1736228581/document_wtfacr.png";
-
 const Home = (props) => {
-  const { cartData, setCartData,clickedIds,setClickedIds } = props;
+  const { cartData, setCartData, clickedIds, setClickedIds } = props;
   const [isFullDataVisible, setIsFullDataVisible] = useState(false);
   const [isAllImagesVisible, setImagesAllVisible] = useState(false);
-  // const [clickedIds, setClickedIds] = useState([]);
   const [testsData, setTestsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const scrollContainerRef = useRef(null);
 
-  console.log("home data", testsData);
+  console.log("home afwrvg", testsData);
 
   useEffect(() => {
     const endpoint = "http://127.0.0.1:5000/api/tests"; // API endpoint to fetch data from
@@ -165,21 +197,14 @@ const Home = (props) => {
         setError(err.message); // Handle any errors that occur during the fetch
         setLoading(false); // Set loading to false if an error occurs
       });
-  }, []); // Empty dependency array means this effect runs once when the component mounts
-
-  useEffect(() => {
-    // Ensure initial setup is correct when component mounts.
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollLeft = 0; // Reset to the leftmost position initially.
-    }
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading message while data is being fetched
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>; // Show error message if there's an issue with the fetch
+    return <div>Error: {error}</div>;
   }
 
   const handleScroll = (direction) => {
@@ -210,6 +235,20 @@ const Home = (props) => {
     }
   };
 
+  const scrollLeft = () => {
+    scrollContainerRef.current.scrollBy({
+      left: -300,
+      behavior: "smooth",
+    });
+  };
+
+  const scrollRight = () => {
+    scrollContainerRef.current.scrollBy({
+      left: 300,
+      behavior: "smooth",
+    });
+  };
+
   const onClickBookKNow = (each) => {
     setCartData((prev) => [...prev, each]);
   };
@@ -223,13 +262,15 @@ const Home = (props) => {
   return (
     <div className="home-container">
       <CarouselContainer />
-      <Test
-        testsData={testsData}
-        setCartData={setCartData}
-        cartData={cartData}
-        setClickedIds={setClickedIds}
-        clickedIds={clickedIds}
-      />
+      <div className="home-home-test-component-container">
+        <Test
+          testsData={testsData}
+          setCartData={setCartData}
+          cartData={cartData}
+          setClickedIds={setClickedIds}
+          clickedIds={clickedIds}
+        />
+      </div>
       {/* <div className="tests-container">
         {tests.map((each) => (
           <div key={each.imageName} className="home-image-container">
@@ -240,150 +281,206 @@ const Home = (props) => {
           </div>
         ))}
       </div> */}
-      
       <div className="cards-container">
         <h2 className="popular-package-heading">Popular Tests / Packages</h2>
+        <div className="health-packages-container">
+          <div className="test-individual-health-packages-container">
+            <div className="test-individual-scroll-buttons">
+              <button
+                className="test-individual-scroll-button left"
+                onClick={scrollLeft}
+              >
+                &#8249;
+              </button>
+              <div
+                className="test-individual-test-card-container"
+                ref={scrollContainerRef}
+              >
+                {testsData.length !== 0 ? (
+                  testsData.map((test) => (
+                    <div
+                      key={test.test_id}
+                      className="test-individual-test-card"
+                    >
+                      <div className="test-individual-test-card-title-container">
+                        <h3 className="test-individual-test-card-title">
+                          {test.test_name}
+                        </h3>
+                        <p className="test-individual-test-card-price">
+                          ₹{test.price}
+                        </p>
+                      </div>
 
-        <div className="scroll-wrapper">
-          <button
-            className="scroll-button left"
-            onClick={() => handleScroll("left")}
-          >
-            &#8592; {/* Left Arrow */}
-          </button>
-          <div className="individual-cards-container" ref={scrollContainerRef}>
-            {testsData.length !== 0 ? (
-              testsData.map((test) => (
-                <div className="individual-card" key={test.test_id}>
-                  <div className="test-card-heading-container">
-                    <h4 className="package-heading">{test.test_name}</h4>
-                    <h5 className="card-price-heading">₹{test.price}</h5>
-                  </div>
-                  <div className="info-container">
-                    <img src={cardImg1} className="info-img" />
-                    <p className="info-container-paragraph">
-                      <strong className="strong">
-                        {test.preparation_instructions}
-                      </strong>
-                    </p>
-                  </div>
-                  <div className="info-container">
-                    <img src={cardImg2} className="info-img" />
-                    <p className="info-container-paragraph">
-                      <strong className="strong">
-                        Report available in {test.duration}
-                      </strong>
-                    </p>
-                  </div>
-                  <div className="info-container">
-                    <img src={cardImg3} className="info-img" />
-                    <p className="info-container-paragraph">
-                      <strong className="strong">{test.parameters}</strong>
-                    </p>
-                  </div>
-                  <div className="home-types-booking-container">
-                    <ul className="home-types-list">
-                      {test.visit_type.split(", ").map((type, index) => (
-                        <li key={index} className="home-type-item">
-                          {type}
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="button-container">
-                      <button
-                        className="buttton"
-                        onClick={() => handleButtonClick(test)}
-                      >
-                        {clickedIds.includes(test.test_id) ? (
-                          <FiMinusCircle className="cart-add-remove-icons" />
-                        ) : (
-                          <MdAddCircleOutline className="cart-add-remove-icons" />
-                        )}
-                      </button>
+                      <div className="test-individual-popular-test-info-container">
+                        <img
+                          src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736228391/info_xtk8xt.png"
+                          alt="Test preparation instructions"
+                          className="test-individual-info-img"
+                        />
+                        <p className="test-individual-popular-test-info-container-paragraph">
+                          <strong className="test-individual-popular-test-strong">
+                            {test.preparation_instructions}
+                          </strong>
+                        </p>
+                      </div>
+
+                      <div className="test-individual-popular-test-info-container">
+                        <img
+                          src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736228485/edit-info_1_dcyeqi.png"
+                          alt="Test report duration"
+                          className="test-individual-info-img"
+                        />
+                        <p className="test-individual-popular-test-info-container-paragraph">
+                          <strong className="test-individual-popular-test-strong">
+                            Report available in {test.duration}
+                          </strong>
+                        </p>
+                      </div>
+
+                      <div className="test-individual-popular-test-info-container">
+                        <img
+                          src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736228581/document_wtfacr.png"
+                          alt="Test parameters"
+                          className="test-individual-info-img"
+                        />
+                        <p className="test-individual-popular-test-info-container-paragraph">
+                          <strong className="test-individual-popular-test-strong">
+                            {test.parameters}
+                          </strong>
+                        </p>
+                      </div>
+
+                      <div className="test-individual-popular-test-home-types-booking-container">
+                        <ul className="test-individual-popular-test-home-types-list">
+                          {test.visit_type.split(", ").map((type, index) => (
+                            <li
+                              key={index}
+                              className="test-individual-popular-test-home-type-item"
+                            >
+                              {type}
+                            </li>
+                          ))}
+                        </ul>
+                        <div className="test-individual-popular-test-button-container">
+                          <button
+                            className="test-individual-popular-test-button"
+                            onClick={() => handleButtonClick(test)}
+                          >
+                            {clickedIds.includes(test.test_id) ? (
+                              <FiMinusCircle className="test-individual-cart-add-remove-icons" />
+                            ) : (
+                              <MdAddCircleOutline className="test-individual-cart-add-remove-icons" />
+                            )}
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* <div className="test-card-description-container">
+                            <p className="test-card-description">{test.parameters}</p>
+                            <p className="test-card-description">
+                              Report available in {test.duration}
+                            </p>
+                          </div>
+                          <div className="test-card-button-container">
+                            <button className="test-card-button">View Details</button>
+                            <button
+                              className="test-card-button"
+                              onClick={() => handleButtonClick(test)}
+                            >
+                              {clickedIds.includes(test.test_id) ? (
+                                <FiMinusCircle className="cart-add-remove-icons" />
+                              ) : (
+                                <MdAddCircleOutline className="cart-add-remove-icons" />
+                              )}
+                            </button>
+                          </div> */}
                     </div>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <img src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736591529/notfound_nyzkyi.jpg" />
-            )}
+                  ))
+                ) : (
+                  <img
+                    src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736591529/notfound_nyzkyi.jpg"
+                    alt="No tests found"
+                    className="test-individual-no-data-img"
+                  />
+                )}
+              </div>
+              <button
+                className="test-individual-scroll-button right"
+                onClick={scrollRight}
+              >
+                &#8250;
+              </button>
+            </div>
           </div>
-          <button
-            className="scroll-button right"
-            onClick={() => handleScroll("right")}
-          >
-            &#8594; {/* Right Arrow */}
-          </button>
         </div>
-
-        <button className="view-button" onClick={onClickViewMore}>
-          {buttonContent}
-        </button>
-        <div className="why-choose-us-container">
-          <h2 className="why-choose-us-heading">
+        <div className="testimonials-container">
+          <h2 className="testimonials-heading">
             <strong>AccessPath Labs</strong>
           </h2>
-          <div className="why-choose-us-sub-container">
-            <div className="why-choose-us-card-container-1">
-              <p className="why-choose-us-paragraph">
-                Access Pathlabs is your trusted partner in delivering advanced
-                diagnostic solutions with precision, reliability, and care.
-                Combining cutting-edge technology and the expertise of our
-                skilled pathologists, we offer a wide spectrum of tests, from
-                routine health screenings to specialized diagnostics, tailored
-                to meet your unique healthcare needs. With our seamless home
-                sample collection services, secure and fast online reports, and
-                round-the-clock customer support, we prioritize your convenience
-                every step of the way. Our commitment to quality, affordability,
-                and innovation ensures that you receive accurate results and
-                dependable services, empowering you to make informed decisions
-                about your health. By adhering to stringent quality standards
-                and adopting the latest methodologies, Access Pathylabs
-                redefines the diagnostic experience, making healthcare
-                accessible, affordable, and hassle-free for everyone. Choose us
-                to experience the perfect blend of technology-driven solutions
-                and compassionate patient care, because your health deserves
-                nothing but the best.
+          <div className="testimonials-sub-container">
+            <div className="testimonials-about-container">
+              <p className="testimonials-paragraph">
+                At AccessPath Labs, we are committed to revolutionizing the
+                healthcare experience by combining cutting-edge technology with
+                expert medical care to provide precise and reliable diagnostic
+                solutions. Our comprehensive services cover a wide range of
+                diagnostic tests, including home sample collection, ensuring
+                that you can access our services from the comfort of your home.
+                We prioritize speed and accuracy, delivering fast online reports
+                so that you can make informed decisions about your health
+                without delay. Our team of skilled pathologists and medical
+                professionals works tirelessly to ensure the highest quality of
+                results. Additionally, we offer 24/7 customer support, so you
+                can always reach out for assistance, whether you have questions
+                about your test, need help interpreting your results, or require
+                support at any step along the way.
               </p>
             </div>
-            <div className="why-choose-us-card-container-2">
-              <div className="why-choose-us-tesimonials">
-                <p>1</p>
-              </div>
-              <div className="why-choose-us-tesimonials">
-                <p>2</p>
-              </div>
-              <div>
-                <p>3</p>
-              </div>
-              <div>
-                <p>4</p>
+            <div className="testimonials-slider-container">
+              <h1 className="testimonials-slider-heading">Testimonials</h1>
+              <div className="testimonials-slider">
+                {testimonials1.map((testimonial) => (
+                  <div key={testimonial.id} className="testimonials-card">
+                    <p className="testimonials-text">"{testimonial.text}"</p>
+                    <p className="testimonials-author">
+                      - {testimonial.rating}
+                    </p>
+                    <p className="testimonials-author">
+                      - {testimonial.author}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div></div>
+      <div className="banner-banner-cart-container">
+        {cartData.length > 0 && (
+          <div>
+            <Cart
+              cartData={cartData}
+              setCartData={setCartData}
+              setClickedIds={setClickedIds}
+              clickedIds={clickedIds}
+            />
+          </div>
+        )}
+      </div>
+      <div className="health-packages-container">
+        <HealthPackages
+          setCartData={setCartData}
+          cartData={cartData}
+          setClickedIds={setClickedIds}
+          clickedIds={clickedIds}
+        />
+      </div>
       <div className="slider-main-container">
-        <h2 className="package-heading">Promotions & Discounts</h2>
-        <div className="slider-container">
-          <Slider {...settings}>
-            {discountImages.map((each) => (
-              <img
-                key={each.imageName}
-                src={each.imageUrl}
-                alt={each.imageName}
-                className="discount-images"
-              />
-            ))}
-          </Slider>
-        </div>
         <h2 className="package-heading">Why Choose Us</h2>
         <Whychooseus />
         <h2 className="questions-heading">Frequently Asked Questions(FAQs)</h2>
         <FaqQuestions />
       </div>
-      //{" "}
     </div>
   );
 };

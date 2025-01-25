@@ -28,7 +28,7 @@ export const Header = () => {
 
   return (
     <>
-      <div>
+      <div className="header-container">
         <div className="header-img">
           <div>
             <Link to="/">
@@ -48,7 +48,7 @@ export const Header = () => {
           <div className="header-right-component">
             <div className="header-heading-names">
               <Link to="/book-test">
-                <button className="header-elements">Tests</button>
+                <h1 className="header-header-elements">Tests</h1>
               </Link>
               {/* <Link to="/sample">
               {" "}
@@ -89,43 +89,7 @@ export const Header = () => {
             />
           </div>
         </div>
-        {/* <header className="header-container">
-          <div className="navbar-toggle">
-            <img
-              src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736163989/menu_tyorem.png"
-              height="30px"
-              width="30px"
-              onClick={onClickNavButton}
-              alt="menu icon"
-            />
-          </div>
-          <div
-            className={`header-elements-container ${
-              isMenuVisible ? "active" : ""
-            }`}
-          >
-            {headerElements.map((each) => (
-              <Link
-                to={each.elementPath}
-                style={{ textDecoration: "none", color: "white" }}
-                key={each.elementPath}
-              >
-                <h6 className="header-elements">{each.elementName}</h6>
-              </Link>
-            ))}
-          </div>
-          <Link to="/cart">
-            <img
-              src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736573349/shopping_mapkoe.png"
-              height="70px"
-              width="70px"
-              className="cart-icon"
-              alt="cart icon"
-            />
-          </Link>
-        </header> */}
       </div>
     </>
   );
 };
-

@@ -6,40 +6,51 @@ import "./Sidebar.css"; // Add CSS for styling
 const Sidebar = () => {
   const links = [
     { path: "/admin/", label: "Dashboard" },
-    { path: "/admin/review", label: "Reviews" },
     { path: "/admin/login", label: "Login" },
-    { path: "/admin/manage-category", label: "Manage Categories" },
-    { path: "/admin/lab-technician-form", label: "Lab Technician Form" },
-    { path: "/admin/payment", label: "Payments" },
-    { path: "/admin/notification", label: "Notifications" },
-    { path: "/admin/test-results", label: "Test Results" },
-    { path: "/admin/test-parameters", label: "Test Parameters" },
-    { path: "/admin/test-sample-types", label: "Test Sample Types" },
-    { path: "/admin/customer", label: "Customers" },
-    { path: "/admin/manage-customer", label: "Manage Customers" },
-    { path: "/admin/manage-appointment", label: "Manage Appointments" },
-    { path: "/admin/manage-time-slots", label: "Manage Time Slots" },
-    { path: "/admin/tests-form", label: "Tests Form" },
-    { path: "/admin/addresses", label: "Addresses" },
-    { path: "/admin/admin-form", label: "Admin Form" },
-    { path: "/admin/booking", label: "Booking" },
-    { path: "/admin/appointment-summary", label: "Appointment Summary" },
-    { path: "/admin/bookings-form", label: "Bookings Form" },
-    { path: "/admin/category", label: "Categories" },
     { path: "/admin/manage-booking", label: "Manage Bookings" },
-    { path: "/admin/manage-notification", label: "Manage Notifications" },
-    { path: "/admin/manage-admin", label: "Manage Admins" },
-    { path: "/admin/manage-address", label: "Manage Addresses" },
+    { path: "/admin/manage-tests", label: "Manage Tests" },
+    { path: "/admin/manage-customer", label: "Manage Customers" },
+    { path: "/admin/customer", label: "Customers" },
     { path: "/admin/manage-review", label: "Manage Reviews" },
     { path: "/admin/manage-payment", label: "Manage Payments" },
-    { path: "/admin/manage-test-results", label: "Manage Test Results" },
-    { path: "/admin/manage-tests", label: "Manage Tests" },
-    { path: "/admin/manage-users", label: "Manage Users" },
-    { path: "/admin/time-slots", label: "Time Slots" },
-    { path: "/admin/users", label: "Users" },
-    { path: "/admin/manage-test-parameters", label: "Manage Test Parameters" },
-    { path: "/admin/manage-test-sample-types", label: "Manage Test Sample Types" },
-    { path: "/admin/manage-test-visit-types", label: "Manage Test Visit Types" },
+    { path: "/admin/manage-category", label: "Manage Categories" },
+    { path: "/admin/category", label: "Categories" },
+    { path: "/admin/manage-notification", label: "Manage Notifications" },
+    { path: "/admin/settings", label: "Settings" },
+    { path: "/admin/review", label: "Reviews" },
+    
+    
+    // { path: "/admin/lab-technician-form", label: "Lab Technician Form" },
+    // { path: "/admin/payment", label: "Payments" },
+    // { path: "/admin/notification", label: "Notifications" },
+    // { path: "/admin/test-results", label: "Test Results" },
+    // { path: "/admin/test-parameters", label: "Test Parameters" },
+    // { path: "/admin/test-sample-types", label: "Test Sample Types" },
+    
+    
+    // { path: "/admin/manage-appointment", label: "Manage Appointments" },
+    // { path: "/admin/manage-time-slots", label: "Manage Time Slots" },
+    // { path: "/admin/tests-form", label: "Tests Form" },
+    // { path: "/admin/addresses", label: "Addresses" },
+    // { path: "/admin/admin-form", label: "Admin Form" },
+    // { path: "/admin/booking", label: "Booking" },
+    // { path: "/admin/appointment-summary", label: "Appointment Summary" },
+    // { path: "/admin/bookings-form", label: "Bookings Form" },
+    
+    
+    
+    // { path: "/admin/manage-admin", label: "Manage Admins" },
+    // { path: "/admin/manage-address", label: "Manage Addresses" },
+    
+    
+    // { path: "/admin/manage-test-results", label: "Manage Test Results" },
+    
+    // { path: "/admin/manage-users", label: "Manage Users" },
+    // { path: "/admin/time-slots", label: "Time Slots" },
+    // { path: "/admin/users", label: "Users" },
+    // { path: "/admin/manage-test-parameters", label: "Manage Test Parameters" },
+    // { path: "/admin/manage-test-sample-types", label: "Manage Test Sample Types" },
+    // { path: "/admin/manage-test-visit-types", label: "Manage Test Visit Types" },
   ];
 
   return (

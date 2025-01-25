@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { CartSlider } from "../CartSlider/cartslider";
+// import { CartSlider } from "../CartSlider/cartslider";
+
+import Cart from "../Cart/cart";
 
 import Popup from "../PopUp/Popup";
 
@@ -10,6 +12,7 @@ import { FaCartArrowDown } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Cookies from "js-cookie";
+import PopupCart from "../PopupCart";
 
 const Banner = (props) => {
   const navigate = useNavigate();
@@ -90,20 +93,26 @@ const Banner = (props) => {
         filteredData={filteredData}
         handleButtonClick={handleButtonClick}
         clickedIds={clickedIds}
+        setClickedIds={setClickedIds}
+        setCartData={setCartData}
         cartData={cartData}
         totalPrice={totalPrice}
         name={name}
         onChangeInput={onChangeInput}
         onClickProceed={onClickProceed}
       />
-      {cartData.length > 0 && (
-        <CartSlider
-          cartData={cartData}
-          setCartData={setCartData}
-          setClickedIds={setClickedIds}
-          clickedIds={clickedIds}
-        />
-      )}
+      <div className="banner-banner-cart-container">
+        {cartData.length > 0 && (
+          <div>
+            <Cart
+              cartData={cartData}
+              setCartData={setCartData}
+              setClickedIds={setClickedIds}
+              clickedIds={clickedIds}
+            />
+          </div>
+        )}
+      </div>
     </>
   );
 };

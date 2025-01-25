@@ -39,6 +39,15 @@ import ManageTestVisitTypes from "./components/manageTestVisitTypes";
 import AdminLogin from "./components/AdminLogin/AdminLogin";
 import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
 
+import AdminEditBookingsForm from "./components/AdminEditBookingsForm";
+import AdminViewBookingsForm from "./components/AdminViewBookingForm";
+import AdminEditCategory from "./components/AdminEditCategory";
+import AdminViewCategory from "./components/AdminViewCategory";
+import AdminEditTests from "./components/AdminEditTests";
+import AdminViewTests from "./components/AdminViewTests";
+import AdminEditCustomer from "./components/AdminEditCustomer";
+import AdminViewCustomer from "./components/AdminViewCustomer";
+
 import "./AdminRoutes.css";
 
 const AdminRoutes = () => {
@@ -46,10 +55,8 @@ const AdminRoutes = () => {
     <div>
       {/* <Header /> */}
       <div className="admin-route-app-container">
-        <div className="admin-route-app-container-1">
-          <Sidebar />
-        </div>
-        <div className="admin-route-app-container-2">
+        <Sidebar />
+        <div style={{ alignSelf: "flex-start" }}>
           <Routes>
             <Route path="/admin/" element={<AdminDashboard />} />
             <Route path="/admin/review" element={<Review />} />
@@ -117,6 +124,40 @@ const AdminRoutes = () => {
             <Route
               path="/admin/manage-test-visit-types"
               element={<ManageTestVisitTypes />}
+            />
+            <Route
+              path="/admin/edit-booking/:id"
+              element={<AdminEditBookingsForm />}
+            />
+            <Route
+              path="/admin/view-booking/:id"
+              element={<AdminViewBookingsForm />}
+            />
+            <Route
+              path="/admin/view-category/:categoryId"
+              element={<AdminViewCategory />}
+            />
+
+            <Route
+              path="/admin/edit-category/:categoryId"
+              element={<AdminEditCategory />}
+            />
+            <Route
+              path="/admin/edit-tests/:testId"
+              element={<AdminEditTests />}
+            />
+            <Route
+              path="/admin/view-tests/:testId"
+              element={<AdminViewTests />}
+            />
+
+            <Route
+              path="/admin/view-customer/:customerId"
+              element={<AdminViewCustomer />}
+            />
+            <Route
+              path="/admin/edit-customer/:customerId"
+              element={<AdminEditCustomer />}
             />
           </Routes>
         </div>
