@@ -7,10 +7,9 @@ import { MdAddCircleOutline } from "react-icons/md";
 import { FiMinusCircle } from "react-icons/fi";
 import Cart from "../Cart/cart";
 import PopupCart from "../PopupCart";
-import Slider from 'react-slick'
-import "slick-carousel/slick/slick.css"
-import "slick-carousel/slick/slick-theme.css"
-
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 import "./Tests.css";
 import { v4 as uuidv4 } from "uuid";
@@ -238,8 +237,8 @@ function Tests(props) {
     <div className="tests-tests-main-container-container">
       <div className="custom-tests-container">
         <div className="custom-header-section">
-          <h2 className="custom-main-heading">Book Lab Tests Online</h2>
-          <h2 className="custom-sub-heading">Search By Relevance</h2>
+          {/* <h2 className="custom-main-heading">Book Lab Tests Online</h2>
+          <h2 className="custom-sub-heading">Search By Relevance</h2> */}
         </div>
 
         {/* <div className="custom-tests-list-container">
@@ -257,7 +256,6 @@ function Tests(props) {
           </Slider>
         </div> */}
 
-
         <div className="custom-tests-list-container">
           {testArray.map((test) => (
             <div className="custom-tests-list-item-container" key={test.id}>
@@ -271,9 +269,9 @@ function Tests(props) {
           ))}
         </div>
         <div className="custom-tests-search">
-          <div>
+          {/* <div>
             <h4 className="custom-tests-search-title">Search a Test</h4>
-          </div>
+          </div> */}
           <div>
             <input
               id="searchTest"

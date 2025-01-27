@@ -2,199 +2,246 @@
 /* dashboard.css */
 
 /* Main container */
-.dashboard-container {
-    padding: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
+.customer-dashboard-container {
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Dashboard Heading */
+.customer-dashboard-heading {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: #6f42c1;
+  text-decoration: underline;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+/* Overall Content Column */
+.customer-dashboard-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Card Row (all cards will be in this row) */
+.customer-dashboard-card-row {
+  display: flex;
+  /* flex-wrap: wrap; */
+  justify-content: space-between;
+  margin-bottom: 40px;
+  gap: 20px;
+  animation: slide-in 1s ease;
+  width:100%;
+}
+@keyframes slide-in {
+  from{
+    transform: translateX(100%);
+  }
+  to{
+    transform: translateX(0);
   }
   
-  /* Dashboard Heading */
-  .dashboard-heading {
-    font-size: 2.5rem;
-    font-weight: bold;
-    text-align: center;
-    color: #6f42c1;
-    text-decoration: underline;
-    margin-bottom: 40px;
-  }
+}
+
+/* Card Container (applies to each card) */
+/* .customer-dashboard-card-container {
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  flex-basis: 22%;
+  min-width: 250px;
+  margin: 30px;
+
+} */
+
+/* .customer-dashboard-card-container:hover {
+  transform: translateY(-8px);
   
-  /* Overall Content Column */
-  .dashboard-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  background-color: purple;
+} */
+
+/* Active Card (to highlight when selected) */
+.customer-dashboard-active-card {
+  border: 2px solid #6f42c1;
+}
+
+/* Profile Card */
+.customer-dashboard-profile-card {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 2px 2px  2px 4px rgba(0, 0, 0, 0.1),-2px -2px  2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  width:100%;
+  height:100%;
+}
+
+.customer-dashboard-profile-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.customer-dashboard-profile-info {
+  text-align: left;
+}
+
+.customer-dashboard-profile-name {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.customer-dashboard-profile-email, .customer-dashboard-profile-phone {
+  color: #555;
+}
+
+.customer-dashboard-edit-profile-btn {
+  background-color: #6f42c1;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 5px;
+  margin-top: 15px;
+  cursor: pointer;
+  width:100%;
+  font-size: 15px;
+}
+
+.customer-dashboard-edit-profile-btn:hover {
+  background-color: #5a2c8d;
+}
+
+/* Small Card for Bookings, Sample Tracking, Reports */
+.customer-dashboard-small-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 2px 2px  2px 4px rgba(0, 0, 0, 0.1),-2px -2px  2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 20px;
+  height:100%;
+  width:100%;
+}
+
+.customer-dashboard-card-img {
+  width: 60%;
+  max-width: 180px;
+  margin-bottom: 15px;
+}
+
+.customer-dashboard-card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Order History Card */
+.customer-dashboard-order-history-card {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2),-1px -1px 1px 1px rgba(0,0,0,0.2);
+  width:109%;
+  display:flex;
+  flex-direction: column;
+}
+
+.customer-dashboard-order-history-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #6f42c1;
+}
+
+.customer-dashboard-search-input {
+  width: 200px;
+  padding: 8px;
+  margin-top: 10px;
+  align-self: flex-end;
+}
+
+.customer-dashboard-order-type-section {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
   
-  /* Card Row (all cards will be in this row) */
-  .card-row {
-    display: flex;
-    /* flex-wrap: wrap; */
-    justify-content: space-between;
-    margin-bottom: 40px;
-    gap: 20px;
-  }
-  
-  /* Card Container (applies to each card) */
-  .card-container {
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    flex-basis: 22%;
-    min-width: 250px;
-    margin: 30px;
-  }
-  
-  .card-container:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    background-color: purple;
-  }
-  
-  /* Active Card (to highlight when selected) */
-  .active-card {
-    border: 2px solid #6f42c1;
-  }
-  
-  /* Profile Card */
-  .profile-card {
-    display: flex;
-    align-items: center;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    width:100%;
-  }
-  
-  .profile-img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    margin-right: 20px;
-  }
-  
-  .profile-info {
-    text-align: left;
-  }
-  
-  .profile-name {
-    font-size: 1.25rem;
-    font-weight: bold;
-  }
-  
-  .profile-email, .profile-phone {
-    color: #555;
-  }
-  
-  .edit-profile-btn {
-    background-color: #6f42c1;
-    color: white;
-    border: none;
-    padding: 8px 20px;
-    border-radius: 5px;
-    margin-top: 15px;
-    cursor: pointer;
-    width:100%;
-    font-size: 15px;
-  }
-  
-  .edit-profile-btn:hover {
-    background-color: #5a2c8d;
-  }
-  
-  /* Small Card for Bookings, Sample Tracking, Reports */
-  .small-card {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .card-img {
-    width: 60%;
-    max-width: 180px;
-    margin-bottom: 15px;
-  }
-  
-  .card-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  /* Order History Card */
-  .order-history-card {
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 30px;
-    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2),-1px -1px 1px 1px rgba(0,0,0,0.2);
-    width:109%;
-    display:flex;
-    flex-direction: column;
-  }
-  
-  .order-history-title {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #6f42c1;
-  }
-  
-  .search-input {
-    width: 200px;
-    padding: 8px;
-    margin-top: 10px;
-    align-self: flex-end;
-  }
-  
-  .order-type-section {
-    display: flex;
-    flex-direction: column;
-    /* justify-content: space-between; */
-    
-    margin-top: 20px;
-  }
-  .order-buttons-container{
-    display:flex;
-    justify-content: space-around;
-    margin-bottom:10px ;
+  margin-top: 20px;
+}
+.customer-dashboard-order-buttons-container{
+  display:flex;
+  justify-content: space-around;
+  margin-bottom:10px ;
 
 
-  }
-  .order-button{
-    width:20%;
-    background-color: black;
-    color:white;
-    padding: 10px;
-    border-width:0px;
-    border-radius: 10px;
-    margin: 10px;
-  }
+}
+.customer-dashboard-order-button{
+  width:20%;
+  background-color: purple;
+  color:white;
+  padding: 10px;
+  border-width:0px;
+  border-radius: 10px;
+  margin: 10px;
+  transition: transform 0.9s ease;
+
+}
+.customer-dashboard-order-button:active{
+  background-color: black;
+  transform: scale(1.2);
+  color:white;
+}
+.customer-dashboard-order-button:focus{
+  background-color: green;
+}
+
+.customer-dashboard-order-type {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.customer-dashboard-order-type:hover {
+  color: #6f42c1;
+}
+
+.customer-dashboard-order-details {
+  margin-top: 20px;
+}
+
+/* Tracking Card */
+.customer-dashboard-tracking-card {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 2px 4
+}  
+.customer-dashboard-reports-card{
+  width:100%;
+  display: flex;
+  flex-direction: column;
+  padding-left: 57px ;
   
-  
-  .order-type {
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  .order-type:hover {
-    color: #6f42c1;
-  }
-  
-  .order-details {
-    margin-top: 20px;
-  }
-  
-  /* Tracking Card */
-  .tracking-card {
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 30px;
-    box-shadow: 0 2px 4
-  }  
-  .reports-card{
-    width:100%;
-    display: flex;
-    flex-direction: column;
-    padding-left: 57px ;
-    
-  } 
+} 
+.cellStyle {
+  border: 1px solid black;
+  padding: 8px;
+  font-size: 14px;
+  font-family: "Arial, sans-serif";
+}
+
+.tableStyle {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Arial, sans-serif";
+}
+
+.headerRow {
+  background-color: #f2f2f2;
+  text-align: center;
+}
+
+.dataRow {
+  text-align: center;
+}
