@@ -4,33 +4,28 @@ import Cookies from "js-cookie";
 import "./MemberDetailsForm.css";
 
 const MemberDetailsForm = ({
+  userDetails,
   setUserDetails,
   setSelectedAddress,
   selectedAddress,
+  updateMemberDetails,
 }) => {
-  const [name, setName] = useState("");
-  const [age, setAge] = useState("");
-  const [gender, setGender] = useState("Male");
-
   const [addresses, setAddresses] = useState([]);
+  const [isPopupOpened, setIsPopupOpened] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const handleNameChange = (e) => setName(e.target.value);
-  const handleAgeChange = (e) => setAge(e.target.value);
-  const handleGenderChange = (e) => setGender(e.target.value);
+  const handleNameChange = (e) =>
+    updateMemberDetails({ name: e.target.value });
 
-  const handleInputChange = () => {
-    setUserDetails({ name, age, gender });
-  };
+  const handleAgeChange = (e) =>
+    updateMemberDetails({ age: e.target.value });
 
-  console.log(addresses, "address2");
+  const handleGenderChange = (e) =>
+    updateMemberDetails({ gender: e.target.value });
 
-  const [isPopupOpened, setIsPopupOpened] = useState(false);
-  // const [addresses, setAddresses] = useState([
-  //   { id: 1, address: "123 Street, City, State, 12345" },
-  //   { id: 2, address: "456 Avenue, City, State, 67890" },
-  // ]);
+  const handlePhoneChange = (e) =>
+    updateMemberDetails({ phone: e.target.value });
 
   const handleOpenAddressPopup = () => setIsPopupOpened(true);
   const handleCloseAddressPopup = () => setIsPopupOpened(false);
@@ -52,7 +47,7 @@ const MemberDetailsForm = ({
         }
 
         const response = await fetch(
-          "http://127.0.0.1:5000//api/user/addresses",
+          "http://127.0.0.1:5000/api/user/addresses",
           {
             method: "GET",
             headers: {
@@ -66,7 +61,6 @@ const MemberDetailsForm = ({
         }
 
         const data = await response.json();
-        console.log(data, "address");
         setAddresses(data);
       } catch (err) {
         setError(err.message);
@@ -80,50 +74,50 @@ const MemberDetailsForm = ({
 
   return (
     <div className="member-member-form-container">
-      {/* <label className="member-member-form-label member-member-form-checkbox-label">
-        Testing for myself
-        <input
-          className="member-member-form-input member-member-form-checkbox"
-          type="checkbox"
-          checked
-          disabled
-        />
-      </label> */}
-      <div className="member-member-form-field member-member-form-name-container">
-        <label className="member-member-form-label">Full name *</label>
+      {/* Full Name Field */}
+      <div className="member-member-form-field">
+        <label className="member-member-form-label">Full Name *</label>
         <input
           type="text"
-          value={name}
-          onChange={(e) => {
-            handleNameChange(e);
-            handleInputChange();
-          }}
-          className="member-member-form-input member-member-form-name-input"
+          value={userDetails.name || ""}
+          onChange={handleNameChange}
+          className="member-member-form-input"
         />
       </div>
-      <div className="member-member-form-field member-member-form-age-container">
+
+      {/* Phone Number Field */}
+      <div className="member-member-form-field">
+        <label className="member-member-form-label">Phone *</label>
+        <input
+          type="text"
+          value={userDetails.phone || ""}
+          onChange={handlePhoneChange}
+          className="member-member-form-input"
+        />
+      </div>
+
+      {/* Age Field */}
+      <div className="member-member-form-field">
         <label className="member-member-form-label">Age *</label>
         <input
           type="number"
-          value={age}
-          onChange={(e) => {
-            handleAgeChange(e);
-            handleInputChange();
-          }}
-          className="member-member-form-input member-member-form-age-input"
+          value={userDetails.age || ""}
+          onChange={handleAgeChange}
+          className="member-member-form-input"
         />
       </div>
-      <div className="member-member-form-gender-container">
+
+      {/* Gender Selection */}
+      <div className="member-member-form-field">
         <label className="member-member-form-label">Gender</label>
         <div className="member-member-form-radio-group">
           <label className="member-member-form-radio-label">
             <input
               type="radio"
-              checked={gender === "Male"}
-              onChange={() => {
-                setGender("Male");
-                handleInputChange();
-              }}
+              name="gender"
+              value="Male"
+              checked={userDetails.gender === "Male"}
+              onChange={handleGenderChange}
               className="member-member-form-radio-input"
             />
             Male
@@ -131,35 +125,27 @@ const MemberDetailsForm = ({
           <label className="member-member-form-radio-label">
             <input
               type="radio"
-              checked={gender === "Female"}
-              onChange={() => {
-                setGender("Female");
-                handleInputChange();
-              }}
+              name="gender"
+              value="Female"
+              checked={userDetails.gender === "Female"}
+              onChange={handleGenderChange}
               className="member-member-form-radio-input"
             />
             Female
           </label>
         </div>
       </div>
-      {/* <div className="member-member-form-button-container">
-        <button
-          className="member-member-form-add-address-button"
-          onClick={handleOpenAddressPopup}
-        >
-          Select Address
-        </button>
-      </div> */}
+
+      {/* Address Selection */}
       <div className="member-member-form-address-container">
         {selectedAddress ? (
           <div className="member-member-form-selected-address">
             <p>
-              {" "}
-              <strong>Address:</strong>
-              {selectedAddress.door_no}, {selectedAddress.street},{" "}
-              {selectedAddress.village}, {selectedAddress.mandal},{" "}
-              {selectedAddress.district}, {selectedAddress.state},{" "}
-              {selectedAddress.country}, {selectedAddress.pincode}
+              <strong>Address:</strong> {selectedAddress.door_no},{" "}
+              {selectedAddress.street}, {selectedAddress.village},{" "}
+              {selectedAddress.mandal}, {selectedAddress.district},{" "}
+              {selectedAddress.state}, {selectedAddress.country},{" "}
+              {selectedAddress.pincode}
             </p>
             <button
               className="member-member-form-change-address-button"
@@ -177,6 +163,8 @@ const MemberDetailsForm = ({
           </button>
         )}
       </div>
+
+      {/* Address Popup */}
       {isPopupOpened && (
         <div className="member-member-address-main-popup">
           <div className="member-member-address-popup">
@@ -196,12 +184,12 @@ const MemberDetailsForm = ({
                 <div
                   key={address.address_id}
                   className="member-member-address-item"
+                  onClick={() => handleAddressSelect(address)}
                 >
-                  <p onClick={() => handleAddressSelect(address)}>
-                    {address.address_id}, {address.door_no}, {address.street},{" "}
-                    {address.village}, {address.mandal}, {address.district},{" "}
-                    {address.state}, {address.country}, {address.pincode},{" "}
-                    {address.created_at}, {address.updated_at}
+                  <p>
+                    {address.door_no}, {address.street}, {address.village},{" "}
+                    {address.mandal}, {address.district}, {address.state},{" "}
+                    {address.country}, {address.pincode}
                   </p>
                 </div>
               ))}
@@ -219,3 +207,4 @@ const MemberDetailsForm = ({
 };
 
 export default MemberDetailsForm;
+

@@ -19,6 +19,8 @@ const TestsForm = () => {
 
   const [categories, setCategories] = useState([]);
   const [message, setMessage] = useState("");
+  console.log(categories);
+  // console.log("categories_name", categories.data[0].category_name);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -26,6 +28,10 @@ const TestsForm = () => {
         const response = await fetch("http://127.0.0.1:5000/api/test_category");
         if (response.ok) {
           const data = await response.json();
+          console.log("Categories:", data.data);
+          data.data.forEach((category) => {
+            console.log("Category Name:", category.category_name);
+          });
           setCategories(data);
         } else {
           setMessage("Failed to load categories.");
@@ -107,7 +113,6 @@ const TestsForm = () => {
                 name="test_name"
                 value={formData.test_name}
                 onChange={handleChange}
-                required
               />
             </div>
             <div className="form-group">
@@ -118,27 +123,28 @@ const TestsForm = () => {
                 name="price"
                 value={formData.price}
                 onChange={handleChange}
-                required
                 step="0.01"
               />
             </div>
             <div className="form-group">
               <label>Category</label>
               <select
-  className="form-control"
-  name="category_name"
-  value={formData.category_name}
-  onChange={handleChange}
-  required
->
-  <option value="">Select Category</option>
-  {Array.isArray(categories) && categories.map((category) => (
-    <option key={category.category_id} value={category.category_name}>
-      {category.category_name}
-    </option>
-  ))}
-</select>
-
+                className="form-control"
+                name="category_name"
+                value={formData.category_name}
+                onChange={handleChange}
+              >
+                <option value="">Select Category</option>
+                {Array.isArray(categories.data) &&
+                  categories.data.map((category) => (
+                    <option
+                      key={category.category_id}
+                      value={category.category_name}
+                    >
+                      {category.category_name}
+                    </option>
+                  ))}
+              </select>
             </div>
             <div className="form-group">
               <label>Test Code</label>
@@ -148,7 +154,6 @@ const TestsForm = () => {
                 name="test_code"
                 value={formData.test_code}
                 onChange={handleChange}
-                required
               />
             </div>
             <div className="form-group">
@@ -159,7 +164,6 @@ const TestsForm = () => {
                 name="duration"
                 value={formData.duration}
                 onChange={handleChange}
-                required
               />
             </div>
             <div className="form-group">
@@ -169,7 +173,6 @@ const TestsForm = () => {
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
-                required
               >
                 <option value="">Select Status</option>
                 <option value="active">Active</option>
@@ -186,7 +189,6 @@ const TestsForm = () => {
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
-                required
               />
             </div>
             <div className="form-group">
@@ -196,7 +198,6 @@ const TestsForm = () => {
                 name="preparation_instructions"
                 value={formData.preparation_instructions}
                 onChange={handleChange}
-                required
               />
             </div>
             <div className="form-group">
@@ -206,7 +207,6 @@ const TestsForm = () => {
                 name="sample_type"
                 value={formData.sample_type}
                 onChange={handleChange}
-                required
               />
             </div>
             <div className="form-group">
@@ -216,7 +216,6 @@ const TestsForm = () => {
                 name="visit_type"
                 value={formData.visit_type}
                 onChange={handleChange}
-                required
               />
             </div>
             <div className="form-group">
@@ -226,7 +225,6 @@ const TestsForm = () => {
                 name="parameters"
                 value={formData.parameters}
                 onChange={handleChange}
-                required
               />
             </div>
           </div>

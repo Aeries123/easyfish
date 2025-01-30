@@ -47,6 +47,10 @@ import AdminEditTests from "./components/AdminEditTests";
 import AdminViewTests from "./components/AdminViewTests";
 import AdminEditCustomer from "./components/AdminEditCustomer";
 import AdminViewCustomer from "./components/AdminViewCustomer";
+import AdminViewAddress from "./components/AdminViewAddress";
+import AdminEditAddress from "./components/AdminEditAddress";
+import AdminViewPayment from "./components/AdminViewPayment";
+
 
 import "./AdminRoutes.css";
 
@@ -54,6 +58,7 @@ const AdminRoutes = () => {
   return (
     <div>
       {/* <Header /> */}
+      {/* <Route path="/admin/login" element={<AdminLogin />} /> */}
       <div className="admin-route-app-container">
         <Sidebar />
         <div style={{ alignSelf: "flex-start" }}>
@@ -159,10 +164,23 @@ const AdminRoutes = () => {
               path="/admin/edit-customer/:customerId"
               element={<AdminEditCustomer />}
             />
+
+<Route
+              path="/admin/view-address/:customerId"
+              element={<AdminViewCustomer />}
+            />
+            <Route
+              path="/admin/edit-address/:customerId"
+              element={<AdminEditCustomer />}
+            />
+             <Route
+              path="/admin/view-payment/:AppointmentId"
+              element={<AdminViewPayment />}
+            />
           </Routes>
         </div>
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 };

@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';  // Import useNavigate
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const ManageTests = () => {
   const [tests, setTests] = useState([]);  // Store fetched tests
   const [searchTerm, setSearchTerm] = useState("");  // For search functionality
   const [currentPage, setCurrentPage] = useState(1);  // Pagination
+  const [file, setFile] = useState(null);  // For file input during import
   const rowsPerPage = 9;  // Rows per page for pagination
+  const navigate = useNavigate();  // useNavigate for redirection
 
   useEffect(() => {
     const fetchTests = async () => {
       try {
         const response = await fetch('http://127.0.0.1:5000/api/tests');
         const data = await response.json();
-        console.log("fetching tests",data);
+        console.log("fetching tests", data);
 
         if (response.ok) {
           setTests(data.tests || []);  // Set the fetched tests
@@ -28,20 +30,17 @@ const ManageTests = () => {
     fetchTests();  // Fetch tests on component mount
   }, []);
 
-  // Search handler to filter tests
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
     setCurrentPage(1);  // Reset to the first page when a new search is performed
   };
 
-  // Filter tests based on the search term
   const filteredTests = tests.filter((test) =>
     Object.values(test).some((value) =>
       value.toString().toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
 
-  // Pagination logic
   const indexOfLastTest = currentPage * rowsPerPage;
   const indexOfFirstTest = indexOfLastTest - rowsPerPage;
   const currentTests = filteredTests.slice(indexOfFirstTest, indexOfLastTest);
@@ -55,7 +54,6 @@ const ManageTests = () => {
     if (currentPage < totalPages) setCurrentPage(prev => prev + 1);
   };
 
-  // Delete handler for deleting a test
   const handleDeleteTest = async (testId) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this test?");
     if (confirmDelete) {
@@ -83,12 +81,90 @@ const ManageTests = () => {
     }
   };
 
+  // Handle file input change for import
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  // Import tests via API and redirect to ManageTests page after success
+  const handleImportTests = async () => {
+    if (!file) {
+        alert('Please select a file to import.');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+        const response = await fetch('http://127.0.0.1:5000/api/tests/import', {
+            method: 'POST',
+            body: formData,
+        });
+
+        const data = await response.json();
+        console.log('API Response:', data);
+
+        if (response.ok) {
+            alert(data.message);
+            setFile(null);  // Reset file input
+            
+            // Ensure the newly imported tests are added
+            const newlyImportedTests = data.tests || [];  // Get imported tests from the response
+            setTests((prevTests) => [...prevTests, ...newlyImportedTests]);  // Add to existing tests
+        } else {
+            alert(data.error || 'Failed to import tests');
+        }
+    } catch (error) {
+        console.error('Error importing tests:', error);
+        alert('An error occurred during import. Please try again.');
+    }
+};
+
+
+  // Export tests via API
+  const handleExportTests = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/tests/export', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,  // Pass JWT token for authentication
+        },
+      });
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'tests.xlsx';
+        link.click();
+      } else {
+        alert('Failed to export tests');
+      }
+    } catch (error) {
+      console.error('Error exporting tests:', error);
+      alert('An error occurred during export');
+    }
+  };
+
   return (
     <div className="container mt-4">
       <h2>Manage Tests</h2>
       <Link to="/admin/tests-form">
-        <button>Add Test</button>
+        <button className="btn btn-success mb-3">Add Test</button>
       </Link>
+
+      {/* Import Button */}
+      <input
+        type="file"
+        className="form-control mb-3"
+        accept=".csv,.xlsx"
+        onChange={handleFileChange}
+      />
+      <button className="btn btn-primary mb-3" onClick={handleImportTests}>Import Tests</button>
+
+      {/* Export Button */}
+      <button className="btn btn-warning mb-3" onClick={handleExportTests}>Export Tests</button>
 
       {/* Search Input */}
       <div className="mb-3">
@@ -116,7 +192,7 @@ const ManageTests = () => {
             <th>Parameters</th>
             <th>Speciality</th>
             <th>Status</th>
-            <th>Duration</th> {/* Added Duration column */}
+            <th>Duration</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -135,26 +211,31 @@ const ManageTests = () => {
                 <td>{test.parameters}</td>
                 <td>{test.speciality}</td>
                 <td>{test.status}</td>
-                <td>{test.duration}</td> {/* Display duration */}
+                <td>{test.duration}</td>
                 <td>
-                  {/* View Button */}
-                  <Link to={`/admin/view-tests/${test.test_id}`}>
-                    <button className="btn btn-sm btn-info me-2">View</button>
-                  </Link>
+  <div className="d-flex">
+    <Link to={`/admin/view-tests/${test.test_id}`}>
+      <button className="btn btn-sm btn-info me-2" style={{ fontSize: '0.8rem', padding: '0.3rem 0.6rem' }}>
+        View
+      </button>
+    </Link>
 
-                  {/* Edit Button */}
-                  <Link to={`/admin/edit-tests/${test.test_id}`}>
-                    <button className="btn btn-sm btn-primary me-2">Edit</button>
-                  </Link>
+    <Link to={`/admin/edit-tests/${test.test_id}`}>
+      <button className="btn btn-sm btn-primary me-2" style={{ fontSize: '0.8rem', padding: '0.3rem 0.6rem' }}>
+        Edit
+      </button>
+    </Link>
 
-                  {/* Delete Button */}
-                  <button
-                    className="btn btn-sm btn-danger"
-                    onClick={() => handleDeleteTest(test.test_id)}
-                  >
-                    Delete
-                  </button>
-                </td>
+    <button
+      className="btn btn-sm btn-danger"
+      onClick={() => handleDeleteTest(test.test_id)}
+      style={{ fontSize: '0.8rem', padding: '0.3rem 0.6rem' }}
+    >
+      Delete
+    </button>
+  </div>
+</td>
+
               </tr>
             ))
           ) : (
@@ -168,12 +249,22 @@ const ManageTests = () => {
       {/* Pagination Controls */}
       <nav className="mt-3">
         <ul className="pagination justify-content-center">
-          <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+          <li className="page-item">
             <button className="page-link" onClick={handlePrevious} disabled={currentPage === 1}>
               Previous
             </button>
           </li>
-          <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+          {[...Array(totalPages).keys()].map((page) => (
+            <li
+              key={page + 1}
+              className={`page-item ${currentPage === page + 1 ? 'active' : ''}`}
+            >
+              <button className="page-link" onClick={() => setCurrentPage(page + 1)}>
+                {page + 1}
+              </button>
+            </li>
+          ))}
+          <li className="page-item">
             <button className="page-link" onClick={handleNext} disabled={currentPage === totalPages}>
               Next
             </button>

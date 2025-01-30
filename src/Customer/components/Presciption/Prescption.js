@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Prescption.css";
 
-const Prescription = () => {
+const Prescription = ({ isOpen, onClose, onFileUpload }) => {
   const [files, setFiles] = useState([]);
   const [collectionMethod, setCollectionMethod] = useState("home");
 
@@ -40,15 +40,45 @@ const Prescription = () => {
     setFiles(selectedFiles);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Files:", files);
-    console.log("Collection Method:", collectionMethod);
+    if (files.length === 0) {
+      alert("Please select files before submitting.");
+      return;
+    }
+    alert("Prescription uploaded successfully!");
+    onClose()
+
+    // const formData = new FormData();
+    // files.forEach((file) => formData.append("files", file));
+    // formData.append("collectionMethod", collectionMethod);
+
+    // try {
+    //   const response = await fetch("/api/upload-prescription", {
+    //     method: "POST",
+    //     body: formData,
+    //   });
+
+    //   if (response.ok) {
+    //     alert("Prescription uploaded successfully!");
+    //     onClose();
+    //   } else {
+    //     alert("Error uploading prescription. Please try again.");
+    //   }
+    // } catch (error) {
+    //   console.error("Error uploading prescription:", error);
+    //   alert("An error occurred. Please try again later.");
+    // }
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="presciption-container">
       <div className="card-container">
+        <button onClick={onClose} className="close-button" aria-label="Close">
+          ×
+        </button>
         <div className="small-container">
           <div className="text-center">
             <h1 className="text-element">Upload Prescriptions</h1>
@@ -82,19 +112,25 @@ const Prescription = () => {
             <div className="custom-text-color">
               <p>
                 Drag & drop files here,{" "}
-                <span className="spanelement">browse files</span> to upload.
+                <span
+                  className="spanelement"
+                  onClick={() => document.getElementById("fileInput").click()}
+                >
+                  browse files
+                </span>{" "}
+                to upload.
               </p>
             </div>
 
-            <label className="text-sm text-teal-500 cursor-pointer hover:text-teal-600">
-              <input
-                type="file"
-                className="hidden"
-                multiple
-                accept=".pdf,.jpg,.jpeg,.png"
-                onChange={handleFileInput}
-              />
-            </label>
+            <input
+              type="file"
+              id="fileInput"
+              className="hidden"
+              multiple
+              accept=".pdf,.jpg,.jpeg,.png"
+              onChange={handleFileInput}
+            />
+
             <div className="text-xs text-gray-400 mt-1">
               .pdf, .jpg & .png formats supported. Upto three files can be
               uploaded at a time.

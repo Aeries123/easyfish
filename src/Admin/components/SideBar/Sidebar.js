@@ -6,18 +6,21 @@ import "./Sidebar.css"; // Add CSS for styling
 const Sidebar = () => {
   const links = [
     { path: "/admin/", label: "Dashboard" },
-    { path: "/admin/login", label: "Login" },
+    // { path: "/admin/login", label: "Login" },
     { path: "/admin/manage-booking", label: "Manage Bookings" },
     { path: "/admin/manage-tests", label: "Manage Tests" },
     { path: "/admin/manage-customer", label: "Manage Customers" },
-    { path: "/admin/customer", label: "Customers" },
+    // { path: "/admin/customer", label: "Customers" },
     { path: "/admin/manage-review", label: "Manage Reviews" },
     { path: "/admin/manage-payment", label: "Manage Payments" },
     { path: "/admin/manage-category", label: "Manage Categories" },
     { path: "/admin/category", label: "Categories" },
     { path: "/admin/manage-notification", label: "Manage Notifications" },
-    { path: "/admin/settings", label: "Settings" },
     { path: "/admin/review", label: "Reviews" },
+    { path: "/admin/manage-address", label: "Manage Addresses" },
+    // { path: "/admin/addresses", label: "Addresses" },
+    { path: "/admin/settings", label: "Settings" },
+    
     
     
     // { path: "/admin/lab-technician-form", label: "Lab Technician Form" },
@@ -31,7 +34,7 @@ const Sidebar = () => {
     // { path: "/admin/manage-appointment", label: "Manage Appointments" },
     // { path: "/admin/manage-time-slots", label: "Manage Time Slots" },
     // { path: "/admin/tests-form", label: "Tests Form" },
-    // { path: "/admin/addresses", label: "Addresses" },
+    // 
     // { path: "/admin/admin-form", label: "Admin Form" },
     // { path: "/admin/booking", label: "Booking" },
     // { path: "/admin/appointment-summary", label: "Appointment Summary" },
@@ -40,7 +43,7 @@ const Sidebar = () => {
     
     
     // { path: "/admin/manage-admin", label: "Manage Admins" },
-    // { path: "/admin/manage-address", label: "Manage Addresses" },
+    
     
     
     // { path: "/admin/manage-test-results", label: "Manage Test Results" },

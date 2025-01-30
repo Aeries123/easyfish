@@ -1,0 +1,222 @@
+/* Modernized Styles */
+
+/* Overlay */
+.addDoctor-test-item-add-doctor-main-container {
+  background-color: #f9f9f9;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+.addDoctor-test-item-add-doctor-main-heading {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+/* Style for custom radio button */
+.addDoctor-radio-button {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #6200ea; /* Purple border */
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+  background-color: #fff; /* Default white background */
+}
+
+.addDoctor-radio-button:checked {
+  background-color: #6200ea; /* Purple fill when checked */
+  border-color: #4500b5; /* Darker purple border */
+}
+
+.addDoctor-radio-button:checked::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background-color: #fff; /* White dot inside */
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.addDoctor-radio-button:hover {
+  border-color: #4500b5; /* Darker purple border on hover */
+  background-color: rgba(98, 0, 234, 0.1); /* Light purple hover effect */
+}
+
+.addDoctor-test-item-add-doctor-container {
+  /* display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 150px;
+  height: 50px;
+  border-radius: 12px;
+  margin-left: 0px;
+  /* background-color: #f3e5f5; */
+  /* cursor: pointer;
+  transition: background-color 0.3s ease;  */
+  margin-left: -3px;
+}
+
+
+
+.addDoctor-test-item-add-doctor-icon {
+  font-size: 24px;
+  color: #7b1fa2;
+  margin-right: 8px;
+  margin-left: 0px;
+  font-weight: bold;
+}
+
+.addDoctor-test-item-add-doctor-description {
+  color: #7b1fa2;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 0px;
+}
+
+/* Popup Overlay */
+.addDoctor-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Popup Container */
+.addDoctor-popup-container {
+  background-color: #fff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 450px;
+  padding: 25px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  animation: addDoctor-popup-slide-in 0.3s ease;
+}
+
+.addDoctor-popup-title {
+  font-size: 24px;
+  color: #444;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Input Group */
+.addDoctor-popup-input-group {
+  margin-bottom: 15px;
+}
+
+.addDoctor-popup-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #555;
+  font-size: 14px;
+}
+
+.addDoctor-popup-input {
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.addDoctor-popup-input:focus {
+  border-color: #6200ea;
+  box-shadow: 0 0 8px rgba(98, 0, 234, 0.2);
+}
+
+/* Buttons */
+.addDoctor-popup-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.addDoctor-popup-submit-button,
+.addDoctor-popup-cancel-button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.addDoctor-popup-submit-button {
+  background-color: #6200ea;
+  color: white;
+}
+
+.addDoctor-popup-submit-button:hover {
+  background-color: #4500b5;
+}
+
+.addDoctor-popup-cancel-button {
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.addDoctor-popup-cancel-button:hover {
+  background-color: #d6d6d6;
+}
+
+/* Animation */
+@keyframes addDoctor-popup-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Radio Option */
+.addDoctor-popup-radio-option {
+  font-size: 14px;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Edit Button */
+.addDoctor-popup-edit-button {
+  background-color: #6200ea;
+  color: white;
+  font-size: 12px;
+  border: none;
+  border-radius: 8px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.addDoctor-popup-edit-button:hover {
+  background-color: #4500b5;
+}

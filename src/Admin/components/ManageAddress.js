@@ -1,17 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; 
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ManageAddress = () => {
   const [addresses, setAddresses] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [alertMessage, setAlertMessage] = useState(""); // State for alert message
   const rowsPerPage = 5;
 
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:5000/api/addresses');
+        const response = await fetch('http://127.0.0.1:5000/api/addresses', {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`, // Assuming token is stored in localStorage
+          },
+        });
         const data = await response.json();
 
         if (response.ok) {
@@ -56,47 +61,58 @@ const ManageAddress = () => {
   const handleDeleteAddress = async (addressId) => {
     const confirmDelete = window.confirm('Are you sure you want to delete this address?');
     if (!confirmDelete) return;
-  
-  
+
+    // Optimistically update the UI: set the `isDeleting` flag for the specific address
     const updatedAddresses = addresses.map((address) =>
       address.address_id === addressId ? { ...address, isDeleting: true } : address
     );
     setAddresses(updatedAddresses);
-  
+
     try {
-      const response = await fetch(`http://127.0.0.1:5000/api/addresses/${addressId}`, {
+      const response = await fetch(`http://127.0.0.1:5000/api/admin/addresses/${addressId}`, {
         method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Assuming token is stored in localStorage
+        },
       });
-  
+
       if (response.ok) {
         setAddresses(addresses.filter((address) => address.address_id !== addressId));
+        setAlertMessage("Address deleted successfully!");
       } else {
-        const errorData = await response.json();
-        console.error('Failed to delete address:', errorData.message || 'Unknown error');
-        alert(errorData.message || 'Error deleting address');
+        setAlertMessage("Failed to delete address.");
       }
     } catch (error) {
+      setAlertMessage("Error deleting address.");
       console.error('Error deleting address:', error);
-      alert('Error deleting address');
     }
+
+    // Hide alert after 3 seconds
+    setTimeout(() => setAlertMessage(""), 3000);
   };
-  
 
   return (
     <div className="container mt-4">
       <h2>Manage Addresses</h2>
       <Link to="/admin/add-address">
-        <button className="btn btn-primary mb-3">Add Address</button>
+        <button>Add Address</button>
       </Link>
 
       {/* Search Input */}
       <input
         type="text"
-        className="form-control mb-3"
+        className="form-control"
         placeholder="Search addresses..."
         value={searchTerm}
         onChange={handleSearchChange}
       />
+
+      {/* Alert Message */}
+      {alertMessage && (
+        <div className="alert alert-info mt-3">
+          {alertMessage}
+        </div>
+      )}
 
       <table className="table table-bordered mt-3">
         <thead className="thead-dark">

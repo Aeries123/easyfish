@@ -16,11 +16,13 @@ export const PaymentSummary = ({
   totalPrice,
   isSlotBooked,
   isAbled,
+  members,
   selectedAddress,
 }) => {
   const navigate = useNavigate();
   console.log(cartData);
   console.log(userDetails, "payments");
+  console.log(members, "abcd");
 
   // const onClickProceed = () => {
   //   if (isSlotBooked && !isAbled) {
@@ -56,41 +58,45 @@ export const PaymentSummary = ({
             slot_date: `${selectedDate} ${selectedSlot}`,
             total_price: totalPrice,
             payment_method: "Credit Card",
+            members,
           }),
         });
 
-        if (response.ok) {
-          const result = await response.json();
-          console.log(result);
-          alert("Successfully Completed");
-          // You can use the result from the backend if needed
-          navigate("/booking-details", {
-            state: {
-              bookingDetails: {
-                appointment_id: result.appointment_id,
-                transaction_id: result.transaction_id,
-                total_price: result.total_price,
-                payment_method: result.payment_method,
-                appointment_date: selectedDate,
-                slot_date: selectedSlot,
-                appointment_status: "Confirmed",
-                payment_status: "Completed",
-                tracking_status: "Shipped",
-                test_details: cartData, // Passing cart data as test details
-                patient_info: {
-                  name: userDetails.name, // Example data
-                  contact: "1234567890", // Example data
-                  notes: "N/A", // Example data
-                },
-              },
-            },
-          });
-          navigate("/booking-details");
-        } else {
-          const errorData = await response.json();
-          alert(`Error: ${errorData.error}`);
+        const result = await response.json();
+
+        if (!response.ok) {
+          console.error("Payment API Error:", result);
+          alert(`Error: ${result.error || "Something went wrong"}`);
+          return;
         }
+
+        console.log("Payment Success:", result);
+        alert("Successfully Completed");
+        navigate("/my-dashboard");
+
+        // navigate("/booking-details", {
+        //   state: {
+        //     bookingDetails: {
+        //       appointment_id: result.appointment_id,
+        //       transaction_id: result.transaction_id,
+        //       total_price: result.total_price,
+        //       payment_method: result.payment_method,
+        //       appointment_date: selectedDate,
+        //       slot_date: selectedSlot,
+        //       appointment_status: "Confirmed",
+        //       payment_status: "Completed",
+        //       tracking_status: "Shipped",
+        //       test_details: cartData,
+        //       // patient_info: {
+        //       //   name: userDetails.name,
+        //       //   contact: userDetails.phone || "Not Provided",
+        //       //   notes: "N/A",
+        //       // },
+        //     },
+        //   },
+        // });
       } catch (error) {
+        console.error("Payment Request Failed:", error);
         alert("Error processing payment. Please try again.");
       } finally {
         // setLoading(false);

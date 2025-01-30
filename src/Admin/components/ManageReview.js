@@ -1,96 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
 
 const ManageReview = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [reviewsPerPage] = useState(9); // Change this to display 9 reviews per page
+  const [reviewsPerPage] = useState(9); // Number of reviews per page
 
-  // Sample hardcoded review data
-  const sampleReviews = [
-    {
-      review_id: 1,
-      customer_id: 123,
-      test_id: 456,
-      rating: 5,
-      review_text: "Great service, very satisfied with the results!",
-      created_at: "2025-01-17T12:34:56"
-    },
-    {
-      review_id: 2,
-      customer_id: 234,
-      test_id: 567,
-      rating: 4,
-      review_text: "Good experience, would recommend.",
-      created_at: "2025-01-16T11:34:56"
-    },
-    {
-      review_id: 3,
-      customer_id: 345,
-      test_id: 678,
-      rating: 3,
-      review_text: "Satisfactory service, but room for improvement.",
-      created_at: "2025-01-15T10:30:45"
-    },
-    {
-      review_id: 4,
-      customer_id: 456,
-      test_id: 789,
-      rating: 5,
-      review_text: "Excellent service, exceeded expectations!",
-      created_at: "2025-01-14T09:15:30"
-    },
-    {
-      review_id: 5,
-      customer_id: 567,
-      test_id: 890,
-      rating: 2,
-      review_text: "Not happy with the service. Could be better.",
-      created_at: "2025-01-13T08:10:15"
-    },
-    {
-      review_id: 6,
-      customer_id: 678,
-      test_id: 901,
-      rating: 4,
-      review_text: "Overall good, but there were some delays.",
-      created_at: "2025-01-12T07:05:50"
-    },
-    {
-      review_id: 7,
-      customer_id: 789,
-      test_id: 102,
-      rating: 1,
-      review_text: "Terrible service, very disappointed.",
-      created_at: "2025-01-11T06:00:00"
-    },
-    {
-      review_id: 8,
-      customer_id: 890,
-      test_id: 113,
-      rating: 3,
-      review_text: "Not bad, but not great either.",
-      created_at: "2025-01-10T05:50:30"
-    },
-    {
-      review_id: 9,
-      customer_id: 901,
-      test_id: 224,
-      rating: 4,
-      review_text: "Good overall, could use minor improvements.",
-      created_at: "2025-01-09T04:40:10"
-    }
-  ];
-
-  // Fetch reviews (in this case, using sample data)
+  // Fetch reviews from the backend
   useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setReviews(sampleReviews);
-      setLoading(false);
-    }, 500); // Simulating API delay
+    const fetchReviews = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await axios.get('http://127.0.0.1:5000/review');
+        setReviews(response.data);
+      } catch (err) {
+        setError('Failed to fetch reviews. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReviews();
   }, []);
 
   // Handle search input change
@@ -103,16 +38,31 @@ const ManageReview = () => {
     setCurrentPage(pageNumber);
   };
 
-  // Get current reviews for the current page
+  // Handle review deletion
+  const handleDelete = async (reviewId) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this review?');
+    if (!confirmDelete) return;
+
+    try {
+      const response = await axios.delete(`http://127.0.0.1:5000/review/${reviewId}`);
+      if (response.status === 200) {
+        // Remove the deleted review from the local state
+        setReviews(reviews.filter((review) => review.review_id !== reviewId));
+      }
+    } catch (err) {
+      alert('Error deleting review. Please try again.');
+    }
+  };
+
+  // Filter and paginate reviews
+  const filteredReviews = reviews.filter(
+    (review) =>
+      review.user_id.toString().includes(searchQuery) ||
+      review.review_text.toLowerCase().includes(searchQuery.toLowerCase())
+  );
   const indexOfLastReview = currentPage * reviewsPerPage;
   const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
-  const currentReviews = reviews
-    .filter(
-      (review) =>
-        review.customer_id.toString().includes(searchQuery) ||
-        review.review_text.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-    .slice(indexOfFirstReview, indexOfLastReview);
+  const currentReviews = filteredReviews.slice(indexOfFirstReview, indexOfLastReview);
 
   return (
     <div className="container mt-5">
@@ -123,11 +73,14 @@ const ManageReview = () => {
         <input
           type="text"
           className="form-control"
-          placeholder="Search reviews by customer ID or review text..."
+          placeholder="Search reviews by user ID or review text..."
           value={searchQuery}
           onChange={handleSearchChange}
         />
       </div>
+
+      {/* Error Message */}
+      {error && <div className="alert alert-danger">{error}</div>}
 
       {/* Review List */}
       {loading ? (
@@ -138,29 +91,40 @@ const ManageReview = () => {
         <table className="table table-striped">
           <thead>
             <tr>
-              <th>ID</th> {/* ID Column */}
-              <th>Customer ID</th>
+              <th>Review ID</th>
+              <th>User ID</th>
               <th>Test ID</th>
               <th>Rating</th>
               <th>Review</th>
+              <th>Helpfulness</th>
               <th>Date</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {currentReviews.length > 0 ? (
               currentReviews.map((review) => (
                 <tr key={review.review_id}>
-                  <td>{review.review_id}</td> {/* Display review ID */}
-                  <td>{review.customer_id}</td>
+                  <td>{review.review_id}</td>
+                  <td>{review.user_id}</td>
                   <td>{review.test_id}</td>
                   <td>{review.rating}</td>
                   <td>{review.review_text}</td>
+                  <td>{review.helpfulness_count}</td>
                   <td>{new Date(review.created_at).toLocaleString()}</td>
+                  <td>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => handleDelete(review.review_id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="6" className="text-center">
+                <td colSpan="8" className="text-center">
                   No reviews found.
                 </td>
               </tr>
@@ -178,13 +142,11 @@ const ManageReview = () => {
         >
           Previous
         </button>
-        <div className="mx-2">
-          Page {currentPage}
-        </div>
+        <div className="mx-2">Page {currentPage}</div>
         <button
           className="btn btn-secondary"
           onClick={() => paginate(currentPage + 1)}
-          disabled={currentReviews.length < reviewsPerPage}
+          disabled={indexOfLastReview >= filteredReviews.length}
         >
           Next
         </button>

@@ -19,11 +19,12 @@ const AdminEditCategory = () => {
       try {
         const response = await fetch(`http://127.0.0.1:5000/api/test_category/${categoryId}`);
         const data = await response.json();
+        console.log(data,"category_image")
         
         if (response.ok) {
           setCategory({
             category_name: data.data.category_name,
-            image: null, // We will keep image as null until the user selects a new one
+            image: data.data.image_url, // We will keep image as null until the user selects a new one
           });
         } else {
           console.error("Error fetching category:", data.message);

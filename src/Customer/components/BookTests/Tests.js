@@ -10,6 +10,7 @@ import PopupCart from "../PopupCart";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+// import { CustomizedSlider } from "../customizedslider/slider";
 
 import "./Tests.css";
 import { v4 as uuidv4 } from "uuid";
@@ -19,79 +20,79 @@ const abcd = "test";
 const testArray = [
   {
     id: 1,
-    name: "Blood Test",
+    name: "Numerology",
     image:
       "https://res.cloudinary.com/dkujcnlcs/image/upload/v1736244083/esxulmxd2la2di93ytgv.jpg",
   },
   {
     id: 2,
-    name: "X-Ray",
+    name: "Radiology",
     image:
       "https://res.cloudinary.com/dikbh5nvt/image/upload/v1736427384/IMG-20250109-WA0031_cybean.jpg",
   },
   {
     id: 3,
-    name: "MRI Scan",
+    name: "Cardiology",
     image:
       "https://res.cloudinary.com/dikbh5nvt/image/upload/v1736427373/IMG-20250109-WA0030_jqjnuk.jpg",
   },
   {
     id: 4,
-    name: "CT Scan",
+    name: "Dermatology",
     image:
       "https://res.cloudinary.com/dikbh5nvt/image/upload/v1736427363/IMG-20250109-WA0029_wwqfrz.jpg",
   },
   {
     id: 5,
-    name: "ECG",
+    name: "Oncology",
     image:
       "https://res.cloudinary.com/dikbh5nvt/image/upload/v1736427354/IMG-20250109-WA0028_xi7rih.jpg",
   },
   {
     id: 6,
-    name: "Ultrasound",
+    name: "Endocrinology",
     image:
       "https://res.cloudinary.com/dikbh5nvt/image/upload/v1736427344/IMG-20250109-WA0027_pnzord.jpg",
   },
   {
     id: 7,
-    name: "Liver Function",
+    name: "Gastroenterology",
     image:
       "https://res.cloudinary.com/dikbh5nvt/image/upload/v1736427334/IMG-20250109-WA0026_owh0ir.jpg",
   },
   {
     id: 8,
-    name: "Kidney Function",
+    name: "Hematology",
     image:
       "https://res.cloudinary.com/dikbh5nvt/image/upload/v1736427322/IMG-20250109-WA0025_jeckr1.jpg",
   },
   {
     id: 9,
-    name: "Liver Function",
+    name: "Neurology",
     image:
       "https://res.cloudinary.com/dikbh5nvt/image/upload/v1736427322/IMG-20250109-WA0025_jeckr1.jpg",
   },
   {
     id: 10,
-    name: "Kidney Function",
+    name: "Nephrology",
     image:
       "https://res.cloudinary.com/dikbh5nvt/image/upload/v1736427303/IMG-20250109-WA0024_kr2pvs.jpg",
   },
   {
     id: 11,
-    name: "Kidney Function",
+    name: "Pulmonology",
     image:
       "https://res.cloudinary.com/dikbh5nvt/image/upload/v1736427296/IMG-20250109-WA0023_snnc7k.jpg",
   },
   {
     id: 12,
-    name: "Kidney Function",
+    name: "Urology",
     image:
       "https://res.cloudinary.com/dikbh5nvt/image/upload/v1736427290/IMG-20250109-WA0022_bc2ipr.jpg",
   },
   {
     id: 13,
-    name: "Kidney Function",
+    name: "Psychiatry",
     image:
       "https://res.cloudinary.com/dikbh5nvt/image/upload/v1736427284/IMG-20250109-WA0021_qupns1.jpg",
   },
@@ -133,6 +134,7 @@ function Tests(props) {
       );
     } else {
       setClickedIds((prev) => [...prev, test_id]);
+      
       setCartData((prev) => [...prev, test]);
     }
   };
@@ -142,6 +144,7 @@ function Tests(props) {
   const [testsData, setTestsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [speciality,setSpeciality]=useState(null)
   const buttonContent = isFullDataVisible ? "View Less" : "View More";
 
   // console.log(updatedArray);
@@ -188,21 +191,28 @@ function Tests(props) {
   const onChangeTestNames = (e) => {
     setInputValue(e.target.value);
   };
-  const filteringData = testsData.filter((each) =>
+  const onClickImages=(value)=>{
+    setSpeciality(value)
+  }
+  const filteringData = speciality?testsData.filter(eachItem=>eachItem.speciality===speciality):testsData.filter((each) =>
     each.test_name.toLowerCase().includes(inputValue)
   );
-
+console.log("speciality",speciality)
   const PrevArrow = (props) => {
     const { onClick, style, className } = props;
     return (
       <div
         className={className}
         style={{
-          ...style,
-          display: "block",
+          ...style,display: "block !important",
+          // width: "50px",
+          // height: "50px",
           color: "white",
           backgroundColor: "black",
+          // position: "absolute",
+          // zIndex: 10,
         }}
+        
         onClick={onClick}
       ></div>
     );
@@ -211,13 +221,20 @@ function Tests(props) {
     const { onClick, style, className } = props;
     return (
       <div
+      style={{
+        ...style,
+        display: "block !important",
+        // width: "30px",
+        // height: "30px",
+        color: "white",
+        backgroundColor: "black",
+        // position: "absolute",
+        // zIndex: 10,
+      }}
+      
         className={className}
-        style={{
-          ...style,
-          display: "block",
-          color: "white",
-          backgroundColor: "black",
-        }}
+        
+          
         onClick={onClick}
       ></div>
     );
@@ -227,16 +244,26 @@ function Tests(props) {
     slidesToShow: 5,
     slidesToScroll: 5,
     centerMode: true,
-    dots: true,
+    dots: false,
     arrows: true,
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
+    responsive:[
+      {
+      breakpoint:478,
+      settings:{
+        slidesToShow:3,
+        slidesToScroll:3
+      }
+      }
+
+    ]
   };
 
   return (
     <div className="tests-tests-main-container-container">
-      <div className="custom-tests-container">
-        <div className="custom-header-section">
+      <div className="tests-custom-tests-container">
+        <div className="tests-custom-header-section">
           {/* <h2 className="custom-main-heading">Book Lab Tests Online</h2>
           <h2 className="custom-sub-heading">Search By Relevance</h2> */}
         </div>
@@ -257,8 +284,9 @@ function Tests(props) {
         </div> */}
 
         <div className="custom-tests-list-container">
+          <Slider {...settings}>
           {testArray.map((test) => (
-            <div className="custom-tests-list-item-container" key={test.id}>
+            <div className="custom-tests-list-item-container" key={test.id} onClick={()=>onClickImages(test.name)}>
               <img
                 src={test.image}
                 alt={test.name}
@@ -266,7 +294,8 @@ function Tests(props) {
               />
               <p className="custom-test-name">{test.name}</p>
             </div>
-          ))}
+          ))}</Slider>
+          {/* <CustomizedSlider setTestsData={setTestsData} testsData={testsData} filterData={filteringData} setSpeciality={setSpeciality}/> */}
         </div>
         <div className="custom-tests-search">
           {/* <div>
@@ -298,7 +327,7 @@ function Tests(props) {
 
         {/* <Carousel /> */}
         <div className="custom-test-load-more-button-container">
-          <div className="individual-cards-container">
+          <div className="tests-individual-cards-container">
             {testsData.length !== 0 ? (
               filteringData.map((test) => (
                 <div className="individual-card" key={test.test_id}>
@@ -376,14 +405,14 @@ function Tests(props) {
         </div>
         <FaqQuestions />
       </div>
-      {/* <div className="tests-tests-cart-cart-container">
+      <div className="tests-tests-cart-cart-container">
         <PopupCart
           cartData={cartData}
           setCartData={setCartData}
           clickedIds={clickedIds}
           setClickedIds={setClickedIds}
         />
-      </div> */}
+      </div>
     </div>
   );
 }

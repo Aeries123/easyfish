@@ -12,7 +12,7 @@ const AdminLogin = () => {
     e.preventDefault(); // Prevent form submission default action
     setError(""); // Clear previous errors
     setSuccess(""); // Clear previous success messages
-
+  
     try {
       const response = await fetch("http://localhost:5000/api/customers/login", {
         method: "POST",
@@ -21,9 +21,9 @@ const AdminLogin = () => {
         },
         body: JSON.stringify({ phone, password }),
       });
-
+  
       const data = await response.json();
-
+  
       if (!response.ok) {
         setError(data.error || "An error occurred. Please try again.");
       } else {
@@ -31,11 +31,16 @@ const AdminLogin = () => {
         // Store the token in cookies
         Cookies.set("authToken", data.token, { expires: 2 }); // Token expires in 2 days
         console.log("Token stored in cookies:", data.token);
+  
+        // Clear form data after successful login
+        setPhone("");
+        setPassword("");
       }
     } catch (err) {
       setError("An unexpected error occurred. Please try again.");
     }
   };
+  
 
   return (
     <div className="admin-login">

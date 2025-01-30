@@ -1,26 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 const AdminEditBookingForm = () => {
   const { id } = useParams(); // Extract the appointmentId from the route params
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    patient_name: "",
-    patient_contact: "",
-    test_names: [], // Updated to handle test names as an array
-    appointment_date: "",
-    slot_date: "",
-    total_price: "",
-    notes: "",
-  });
-  const [message, setMessage] = useState("");
+  const [bookingDetails, setBookingDetails] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null); // State to handle success message
+  const [testOptions, setTestOptions] = useState([]); // State for available tests
 
   useEffect(() => {
     const fetchBookingDetails = async () => {
       try {
-        // Make the request without using the token
         const response = await fetch(
           `http://127.0.0.1:5000/api/get_userbookings/${id}`,
           {
@@ -32,50 +24,47 @@ const AdminEditBookingForm = () => {
         );
 
         const data = await response.json();
-        console.log("Booking Data:", data);
+        console.log(data)
 
         if (response.ok) {
-          const formatDateTime = (dateTime) => {
-            const date = new Date(dateTime);
-            const year = date.getFullYear();
-            const month = (date.getMonth() + 1).toString().padStart(2, "0");
-            const day = date.getDate().toString().padStart(2, "0");
-            const hours = date.getHours().toString().padStart(2, "0");
-            const minutes = date.getMinutes().toString().padStart(2, "0");
-            return `${year}-${month}-${day}T${hours}:${minutes}`; // Format for datetime-local
-          };
-
-          const formattedData = {
-            ...data.booking,
-            appointment_date: formatDateTime(data.booking.appointment_date),
-            slot_date: formatDateTime(data.booking.slot_date),
-          };
-
-          setFormData(formattedData);
+          setBookingDetails(data.booking);
         } else {
-          console.error("Error fetching booking details:", data.message);
+          setErrorMessage(data.message || "Error fetching booking details.");
         }
       } catch (error) {
-        console.error("Error fetching booking details:", error);
+        setErrorMessage("Error fetching booking details.");
+      }
+    };
+
+    const fetchTests = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:5000/api/tests");
+        const data = await response.json();
+        if (response.ok) {
+          setTestOptions(data.tests); // Assuming the API returns the list of tests
+        } else {
+          setErrorMessage(data.message || "Error fetching test names.");
+        }
+      } catch (error) {
+        setErrorMessage("Error fetching test names.");
       }
     };
 
     fetchBookingDetails();
   }, [id]);
 
-  const handleChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setBookingDetails((prevDetails) => ({
+      ...prevDetails,
       [name]: value,
-    });
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // Submit the form data without using the token
       const response = await fetch(
         `http://127.0.0.1:5000/api/book-test/edit/${id}`,
         {
@@ -83,122 +72,162 @@ const AdminEditBookingForm = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(bookingDetails),
         }
       );
 
+      const data = await response.json();
+
       if (response.ok) {
-        setMessage("Appointment updated successfully!");
-        navigate("/admin/manage-booking"); // Navigate to ManageBooking page
+        setSuccessMessage("Booking updated successfully!");
+        navigate(`/admin/bookings/${id}`); // Optionally navigate to the booking details page
       } else {
-        const error = await response.json();
-        setMessage(`Error: ${error.error}`);
+        setErrorMessage(data.error || "Failed to update booking.");
       }
     } catch (error) {
-      setMessage(`Error: ${error.message}`);
+      setErrorMessage("Error updating booking.");
     }
   };
 
   return (
     <div className="container mt-4">
-      <h2>Edit Booking</h2>
-      {message && (
-        <div
-          className={`alert ${
-            message.includes("Error") ? "alert-danger" : "alert-success"
-          }`}
-          role="alert"
-        >
-          {message}
-        </div>
+      <h2>Edit Booking Details</h2>
+
+      {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+      {successMessage && (
+        <div className="alert alert-success">{successMessage}</div>
       )}
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Patient Name</label>
-          <input
-            type="text"
-            className="form-control"
-            name="patient_name"
-            value={formData.patient_name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Patient Contact</label>
-          <input
-            type="text"
-            className="form-control"
-            name="patient_contact"
-            value={formData.patient_contact}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Test Names</label>
-          <input
-            type="text"
-            className="form-control"
-            name="test_names"
-            value={formData.test_names.join(", ")} // Display as a comma-separated string
-            readOnly
-          />
-        </div>
-        <div className="form-group">
-          <label>Appointment Date</label>
-          <input
-            type="datetime-local"
-            className="form-control"
-            name="appointment_date"
-            value={formData.appointment_date}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Slot Date</label>
-          <input
-            type="datetime-local"
-            className="form-control"
-            name="slot_date"
-            value={formData.slot_date}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Total Price</label>
-          <input
-            type="number"
-            className="form-control"
-            name="total_price"
-            value={formData.total_price}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Notes</label>
-          <textarea
-            className="form-control"
-            name="notes"
-            value={formData.notes}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group text-center mt-4">
+
+      {bookingDetails ? (
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="patient_name">Patient Name</label>
+            <input
+              type="text"
+              id="patient_name"
+              name="patient_name"
+              className="form-control"
+              value={bookingDetails.patient_name}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="patient_contact">Patient Contact</label>
+            <input
+              type="text"
+              id="patient_contact"
+              name="patient_contact"
+              className="form-control"
+              value={bookingDetails.patient_contact}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="notes">Notes</label>
+            <textarea
+              id="notes"
+              name="notes"
+              className="form-control"
+              value={bookingDetails.notes}
+              onChange={handleInputChange}
+            ></textarea>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="test_names">Test Names</label>
+            <select
+              value={bookingDetails.test_names}
+              onChange={(e) => {
+                const selectedTests = Array.from(
+                  e.target.selectedOptions,
+                  (option) => option.value
+                );
+                setBookingDetails({
+                  ...bookingDetails,
+                  test_names: selectedTests,
+                });
+              }}
+              multiple
+              className="form-control"
+              required
+            >
+              <option value="" disabled>
+                Select Tests
+              </option>
+              {testOptions.map((test) => (
+                <option key={test.test_id} value={test.test_name}>
+                  {test.test_name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="appointment_date">Appointment Date</label>
+            <input
+              type="date"
+              id="appointment_date"
+              name="appointment_date"
+              className="form-control"
+              value={bookingDetails.appointment_date}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="slot_date">Slot Date</label>
+            <input
+              type="date"
+              id="slot_date"
+              name="slot_date"
+              className="form-control"
+              value={bookingDetails.slot_date}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="total_price">Total Price</label>
+            <input
+              type="number"
+              id="total_price"
+              name="total_price"
+              className="form-control"
+              value={bookingDetails.total_price}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="status">Status</label>
+            <input
+              type="text"
+              id="status"
+              name="status"
+              className="form-control"
+              value={bookingDetails.status}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+
           <button type="submit" className="btn btn-primary">
-            Update
+            Save Changes
           </button>
-        </div>
-      </form>
-      <button
-        onClick={() => navigate(-1)}
-        className="btn btn-secondary mt-3 ms-2"
-      >
-        Cancel
+        </form>
+      ) : (
+        <div>Loading...</div>
+      )}
+
+      <button onClick={() => navigate(-1)} className="btn btn-secondary mt-3">
+        Go Back
       </button>
     </div>
   );

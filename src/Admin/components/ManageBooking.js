@@ -14,11 +14,10 @@ const ManageBooking = () => {
         const response = await fetch("http://127.0.0.1:5000/api/get-appointments");
         const data = await response.json();
 
-        // Log the fetched data to inspect the response
         console.log("Fetched appointments data:", data);
 
         if (response.ok) {
-          setBookings(data); // API response directly provides the list of appointments
+          setBookings(data);
         } else {
           console.error("Failed to fetch appointments:", data.error || "Unknown error");
         }
@@ -102,10 +101,10 @@ const ManageBooking = () => {
                 <td>{booking.patient_contact}</td>
                 <td>{booking.notes}</td>
                 <td>{booking.test_names.join(", ")}</td>
-                <td>{new Date(booking.appointment_date).toLocaleString()}</td>
-                <td>{new Date(booking.slot_date).toLocaleString()}</td>
+                <td>{new Date(booking.appointment_date).toLocaleDateString()}</td>
+                <td>{new Date(booking.slot_date).toLocaleDateString()}</td>
                 <td>{booking.status}</td>
-                <td>${booking.total_price}</td>
+                <td>{booking.total_price}</td>
                 <td>
                   <Link to={`/admin/edit-booking/${booking.appointment_id}`}>
                     <button className="btn btn-primary btn-sm me-2">Edit</button>

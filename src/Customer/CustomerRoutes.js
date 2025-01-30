@@ -1,4 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import CustomerSignup from "./components/customersignup/customersignup";
 import CustomerLogin from "./components/customerlogin/customerlogin";
 import Home from "./components/Homepage/home";
@@ -24,9 +27,28 @@ import ScrollTest from "./components/ScrollTest";
 import UserBookingDetails from "./components/BookingDetails";
 import { useState } from "react";
 
+import ForgotPassword from "./components/CustomerForgotPassword";
+import VerifyOtp from "./components/VerifyPasswordScreen";
+
 function CustomerRoutes() {
-  const [cartData, setCartData] = useState([]);
-  const [clickedIds, setClickedIds] = useState([]);
+  // const [cartData, setCartData] = useState([]);
+  // const [clickedIds, setClickedIds] = useState([]);
+
+  const [cartData, setCartData] = useState(
+    JSON.parse(localStorage.getItem("cartData")) || []
+  );
+  const [clickedIds, setClickedIds] = useState(
+    JSON.parse(localStorage.getItem("clickedIds")) || []
+  );
+
+  // Persist cartData and clickedIds to localStorage on changes
+  useEffect(() => {
+    localStorage.setItem("cartData", JSON.stringify(cartData));
+  }, [cartData]);
+
+  useEffect(() => {
+    localStorage.setItem("clickedIds", JSON.stringify(clickedIds));
+  }, [clickedIds]);
 
   return (
     <>
@@ -62,7 +84,10 @@ function CustomerRoutes() {
 
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/service/:serviceId" element={<ServiceDetail />} />
-            <Route path="/my-dashboard" element={<Dashboard />} />
+            <Route
+              path="/my-dashboard"
+              element={<ProtectedRoute element={<Dashboard />} />}
+            />
             <Route path="/test/menu" element={<AllTestsPage />} />
             <Route path="/sample" element={<Samplecollection />} />
             <Route
@@ -79,21 +104,36 @@ function CustomerRoutes() {
             {/* <Route path="/prescption" element={<Prescription />} /> */}
             <Route path="/reports" element={<TestReports />} />
             <Route path="/test" element={<Test />} />
-            <Route path="/myprofile" element={<MyProfile />} />
+            <Route
+              path="/myprofile"
+              element={<ProtectedRoute element={<MyProfile />} />}
+            />
             <Route
               path="/orders/page"
               element={
-                <OrderDetailsPage
-                  cartData={cartData}
-                  setCartData={setCartData}
-                  clickedIds={clickedIds}
-                  setClickedIds={setClickedIds}
+                <ProtectedRoute
+                  element={
+                    <OrderDetailsPage
+                      cartData={cartData}
+                      setCartData={setCartData}
+                      clickedIds={clickedIds}
+                      setClickedIds={setClickedIds}
+                    />
+                  }
                 />
               }
             />
-            <Route path="/add-address" element={<CustomerAddress />} />
-            <Route path="/scroll-test" element={<ScrollTest />} />
-            <Route path="/booking-details" element={<UserBookingDetails />} />
+
+            <Route
+              path="/add-address"
+              element={<ProtectedRoute element={<CustomerAddress />} />}
+            />
+            {/* <Route path="/scroll-test" element={<ScrollTest />} /> */}
+            <Route
+              path="/booking-details"
+              element={<ProtectedRoute element={<UserBookingDetails />} />}
+            />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
           </Routes>
         </div>
         <Footer />
