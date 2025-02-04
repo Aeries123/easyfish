@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import Review from "./components/Review";
 import ManageCategory from "./components/ManageCategory";
 import LabTechnicianForm from "./components/LabTechnicianForm";
@@ -50,18 +55,32 @@ import AdminViewCustomer from "./components/AdminViewCustomer";
 import AdminViewAddress from "./components/AdminViewAddress";
 import AdminEditAddress from "./components/AdminEditAddress";
 import AdminViewPayment from "./components/AdminViewPayment";
-
+import Technician from "./components/Technician";
+import ManageTechnician from "./components/ManageTechnician";
 
 import "./AdminRoutes.css";
+import ManageEnquiry from "../Customer/components/ManageEnquiry";
 
 const AdminRoutes = () => {
+  const location = useLocation(); // Get the current location
+
+  // Check if the current route is the login page
+  const isLoginPage = location.pathname === "/admin/login";
   return (
     <div>
       {/* <Header /> */}
       {/* <Route path="/admin/login" element={<AdminLogin />} /> */}
       <div className="admin-route-app-container">
-        <Sidebar />
-        <div style={{ alignSelf: "flex-start" }}>
+        {!isLoginPage && (
+          <div>
+            <Sidebar className="admin-route-admin-route-sidebar" />
+            <Header />
+          </div>
+        )}{" "}
+        <div
+          className="admin-route-admin-route-card-container"
+          style={{ alignSelf: "flex-start" }}
+        >
           <Routes>
             <Route path="/admin/" element={<AdminDashboard />} />
             <Route path="/admin/review" element={<Review />} />
@@ -69,6 +88,11 @@ const AdminRoutes = () => {
             <Route path="/admin/login" element={<AdminLogin />} />
 
             <Route path="/admin/manage-category" element={<ManageCategory />} />
+            <Route
+              path="/admin/manage-technician"
+              element={<ManageTechnician />}
+            />
+
             <Route
               path="/admin/lab-technician-form"
               element={<LabTechnicianForm />}
@@ -92,6 +116,8 @@ const AdminRoutes = () => {
               element={<ManageTimeSlots />}
             />
             <Route path="/admin/tests-form" element={<TestsForm />} />
+            <Route path="/admin/technician-form" element={<Technician />} />
+
             <Route path="/admin/addresses" element={<Addresses />} />
             <Route path="/admin/admin-form" element={<AdminForm />} />
             <Route path="/admin/booking" element={<Booking />} />
@@ -107,6 +133,8 @@ const AdminRoutes = () => {
               element={<ManageNotification />}
             />
             <Route path="/admin/manage-admin" element={<ManageAdmin />} />
+            <Route path="/admin/manage-enquiry" element={<ManageEnquiry />} />
+
             <Route path="/admin/manage-address" element={<ManageAddress />} />
             <Route path="/admin/manage-review" element={<ManageReview />} />
             <Route path="/admin/manage-payment" element={<ManagePayment />} />
@@ -165,7 +193,7 @@ const AdminRoutes = () => {
               element={<AdminEditCustomer />}
             />
 
-<Route
+            <Route
               path="/admin/view-address/:customerId"
               element={<AdminViewCustomer />}
             />
@@ -173,7 +201,7 @@ const AdminRoutes = () => {
               path="/admin/edit-address/:customerId"
               element={<AdminEditCustomer />}
             />
-             <Route
+            <Route
               path="/admin/view-payment/:AppointmentId"
               element={<AdminViewPayment />}
             />

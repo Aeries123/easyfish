@@ -45,7 +45,7 @@ const PopupCart = (props) => {
         return response.json();
       })
       .then((data) => {
-        setTestsData(data);
+        setTestsData(data.tests);
         setLoading(false);
       })
       .catch((err) => {

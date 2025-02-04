@@ -1,0 +1,62 @@
+/* Manage Enquiry */
+.manage-manage__manage-enquiry {
+  padding: 20px;
+}
+
+.manage-manage__title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.manage-manage__no-appointments {
+  font-size: 18px;
+  color: #777;
+}
+
+/* Loading and Error Messages */
+.manage-manage__loading,
+.manage-manage__error {
+  text-align: center;
+  font-size: 18px;
+  padding: 10px;
+}
+
+.manage-manage__loading {
+  color: #007bff;
+}
+
+.manage-manage__error {
+  color: red;
+}
+
+/* Table Styles */
+.manage-manage__appointments-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.manage-manage__appointments-table__header-cell,
+.manage-manage__appointments-table__cell {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.manage-manage__appointments-table__header {
+  background-color: #f4f4f4;
+}
+
+.manage-manage__appointments-table__row:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.manage-manage__appointments-table__row:hover {
+  background-color: #e0e0e0;
+}
+
+.manage-manage__appointments-table__header-cell {
+  font-weight: bold;
+  background-color: #f0f0f0;
+}

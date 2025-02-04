@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import CustomerSignup from "./components/customersignup/customersignup";
@@ -21,19 +22,17 @@ import Test from "./components/Test/Test";
 import { AuthProvider } from "./components/Context/AuthContext";
 import MyProfile from "./components/MyProfile/MyProfile";
 import OrderDetailsPage from "./components/OrderDetailsPage";
-import Banner from "./components/Banner/Banner";
 import CustomerAddress from "./components/CustomerAddress";
-import ScrollTest from "./components/ScrollTest";
 import UserBookingDetails from "./components/BookingDetails";
-import { useState } from "react";
-
 import ForgotPassword from "./components/CustomerForgotPassword";
-import VerifyOtp from "./components/VerifyPasswordScreen";
+import { ViewBookings } from "./components/ViewBooking/view_Booking";
+import Cookies from "js-cookie"; // Import js-cookie
 
 function CustomerRoutes() {
   // const [cartData, setCartData] = useState([]);
   // const [clickedIds, setClickedIds] = useState([]);
-
+  // const [cartData, setCartData] = useState([]);
+  // const [clickedIds, setClickedIds] = useState([]);
   const [cartData, setCartData] = useState(
     JSON.parse(localStorage.getItem("cartData")) || []
   );
@@ -41,104 +40,192 @@ function CustomerRoutes() {
     JSON.parse(localStorage.getItem("clickedIds")) || []
   );
 
+  // const [cartData, setCartData] = useState([]);
+  // const [clickedIds, setClickedIds] = useState([]);
+
+  // Function to get JWT token from cookies
+  // const getJwtToken = () => Cookies.get("jwtToken") || "";
+
+  console.log(cartData, "lkujhyv fjkbhb");
+  const token = Cookies.get("jwtToken"); // Get token from cookies
+
+  const [cartTotal, setCartTotal] = useState(0);
+
+  // Fetch cart data from backend when component mounts
+
   // Persist cartData and clickedIds to localStorage on changes
   useEffect(() => {
     localStorage.setItem("cartData", JSON.stringify(cartData));
+    updateCartInBackend();
   }, [cartData]);
 
   useEffect(() => {
     localStorage.setItem("clickedIds", JSON.stringify(clickedIds));
   }, [clickedIds]);
 
+  const updateCartInBackend = async () => {
+    if (cartData.length === 0) return; // Avoid sending empty updates
+
+    const testIds = cartData.map((item) => item.test_id); // Extract test IDs
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/add-to-cart",
+        { test_ids: testIds, total_price: cartTotal },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (response.data.success) {
+        console.log("Cart data updated successfully in the backend");
+      }
+    } catch (error) {
+      console.error("Error updating cart data:", error);
+    }
+  };
+
+  // useEffect(() => {
+  //   const fetchCartData = async () => {
+  //     try {
+  //       const response = await axios.get("http://localhost:5000/api/get-cart", {
+  //         headers: { Authorization: `Bearer ${token}` },
+  //       });
+  //       // const data = await response.json();
+  //       console.log(response.data, "uyvwfgbiubhkj");
+  //       setCartData(response.data.test_details || []);
+  //       setClickedIds(response.data.cartData.map((item) => item.id) || []);
+  //     } catch (error) {
+  //       console.error("Error fetching cart data:", error);
+  //     }
+  //   };
+
+  //   fetchCartData();
+  // }, []);
+
+  useEffect(() => {
+    const calculateTotal = () => {
+      const total = cartData.reduce(
+        (sum, item) => sum + Number(item.price || 0),
+        0
+      );
+      setCartTotal(total);
+    };
+    calculateTotal();
+  }, [cartData]);
+
+  const addToCart = async (testItem) => {
+    try {
+      console.log("clicked2");
+      const response = await axios.post(
+        "http://localhost:5000/api/add-to-cart",
+        {
+          test_ids: testItem.test_id,
+          total_price: cartTotal, // Sending total price
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (response.data.success) {
+        setCartData((prev) => [...prev, testItem]);
+        setClickedIds((prev) => [...prev, testItem.id]);
+      }
+    } catch (error) {
+      console.error("Error adding test to cart:", error);
+    }
+  };
+
   return (
-    <>
-      <AuthProvider>
-        <Header />
-        <div className="customer-route-app-container">
-          <Routes>
-            <Route path="/customer/login" element={<CustomerLogin />} />
-            <Route path="/customer/register" element={<CustomerSignup />} />
-            <Route path="/verify-otp" element={<VerifyOTP />} />
-            <Route
-              path="/"
-              element={
-                <Home
-                  cartData={cartData}
-                  setCartData={setCartData}
-                  clickedIds={clickedIds}
-                  setClickedIds={setClickedIds}
-                />
-              }
-            />
-            <Route
-              path="/book-test"
-              element={
-                <Tests
-                  cartData={cartData}
-                  setCartData={setCartData}
-                  clickedIds={clickedIds}
-                  setClickedIds={setClickedIds}
-                />
-              }
-            />
-
-            <Route path="/about-us" element={<AboutUs />} />
-            <Route path="/service/:serviceId" element={<ServiceDetail />} />
-            <Route
-              path="/my-dashboard"
-              element={<ProtectedRoute element={<Dashboard />} />}
-            />
-            <Route path="/test/menu" element={<AllTestsPage />} />
-            <Route path="/sample" element={<Samplecollection />} />
-            <Route
-              path="/cart"
-              element={
-                <Cart
-                  cartData={cartData}
-                  setCartData={setCartData}
-                  clickedIds={clickedIds}
-                  setClickedIds={setClickedIds}
-                />
-              }
-            />
-            {/* <Route path="/prescption" element={<Prescription />} /> */}
-            <Route path="/reports" element={<TestReports />} />
-            <Route path="/test" element={<Test />} />
-            <Route
-              path="/myprofile"
-              element={<ProtectedRoute element={<MyProfile />} />}
-            />
-            <Route
-              path="/orders/page"
-              element={
-                <ProtectedRoute
-                  element={
-                    <OrderDetailsPage
-                      cartData={cartData}
-                      setCartData={setCartData}
-                      clickedIds={clickedIds}
-                      setClickedIds={setClickedIds}
-                    />
-                  }
-                />
-              }
-            />
-
-            <Route
-              path="/add-address"
-              element={<ProtectedRoute element={<CustomerAddress />} />}
-            />
-            {/* <Route path="/scroll-test" element={<ScrollTest />} /> */}
-            <Route
-              path="/booking-details"
-              element={<ProtectedRoute element={<UserBookingDetails />} />}
-            />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-          </Routes>
-        </div>
-        <Footer />
-      </AuthProvider>
-    </>
+    <AuthProvider>
+      <Header />
+      <div className="customer-route-app-container">
+        <Routes>
+          <Route path="/customer/login" element={<CustomerLogin />} />
+          <Route path="/customer/register" element={<CustomerSignup />} />
+          <Route path="/verify-otp" element={<VerifyOTP />} />
+          <Route
+            path="/"
+            element={
+              <Home
+                cartData={cartData}
+                setCartData={setCartData}
+                clickedIds={clickedIds}
+                setClickedIds={setClickedIds}
+                addToCart={addToCart} // Pass addToCart function
+              />
+            }
+          />
+          <Route
+            path="/book-test"
+            element={
+              <Tests
+                cartData={cartData}
+                setCartData={setCartData}
+                clickedIds={clickedIds}
+                setClickedIds={setClickedIds}
+                // addToCart={addToCart} // Pass addToCart function
+              />
+            }
+          />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/service/:serviceId" element={<ServiceDetail />} />
+          <Route
+            path="/my-dashboard"
+            element={<ProtectedRoute element={<Dashboard />} />}
+          />
+          <Route path="/test/menu" element={<AllTestsPage />} />
+          <Route path="/sample" element={<Samplecollection />} />
+          <Route
+            path="/cart"
+            element={
+              <Cart
+                cartData={cartData}
+                setCartData={setCartData}
+                clickedIds={clickedIds}
+                setClickedIds={setClickedIds}
+              />
+            }
+          />
+          <Route path="/reports" element={<TestReports />} />
+          <Route path="/test" element={<Test />} />
+          <Route
+            path="/myprofile"
+            element={<ProtectedRoute element={<MyProfile />} />}
+          />
+          <Route
+            path="/orders/page"
+            element={
+              <ProtectedRoute
+                element={
+                  <OrderDetailsPage
+                    cartData={cartData}
+                    setCartData={setCartData}
+                    clickedIds={clickedIds}
+                    setClickedIds={setClickedIds}
+                  />
+                }
+              />
+            }
+          />
+          <Route
+            path="/add-address"
+            element={<ProtectedRoute element={<CustomerAddress />} />}
+          />
+          <Route
+            path="/booking-details"
+            element={<ProtectedRoute element={<UserBookingDetails />} />}
+          />
+          <Route
+            path="/view/bookings/:appointment_id"
+            element={<ProtectedRoute element={<ViewBookings />} />}
+          />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+        </Routes>
+      </div>
+      <Footer />
+    </AuthProvider>
   );
 }
 

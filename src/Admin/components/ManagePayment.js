@@ -88,7 +88,7 @@ const ManagePayment = () => {
                 <td>{payment.payment_details.amount}</td>
                 <td>{payment.payment_details.transaction_id}</td>
                 <td>
-                  <Link to={`/admin/view-booking/${payment.appointment_id}`}>
+                  <Link to={`/admin/view-payment/${payment.appointment_id}`}>
                                       <button className="btn btn-primary btn-sm me-2">View</button>
                                     </Link>
                 </td>

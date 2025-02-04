@@ -85,7 +85,7 @@ const ManageCategory = () => {
     <div className="container mt-4">
       <h2>Manage Categories</h2>
        <Link to="/admin/category">
-              <button>Add Test</button>
+              <button>Add Categories</button>
             </Link>
 
       {/* Search Input */}

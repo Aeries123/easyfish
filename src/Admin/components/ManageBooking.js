@@ -11,13 +11,13 @@ const ManageBooking = () => {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/get-appointments");
+        const response = await fetch(`http://127.0.0.1:5000/api/get-appointments`);
         const data = await response.json();
 
         console.log("Fetched appointments data:", data);
 
         if (response.ok) {
-          setBookings(data);
+          setBookings(data || []);
         } else {
           console.error("Failed to fetch appointments:", data.error || "Unknown error");
         }
@@ -27,7 +27,7 @@ const ManageBooking = () => {
     };
 
     fetchAppointments();
-  }, []);
+  }, []); // No need to include userId in the dependencies anymore
 
   const filteredBookings = bookings.filter((booking) =>
     Object.values(booking).some(
@@ -39,10 +39,7 @@ const ManageBooking = () => {
 
   const indexOfLastBooking = currentPage * rowsPerPage;
   const indexOfFirstBooking = indexOfLastBooking - rowsPerPage;
-  const currentBookings = filteredBookings.slice(
-    indexOfFirstBooking,
-    indexOfLastBooking
-  );
+  const currentBookings = filteredBookings.slice(indexOfFirstBooking, indexOfLastBooking);
 
   const totalPages = Math.ceil(filteredBookings.length / rowsPerPage);
 
@@ -83,12 +80,15 @@ const ManageBooking = () => {
             <th>Appointment ID</th>
             <th>Patient Name</th>
             <th>Contact</th>
-            <th>Notes</th>
             <th>Test Names</th>
             <th>Appointment Date</th>
             <th>Slot Date</th>
             <th>Status</th>
             <th>Total Price</th>
+            <th>Patient Count</th>
+            <th>Assigned Technician</th> {/* New Column */}
+            <th>Sample Collection</th>  {/* New Column */}
+            <th>Payment Status</th>    {/* New Column */}
             <th>Actions</th>
           </tr>
         </thead>
@@ -99,16 +99,16 @@ const ManageBooking = () => {
                 <td>{booking.appointment_id}</td>
                 <td>{booking.patient_name}</td>
                 <td>{booking.patient_contact}</td>
-                <td>{booking.notes}</td>
-                <td>{booking.test_names.join(", ")}</td>
+                <td>{booking.test_names.join(", ")}</td>  {/* Display test names */}
                 <td>{new Date(booking.appointment_date).toLocaleDateString()}</td>
                 <td>{new Date(booking.slot_date).toLocaleDateString()}</td>
                 <td>{booking.status}</td>
                 <td>{booking.total_price}</td>
+                <td>{booking.patient_count || 1}</td>  {/* Display patient count */}
+                <td>{booking.assign}</td> {/* Display assigned technician */}
+                <td>{booking.sample_collection}</td>  {/* Display sample collection status */}
+                <td>{booking.payment_status}</td>    {/* Display payment status */}
                 <td>
-                  <Link to={`/admin/edit-booking/${booking.appointment_id}`}>
-                    <button className="btn btn-primary btn-sm me-2">Edit</button>
-                  </Link>
                   <Link to={`/admin/view-booking/${booking.appointment_id}`}>
                     <button className="btn btn-primary btn-sm me-2">View</button>
                   </Link>
@@ -123,7 +123,7 @@ const ManageBooking = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="10" className="text-center">
+              <td colSpan="12" className="text-center">
                 No bookings found.
               </td>
             </tr>

@@ -227,6 +227,7 @@ const OrderDetailsPage = ({
   clickedIds,
   setClickedIds,
 }) => {
+  console.log(cartData, "order details");
 
   const [members, setMembers] = useState(() => {
     const savedMembers = localStorage.getItem("members");
@@ -244,6 +245,8 @@ const OrderDetailsPage = ({
         ];
   });
 
+  console.log(members.length,"length")
+
   const [userDetails, setUserDetails] = useState({
     name: "",
     age: "",
@@ -258,6 +261,45 @@ const OrderDetailsPage = ({
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [step, setStep] = useState(1);
+  const [selectedAddress, setSelectedAddress] = useState(null);
+  const [addresses, setAddresses] = useState([]);
+  const [isPopupOpened, setIsPopupOpened] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAddresses = async () => {
+      try {
+        const token = Cookies.get("jwtToken"); // Get JWT token using js-cookie
+
+        if (!token) {
+          setError("No authentication token found.");
+          setIsLoading(false);
+          return;
+        }
+
+        const response = await fetch("http://127.0.0.1:5000/api/addresses", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch addresses");
+        }
+
+        const data = await response.json();
+        console.log(data, "address123");
+        setAddresses(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAddresses();
+  }, []);
 
   useEffect(() => {
     const fetchTests = async () => {
@@ -279,18 +321,69 @@ const OrderDetailsPage = ({
     localStorage.setItem("members", JSON.stringify(members));
   }, [members]);
 
-  const handleAddMember = () => {
+  const handleOpenAddressPopup = () => setIsPopupOpened(true);
+  const handleCloseAddressPopup = () => setIsPopupOpened(false);
+
+  const handleAddressSelect = (address) => {
+    setSelectedAddress(address); // Update the selected address in the parent component
+    handleCloseAddressPopup(); // Close the popup
+  };
+
+  const handleAddMember = async () => {
+    if (members.length > 0) {
+      // Get the last added member
+      const lastMember = members[members.length - 1];
+      console.log(lastMember,"lasst members details")
+
+      // Prepare data to send to the backend
+      const memberData = {
+        patient_id: members.length, // Using phoneNumber as patient_id
+        test_ids: lastMember.clickedIds.join(","), // Convert array to string
+        total_price: lastMember.cartData.reduce(
+          (sum, item) => sum + Number(item.price),
+          0
+        ),
+        status: "draft",
+        patientDetails:lastMember
+      };
+
+      // Get the token from cookies
+      const token = Cookies.get("jwtToken");
+
+      try {
+        const response = await fetch(
+          "http://127.0.0.1:5000/api/draft_appointments",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`, 
+            },
+            body: JSON.stringify(memberData),
+          }
+        );
+
+        if (!response.ok) throw new Error("Failed to save member data");
+
+        console.log("Previous member data saved successfully");
+      } catch (error) {
+        console.error("Error saving member data:", error);
+        return; // Stop execution if API call fails
+      }
+    }
+
+    // Add a new member after saving the last member's data
     const newMember = {
       name: "",
       age: "",
       gender: "",
       phoneNumber: "",
-      cartData: [],
-      clickedIds: [],
+      cartData: cartData,
+      clickedIds: clickedIds,
     };
+
     setMembers([...members, newMember]);
   };
-
   const handleRemoveMember = (index) => {
     const updatedMembers = members.filter((_, i) => i !== index);
     setMembers(updatedMembers);
@@ -335,7 +428,7 @@ const OrderDetailsPage = ({
     0
   );
 
-  console.log(totalPrice,"total Price")
+  console.log(totalPrice, "total Price");
 
   const steps = ["Select Details", "Choose Slot", "Confirm Payment"];
 
@@ -381,6 +474,7 @@ const OrderDetailsPage = ({
               <div className="order-order-member-details">
                 <MemberDetailsForm
                   userDetails={member}
+                  setSelectedAddress={setSelectedAddress}
                   setUserDetails={setUserDetails}
                   updateMemberDetails={(updatedDetails) =>
                     updateMemberDetails(index, updatedDetails)
@@ -417,6 +511,73 @@ const OrderDetailsPage = ({
               </button>
             </div>
           ))}
+
+          {/* Address Selection */}
+          <div className="member-member-form-address-container">
+            {selectedAddress ? (
+              <div className="member-member-form-selected-address">
+                <p>
+                  <strong>Address:</strong> {selectedAddress.door_no},{" "}
+                  {selectedAddress.street}, {selectedAddress.village},{" "}
+                  {selectedAddress.mandal}, {selectedAddress.district},{" "}
+                  {selectedAddress.state}, {selectedAddress.country},{" "}
+                  {selectedAddress.pincode}
+                </p>
+                <button
+                  className="member-member-form-change-address-button"
+                  onClick={handleOpenAddressPopup}
+                >
+                  Change Address
+                </button>
+              </div>
+            ) : (
+              <button
+                className="member-member-form-add-address-button"
+                onClick={handleOpenAddressPopup}
+              >
+                Select Address
+              </button>
+            )}
+          </div>
+
+          {/* Address Popup */}
+          {isPopupOpened && (
+            <div className="member-member-address-main-popup">
+              <div className="member-member-address-popup">
+                <div className="member-member-popup-header">
+                  <h1>
+                    <strong>Choose your address</strong>
+                  </h1>
+                  <button
+                    className="member-member-popup-close-btn"
+                    onClick={handleCloseAddressPopup}
+                  >
+                    Close
+                  </button>
+                </div>
+                <div className="member-member-popup-body">
+                  {addresses.map((address) => (
+                    <div
+                      key={address.address_id}
+                      className="member-member-address-item"
+                      onClick={() => handleAddressSelect(address)}
+                    >
+                      <p>
+                        {address.door_no}, {address.street}, {address.village},{" "}
+                        {address.mandal}, {address.district}, {address.state},{" "}
+                        {address.country}, {address.pincode}
+                      </p>
+                    </div>
+                  ))}
+                  <Link to="/add-address">
+                    <button className="member-member-add-address-btn">
+                      Add Address
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
           <button
             className="order-order-add-member-btn"
             onClick={handleAddMember}

@@ -27,8 +27,7 @@ const TestCheckupList = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  console.log("member car2d:",cartData)
-
+  console.log("member car2d:", cartData);
 
   // Fetch tests data
   useEffect(() => {
@@ -37,7 +36,7 @@ const TestCheckupList = ({
         const response = await fetch("http://127.0.0.1:5000/api/tests");
         if (!response.ok) throw new Error("Failed to fetch data");
         const data = await response.json();
-        setTestsData(data);
+        setTestsData(data.tests);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -55,20 +54,30 @@ const TestCheckupList = ({
   const handleRemoveTest = (testId) => {
     // setCartData((prev) => prev.filter((item) => item.test_id !== testId));
     // setClickedIds((prev) => prev.filter((id) => id !== testId));
+    // Check if the testId exists in any member's clickedIds
+    setMainClickedIds((prev) => prev.filter((id) => id !== testId));
+    setMainCartData((prev) => prev.filter((item) => item.test_id !== testId));
     onRemoveTest(testId);
   };
 
   // Handle add/remove button click
   const handleButtonClick = (test) => {
-    console.log("test Clicked")
+    console.log("test Clicked");
+
     if (clickedIds.includes(test.test_id)) {
+      console.log(setMainClickedIds, "set");
+
       setClickedIds(clickedIds.filter((id) => id !== test.test_id));
       setCartData(cartData.filter((item) => item.test_id !== test.test_id));
+      setMainCartData((prev) =>
+        prev.filter((each) => each.test_id !== test.test_id)
+      );
+      setMainClickedIds((prev) => prev.filter((each) => each !== test.test_id));
     } else {
       setClickedIds([...clickedIds, test.test_id]);
-      setMainClickedIds([...mainClickedIds,test.test_id])
+      setMainClickedIds([...mainClickedIds, test.test_id]);
       setCartData([...cartData, test]);
-      setMainCartData([...mainCartData,test])
+      setMainCartData([...mainCartData, test]);
     }
   };
 

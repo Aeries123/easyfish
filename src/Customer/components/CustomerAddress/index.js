@@ -1,14 +1,16 @@
 import React, { useState } from "react";
+import Cookies from "js-cookie"; // Import js-cookie
 import "./index.css";
 
 const CustomerAddress = ({ onClose }) => {
   const [address, setAddress] = useState({
-    houseNo: "",
+    door_no: "",
     street: "",
     village: "",
-    city: "",
+    mandal: "",
     district: "",
     state: "",
+    country: "India", // Default country
     pincode: "",
   });
 
@@ -20,9 +22,36 @@ const CustomerAddress = ({ onClose }) => {
     }));
   };
 
-  const handleSubmit = () => {
-    console.log("New address added:", address);
-    onClose();
+  const handleSubmit = async () => {
+    const token = Cookies.get("jwtToken"); // Get token from cookies
+
+    if (!token) {
+      alert("Authentication required. Please log in.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://127.0.0.1:5000//api/addresses", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Send token in Authorization header
+        },
+        body: JSON.stringify(address),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Address added successfully!");
+        onClose();
+      } else {
+        alert(`Error: ${data.error}`);
+      }
+    } catch (error) {
+      console.error("Error adding address:", error);
+      // alert("Failed to add address. Please try again.");
+    }
   };
 
   return (
@@ -33,10 +62,10 @@ const CustomerAddress = ({ onClose }) => {
         <input
           className="customer-address-input"
           type="text"
-          name="houseNo"
-          value={address.houseNo}
+          name="door_no"
+          value={address.door_no}
           onChange={handleInputChange}
-          placeholder="House No."
+          placeholder="Door No."
         />
         <input
           className="customer-address-input"
@@ -57,10 +86,10 @@ const CustomerAddress = ({ onClose }) => {
         <input
           className="customer-address-input"
           type="text"
-          name="city"
-          value={address.city}
+          name="mandal"
+          value={address.mandal}
           onChange={handleInputChange}
-          placeholder="City"
+          placeholder="Mandal"
         />
         <input
           className="customer-address-input"

@@ -167,7 +167,7 @@ function Tests(props) {
       })
       .then((data) => {
         console.log(data);
-        setTestsData(data);
+        setTestsData(data.tests);
         setLoading(false);
       })
       .catch((err) => {

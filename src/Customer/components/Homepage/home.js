@@ -75,43 +75,43 @@ const testimonials1 = [
   {
     id: 1,
     text: "This service is absolutely outstanding! The convenience and ease of booking, coupled with the accuracy and speed of the reports, make it a top choice. I highly recommend it to anyone who values quick and reliable health checkups.",
-    author: "John Doe",
+    author: "Sagar D",
     rating: "⭐ ⭐ ⭐ ⭐ ⭐",
   },
   {
     id: 2,
     text: "I loved the variety of packages offered and how easy it is to select the one that best fits my needs. The quick turnaround time for reports was impressive, and I felt confident in the results. Great experience overall!",
-    author: "Jane Smith",
+    author: "Laharika",
     rating: "⭐ ⭐ ⭐ ⭐",
   },
   {
     id: 3,
     text: "Affordable, reliable, and efficient! I’ve used their services multiple times, and each experience has been better than the last. The health checkups are thorough, and I always receive accurate results, making this my go-to provider.",
-    author: "Robert Brown",
+    author: "Naresh",
     rating: "⭐ ⭐ ⭐ ⭐ ⭐",
   },
   {
     id: 4,
     text: "Great customer support and timely service. I had some questions about the tests I needed, and their team was quick to provide clear answers. The service was on time, and the reports were delivered as promised. I trust them for all my health checkup needs.",
-    author: "Emily Davis",
+    author: "Jagadeesh",
     rating: "⭐ ⭐ ⭐ ⭐ ⭐",
   },
   {
     id: 5,
     text: "The home sample collection service is so convenient! I didn’t have to leave my home to get the tests done, and the reports were available on the portal in no time. Very efficient and customer-centric.",
-    author: "Michael Wilson",
+    author: "Srikanth",
     rating: "⭐ ⭐ ⭐ ⭐",
   },
   {
     id: 6,
     text: "I was a bit skeptical at first, but this service exceeded my expectations. The process was smooth, the staff was friendly, and the reports were delivered faster than expected. I am thoroughly impressed and will definitely continue using it.",
-    author: "Sara Johnson",
+    author: "Sandhya",
     rating: "⭐ ⭐ ⭐ ⭐ ⭐",
   },
   {
     id: 7,
     text: "The affordability of the packages was the first thing that attracted me, but the quality of the tests and customer service is what keeps me coming back. I’ve recommended it to all my family and friends!",
-    author: "David Lee",
+    author: "Lalitha",
     rating: "⭐ ⭐ ⭐ ⭐ ⭐",
   },
   {
@@ -166,7 +166,7 @@ const NextArrow = (props) => {
 };
 
 const Home = (props) => {
-  const { cartData, setCartData, clickedIds, setClickedIds } = props;
+  const { cartData, setCartData, clickedIds, setClickedIds,addToCart } = props;
   const [isFullDataVisible, setIsFullDataVisible] = useState(false);
   const [isAllImagesVisible, setImagesAllVisible] = useState(false);
   const [testsData, setTestsData] = useState([]);
@@ -189,8 +189,8 @@ const Home = (props) => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
-        setTestsData(data);
+        console.log(data,"tests");
+        setTestsData(data.tests);
         setLoading(false);
       })
       .catch((err) => {
@@ -259,6 +259,14 @@ const Home = (props) => {
     setImagesAllVisible((prev) => !prev);
   };
   const buttonContent = isFullDataVisible ? "View Less" : "View More";
+
+  const handleAddToCart = (testItem) => {
+    console.log("clicked1")
+    // Add the test to the backend and update the local cart data
+    addToCart(testItem);
+  };
+
+
   return (
     <div className="home-container">
       <CarouselContainer />

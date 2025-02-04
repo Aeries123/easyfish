@@ -1,4 +1,6 @@
 import React from "react";
+import { MdNotificationsActive } from "react-icons/md";
+
 import "./Header.css";
 
 const Header = () => {
@@ -8,22 +10,22 @@ const Header = () => {
   };
 
   return (
-    <header className="header">
+    <header className="admin-header-header">
       <div className="header-left">
-        <img src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736159475/Screenshot_2025-01-06_160018_so8uaf.png" alt="Logo" className="logo" />
-      
+        <img
+          src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736159475/Screenshot_2025-01-06_160018_so8uaf.png"
+          alt="Logo"
+          className="logo"
+        />
       </div>
       <button className="logout-button" onClick={handleLogout}>
-        Logout
+        <MdNotificationsActive className="admin-header-notification-icon" />
       </button>
     </header>
   );
 };
 
 export default Header;
-
-
-
 
 // import React from 'react';
 // import 'bootstrap/dist/css/bootstrap.min.css';

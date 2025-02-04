@@ -10,10 +10,8 @@ const MemberDetailsForm = ({
   selectedAddress,
   updateMemberDetails,
 }) => {
-  const [addresses, setAddresses] = useState([]);
-  const [isPopupOpened, setIsPopupOpened] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  
+  
 
   const handleNameChange = (e) =>
     updateMemberDetails({ name: e.target.value });
@@ -27,50 +25,7 @@ const MemberDetailsForm = ({
   const handlePhoneChange = (e) =>
     updateMemberDetails({ phone: e.target.value });
 
-  const handleOpenAddressPopup = () => setIsPopupOpened(true);
-  const handleCloseAddressPopup = () => setIsPopupOpened(false);
-
-  const handleAddressSelect = (address) => {
-    setSelectedAddress(address); // Update the selected address in the parent component
-    handleCloseAddressPopup(); // Close the popup
-  };
-
-  useEffect(() => {
-    const fetchAddresses = async () => {
-      try {
-        const token = Cookies.get("jwtToken"); // Get JWT token using js-cookie
-
-        if (!token) {
-          setError("No authentication token found.");
-          setIsLoading(false);
-          return;
-        }
-
-        const response = await fetch(
-          "http://127.0.0.1:5000/api/user/addresses",
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch addresses");
-        }
-
-        const data = await response.json();
-        setAddresses(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchAddresses();
-  }, []);
+  
 
   return (
     <div className="member-member-form-container">
@@ -136,72 +91,7 @@ const MemberDetailsForm = ({
         </div>
       </div>
 
-      {/* Address Selection */}
-      <div className="member-member-form-address-container">
-        {selectedAddress ? (
-          <div className="member-member-form-selected-address">
-            <p>
-              <strong>Address:</strong> {selectedAddress.door_no},{" "}
-              {selectedAddress.street}, {selectedAddress.village},{" "}
-              {selectedAddress.mandal}, {selectedAddress.district},{" "}
-              {selectedAddress.state}, {selectedAddress.country},{" "}
-              {selectedAddress.pincode}
-            </p>
-            <button
-              className="member-member-form-change-address-button"
-              onClick={handleOpenAddressPopup}
-            >
-              Change Address
-            </button>
-          </div>
-        ) : (
-          <button
-            className="member-member-form-add-address-button"
-            onClick={handleOpenAddressPopup}
-          >
-            Select Address
-          </button>
-        )}
-      </div>
-
-      {/* Address Popup */}
-      {isPopupOpened && (
-        <div className="member-member-address-main-popup">
-          <div className="member-member-address-popup">
-            <div className="member-member-popup-header">
-              <h1>
-                <strong>Choose your address</strong>
-              </h1>
-              <button
-                className="member-member-popup-close-btn"
-                onClick={handleCloseAddressPopup}
-              >
-                Close
-              </button>
-            </div>
-            <div className="member-member-popup-body">
-              {addresses.map((address) => (
-                <div
-                  key={address.address_id}
-                  className="member-member-address-item"
-                  onClick={() => handleAddressSelect(address)}
-                >
-                  <p>
-                    {address.door_no}, {address.street}, {address.village},{" "}
-                    {address.mandal}, {address.district}, {address.state},{" "}
-                    {address.country}, {address.pincode}
-                  </p>
-                </div>
-              ))}
-              <Link to="/add-address">
-                <button className="member-member-add-address-btn">
-                  Add Address
-                </button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
+      
     </div>
   );
 };

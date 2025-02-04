@@ -46,7 +46,8 @@ const Cart = (props) => {
         return response.json();
       })
       .then((data) => {
-        setTestsData(data);
+        console.log(data,"abcd")
+        setTestsData(data.tests);
         setLoading(false);
       })
       .catch((err) => {

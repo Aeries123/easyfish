@@ -1,17 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
-import './VerifyOtp.css'
+import Cookies from "js-cookie";
+import Slider from "react-slick";
+import "./VerifyOtp.css"; // Using the same styles as CustomerLogin
+import { AuthContext } from "../Context/AuthContext";
 
 const VerifyOTP = () => {
+  const { setUserName } = useContext(AuthContext);
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
-  const mobile = location.state?.mobile; // Get mobile from state passed from the login page
+  const phone = location.state?.phone; // Getting phone from state
+
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
 
   const handleChange = (e) => {
     setOtp(e.target.value);
+    if (error) setError(""); // Clear error on input change
   };
 
   const handleSubmit = async (e) => {
@@ -22,19 +34,23 @@ const VerifyOTP = () => {
       return;
     }
 
-    // Call your API to verify OTP
     try {
-      const response = await fetch("http://your-api-endpoint/otp/verify", {
+      const response = await fetch("http://localhost:5000/api/verify-otp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ mobile, otp }),
+        body: JSON.stringify({ phone, otp }),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
-        // Redirect to the home page upon successful verification
-        navigate("/home");
+        const jwtToken = data.token;
+        const name = data.name;
+        Cookies.set("jwtToken", jwtToken, { expires: 7 });
+        setUserName(name);
+        navigate("/"); // Redirect to home page after successful login
       } else {
         setError("Invalid OTP, please try again.");
       }
@@ -45,21 +61,49 @@ const VerifyOTP = () => {
   };
 
   return (
-    <div className="verify-otp-container">
-      <h2>Verify OTP</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Enter OTP</label>
+    <div className="customer-login-main-container">
+      <div className="login-slider-container">
+        <Slider {...sliderSettings}>
+          <div className="login-slider-image-container">
+            <img
+              src="https://res.cloudinary.com/dabzdwxet/image/upload/v1736427737/team_shgiay.jpg"
+              alt="Slide 1"
+              className="login-images"
+            />
+          </div>
+          <div className="login-slider-image-container">
+            <img
+              src="https://res.cloudinary.com/dabzdwxet/image/upload/v1736427737/team_shgiay.jpg"
+              alt="Slide 2"
+              className="login-images"
+            />
+          </div>
+        </Slider>
+      </div>
+
+      <div className="login-form-container">
+        <h2 className="login-sub-heading">Verify OTP</h2>
+        <p className="login-description">
+          Enter the OTP sent to your mobile number.
+        </p>
+        <form onSubmit={handleSubmit} className="login-form">
+          <label className="login-label" htmlFor="otp">
+            OTP
+          </label>
           <input
             type="text"
+            id="otp"
             value={otp}
             onChange={handleChange}
-            required
+            placeholder="Enter OTP"
+            className="login-input"
           />
-        </div>
-        {error && <p>{error}</p>}
-        <button type="submit">Verify OTP</button>
-      </form>
+          {error && <p className="login-error-msg">{error}</p>}
+          <button type="submit" className="login-button">
+            Verify OTP
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

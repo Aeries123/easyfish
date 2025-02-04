@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Cookies from "js-cookie";
+import { useNavigate } from 'react-router-dom'; // Import useNavigate hook from react-router-dom
+
 import "./AdminLogin.css";
 
 const AdminLogin = () => {
@@ -7,6 +9,8 @@ const AdminLogin = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const navigate = useNavigate(); // Use useNavigate hook
+
 
   const handleLogin = async (e) => {
     e.preventDefault(); // Prevent form submission default action
@@ -28,6 +32,8 @@ const AdminLogin = () => {
         setError(data.error || "An error occurred. Please try again.");
       } else {
         setSuccess(data.message);
+        navigate('/admin'); // Use navigate instead of history.push
+
         // Store the token in cookies
         Cookies.set("authToken", data.token, { expires: 2 }); // Token expires in 2 days
         console.log("Token stored in cookies:", data.token);
