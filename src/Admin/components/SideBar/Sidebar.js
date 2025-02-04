@@ -13,6 +13,8 @@ const Sidebar = () => {
     { path: "/admin/manage-booking", label: "Manage Bookings" },
     { path: "/admin/manage-tests", label: "Manage Tests" },
     { path: "/admin/manage-customer", label: "Manage Customers" },
+    { path: "/admin/prescriptions", label: "Prescriptions" },
+
     { path: "/admin/manage-enquiry", label: "Manage Enquiry" },
 
     // { path: "/admin/customer", label: "Customers" },

@@ -41,6 +41,7 @@ const VerifyOTP = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ phone, otp }),
+        credentials: "include",
       });
 
       const data = await response.json();

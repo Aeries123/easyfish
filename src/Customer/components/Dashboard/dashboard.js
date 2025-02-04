@@ -53,7 +53,7 @@ function Dashboard() {
     userName: "",
     userPhoneNumber: "",
   });
-  const [bookingDetails,setBookingDetails]=useState([])
+  const [bookingDetails, setBookingDetails] = useState([]);
 
   const active = [];
   const past = [];
@@ -71,12 +71,10 @@ function Dashboard() {
         },
       };
       const fetchDetails = await fetch(BookingUrl, options);
-      if (fetchDetails.ok){
-        const response=await fetchDetails.json()
-        setBookingDetails(response)
+      if (fetchDetails.ok) {
+        const response = await fetchDetails.json();
+        setBookingDetails(response);
       }
-
-      
     };
     getBookingDetails();
   }, []);
@@ -508,38 +506,98 @@ function Dashboard() {
                     })}
                 </tbody>
               </table> */}
-              {
-              bookingDetails.map(each=><>
-
-                <table style={{margin:"10px"}}>
-  <thead>
-    <tr style={{border:"1px solid black"}}>
-      <th style={{border:"1px solid black"}} className="text-center">S.No</th>
-      <th style={{border:"1px solid black"}} className="text-center">User Name</th>
-      <th style={{border:"1px solid black"}} className="text-center">Booking Status</th>
-      <th style={{border:"1px solid black"}} className="text-center">Technician Assigned Status</th>
-      <th style={{border:"1px solid black"}} className="text-center">Amount Status</th>
-      <th style={{border:"1px solid black"}} className="text-center">Action</th>
-    </tr>
-
-
-  </thead>
-  <tbody>
-    <tr style={{border:"1px solid black"}} className="text-center">
-    <td style={{border:"1px solid black"}} className="text-center">1</td>
-    <td style={{border:"1px solid black"}} className="text-center">{each.patient_name}</td>
-    <td style={{border:"1px solid black"}} className="text-center">{each.status}</td>
-    <td style={{border:"1px solid black"}} className="text-center">{each.assign}</td>
-    <td style={{border:"1px solid black"}} className="text-center">{each.payment_status}</td>
-    <td style={{border:"1px solid black"}} className="text-center btn btn-danger m-3 w-50">
-      <Link to={`/view/bookings/${each.appointment_id}`}>View</Link>
-      
-      </td>
-    </tr>
-  </tbody>
-  
-</table></>)}
-{/* <table>
+              {bookingDetails.map((each) => (
+                <>
+                  <table style={{ margin: "10px" }}>
+                    <thead>
+                      <tr style={{ border: "1px solid black" }}>
+                        <th
+                          style={{ border: "1px solid black" }}
+                          className="text-center"
+                        >
+                          S.No
+                        </th>
+                        <th
+                          style={{ border: "1px solid black" }}
+                          className="text-center"
+                        >
+                          User Name
+                        </th>
+                        <th
+                          style={{ border: "1px solid black" }}
+                          className="text-center"
+                        >
+                          Booking Status
+                        </th>
+                        <th
+                          style={{ border: "1px solid black" }}
+                          className="text-center"
+                        >
+                          Technician Assigned Status
+                        </th>
+                        <th
+                          style={{ border: "1px solid black" }}
+                          className="text-center"
+                        >
+                          Amount Status
+                        </th>
+                        <th
+                          style={{ border: "1px solid black" }}
+                          className="text-center"
+                        >
+                          Action
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        style={{ border: "1px solid black" }}
+                        className="text-center"
+                      >
+                        <td
+                          style={{ border: "1px solid black" }}
+                          className="text-center"
+                        >
+                          1
+                        </td>
+                        <td
+                          style={{ border: "1px solid black" }}
+                          className="text-center"
+                        >
+                          {each.patient_name}
+                        </td>
+                        <td
+                          style={{ border: "1px solid black" }}
+                          className="text-center"
+                        >
+                          {each.status}
+                        </td>
+                        <td
+                          style={{ border: "1px solid black" }}
+                          className="text-center"
+                        >
+                          {each.assign}
+                        </td>
+                        <td
+                          style={{ border: "1px solid black" }}
+                          className="text-center"
+                        >
+                          {each.payment_status}
+                        </td>
+                        <td
+                          style={{ border: "1px solid black" }}
+                          className="text-center btn btn-danger m-3 w-50"
+                        >
+                          <Link to={`/view/bookings/${each.appointment_id}`}>
+                            View
+                          </Link>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </>
+              ))}
+              {/* <table>
   <thead>
     <tr style={{border:"1px solid black"}}>
       <th style={{border:"1px solid black"}} className="text-center">S.No</th>
@@ -574,45 +632,37 @@ function Dashboard() {
         {/* More cards with same updates */}
       </div>
       {activeCard === 2 && (
-
         <div className="customer-dashboard-tracking-card">
-
-         {bookingDetails.map((each,index)=><table className="tableStyle">
-            <thead>
-              <tr className="headerRow">
-                <th className="cellStyle">S.No</th>
-                <th className="cellStyle">Technician Name</th>
-                <th className="cellStyle">Phone Number</th>
-                <th className="cellStyle">Arrival Time</th>
-                {/* <th className="cellStyle">Sample Type</th> */}
-                <th className="cellStyle">Sample Collection Status</th>
-                {/* <th className="cellStyle">Delivery Time</th> */}
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="dataRow">
-                <td className="cellStyle">{index+1}</td>
-                <td className="cellStyle">
-                  {each.technician_details.name}
-                </td>
-                <td className="cellStyle">
-                  {each.technician_details.phone}
-                </td>
-                <td className="cellStyle">
-                  {each.slot_date}
-                </td>
-                <td className="cellStyle">
-                  {each.sample_collection}
-                </td>
-                {/* <td className="cellStyle">
+          {bookingDetails.map((each, index) => (
+            <table className="tableStyle">
+              <thead>
+                <tr className="headerRow">
+                  <th className="cellStyle">S.No</th>
+                  <th className="cellStyle">Technician Name</th>
+                  <th className="cellStyle">Phone Number</th>
+                  <th className="cellStyle">Arrival Time</th>
+                  {/* <th className="cellStyle">Sample Type</th> */}
+                  <th className="cellStyle">Sample Collection Status</th>
+                  {/* <th className="cellStyle">Delivery Time</th> */}
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="dataRow">
+                  <td className="cellStyle">{index + 1}</td>
+                  <td className="cellStyle">{each.technician_details.name}</td>
+                  <td className="cellStyle">{each.technician_details.phone}</td>
+                  <td className="cellStyle">{each.slot_date}</td>
+                  <td className="cellStyle">{each.sample_collection}</td>
+                  {/* <td className="cellStyle">
                   {technicianDetails.technician.assigned_task.status}
                 </td>
                 <td className="cellStyle">
                   {technicianDetails.technician.assigned_task.delivery_time}
                 </td> */}
-              </tr>
-            </tbody>
-          </table>)}
+                </tr>
+              </tbody>
+            </table>
+          ))}
         </div>
       )}
       {activeCard === 3 && (

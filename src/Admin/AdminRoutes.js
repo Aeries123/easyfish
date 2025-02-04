@@ -60,6 +60,7 @@ import ManageTechnician from "./components/ManageTechnician";
 
 import "./AdminRoutes.css";
 import ManageEnquiry from "../Customer/components/ManageEnquiry";
+import UserPrescriptions from "./components/UserPrescriptions";
 
 const AdminRoutes = () => {
   const location = useLocation(); // Get the current location
@@ -116,6 +117,8 @@ const AdminRoutes = () => {
               element={<ManageTimeSlots />}
             />
             <Route path="/admin/tests-form" element={<TestsForm />} />
+            <Route path="/admin/prescriptions" element={<UserPrescriptions />} />
+
             <Route path="/admin/technician-form" element={<Technician />} />
 
             <Route path="/admin/addresses" element={<Addresses />} />

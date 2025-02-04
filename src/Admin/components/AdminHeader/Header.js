@@ -1,14 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { MdNotificationsActive } from "react-icons/md";
-
 import "./Header.css";
-
+ 
 const Header = () => {
-  const handleLogout = () => {
-    alert("Logged out successfully!");
-    // Add logout logic here, e.g., clear session or redirect to login page.
+  const [notifications, setNotifications] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
+ 
+  // Fetch notifications from the backend
+  const fetchNotifications = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:5000/api/admin/notifications");
+      const data = await response.json();
+ 
+      if (data.notifications) {
+        setNotifications(data.notifications);
+        setUnreadCount(data.notifications.length);
+      }
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+    }
   };
-
+ 
+  // Mark notifications as read
+  const markNotificationsAsRead = async () => {
+    try {
+      await fetch("http://127.0.0.1:5000/api/admin/notifications/mark-read", { method: "POST" });
+      setUnreadCount(0);
+    } catch (error) {
+      console.error("Error marking notifications as read:", error);
+    }
+  };
+ 
+  // Toggle dropdown and mark notifications as read when opened
+  const handleBellClick = () => {
+    setShowDropdown(!showDropdown);
+    if (!showDropdown && unreadCount > 0) {
+      markNotificationsAsRead();
+    }
+  };
+ 
+  // Fetch notifications every 30 seconds
+  useEffect(() => {
+    fetchNotifications();
+    const interval = setInterval(fetchNotifications, 30000);
+    return () => clearInterval(interval);
+  }, []);
+ 
   return (
     <header className="admin-header-header">
       <div className="header-left">
@@ -18,19 +56,38 @@ const Header = () => {
           className="logo"
         />
       </div>
-      <button className="logout-button" onClick={handleLogout}>
-        <MdNotificationsActive className="admin-header-notification-icon" />
-      </button>
+ 
+      <div className="notification-container">
+        <button className="notification-button" onClick={handleBellClick}>
+          <MdNotificationsActive className="admin-header-notification-icon" />
+          {unreadCount > 0 && <span className="notification-badge">{unreadCount}</span>}
+        </button>
+ 
+        {showDropdown && (
+          <div className="notification-dropdown">
+            {notifications.length > 0 ? (
+              notifications.map((n, index) => (
+                <div key={index} className="notification-item">
+                  {n.message}
+                </div>
+              ))
+            ) : (
+              <div className="notification-item">No new notifications</div>
+            )}
+          </div>
+        )}
+      </div>
     </header>
   );
 };
-
+ 
 export default Header;
-
+ 
+ 
 // import React from 'react';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'bootstrap/dist/js/bootstrap.bundle.min'; // Import Bootstrap JS
-
+ 
 // function Header() {
 //     return (
 //         <div>
@@ -64,5 +121,5 @@ export default Header;
 //         </div>
 //     );
 // }
-
+ 
 // export default Header;
