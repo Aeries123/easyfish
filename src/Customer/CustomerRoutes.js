@@ -26,6 +26,8 @@ import CustomerAddress from "./components/CustomerAddress";
 import UserBookingDetails from "./components/BookingDetails";
 import ForgotPassword from "./components/CustomerForgotPassword";
 import { ViewBookings } from "./components/ViewBooking/view_Booking";
+import { ParticularTest } from "./components/ParticularTest/ParticularTest";
+import { ParticularPackage } from "./components/ParticularPackage/ParticularPackage";
 import Cookies from "js-cookie"; // Import js-cookie
 
 function CustomerRoutes() {
@@ -171,6 +173,7 @@ function CustomerRoutes() {
           />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/service/:serviceId" element={<ServiceDetail />} />
+          <Route path="/particular/package/:package_id" element={<ParticularPackage/>}/>
           <Route
             path="/my-dashboard"
             element={<ProtectedRoute element={<Dashboard />} />}
@@ -190,6 +193,7 @@ function CustomerRoutes() {
           />
           <Route path="/reports" element={<TestReports />} />
           <Route path="/test" element={<Test />} />
+          <Route path="/particular/test/:test_id" element={<ParticularTest/>}/>
           <Route
             path="/myprofile"
             element={<ProtectedRoute element={<MyProfile />} />}

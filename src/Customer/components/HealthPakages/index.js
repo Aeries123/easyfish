@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { FiMinusCircle } from "react-icons/fi";
 import { MdAddCircleOutline } from "react-icons/md";
+import {Link} from 'react-router-dom'
 import "./index.css"; // Import the CSS for styling
 
 const healthPackages = [
@@ -151,12 +152,11 @@ const HealthPackages = (props) => {
                 </p>
               </div>
               <div className="package-card-button-container">
-                <button
-                  className="package-card-button package-card-view-button"
-                  onClick={() => console.log(`Viewing ${packageItem.name}`)}
-                >
-                  View Details
-                </button>
+                <Link to={`/particular/package/${packageItem.id}`}>
+                  <button className="package-card-button package-card-view-button">
+                    View Details
+                  </button>
+                </Link>
                 <button
                   className="package-card-button package-card-book-button"
                   onClick={() => onClickButton(packageItem)}

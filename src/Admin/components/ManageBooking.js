@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { FaWhatsapp, FaPhone } from "react-icons/fa"; // Import icons
 
 const ManageBooking = () => {
   const [bookings, setBookings] = useState([]);
@@ -27,7 +28,7 @@ const ManageBooking = () => {
     };
 
     fetchAppointments();
-  }, []); // No need to include userId in the dependencies anymore
+  }, []);
 
   const filteredBookings = bookings.filter((booking) =>
     Object.values(booking).some(
@@ -86,9 +87,9 @@ const ManageBooking = () => {
             <th>Status</th>
             <th>Total Price</th>
             <th>Patient Count</th>
-            <th>Assigned Technician</th> {/* New Column */}
-            <th>Sample Collection</th>  {/* New Column */}
-            <th>Payment Status</th>    {/* New Column */}
+            <th>Assigned Technician</th>
+            <th>Sample Collection</th>
+            <th>Payment Status</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -98,26 +99,39 @@ const ManageBooking = () => {
               <tr key={booking.appointment_id}>
                 <td>{booking.appointment_id}</td>
                 <td>{booking.patient_name}</td>
-                <td>{booking.patient_contact}</td>
-                <td>{booking.test_names.join(", ")}</td>  {/* Display test names */}
+                <td>
+                  {booking.patient_contact} {" "}
+                  <a
+                    href={`https://wa.me/${booking.patient_contact}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-success me-2"
+                  >
+                    <FaWhatsapp size={20} />
+                  </a>
+                  <a href={`tel:${booking.patient_contact}`} className="text-primary">
+                    <FaPhone size={20} />
+                  </a>
+                </td>
+                <td>{booking.test_names.join(", ")}</td>
                 <td>{new Date(booking.appointment_date).toLocaleDateString()}</td>
                 <td>{new Date(booking.slot_date).toLocaleDateString()}</td>
                 <td>{booking.status}</td>
                 <td>{booking.total_price}</td>
-                <td>{booking.patient_count || 1}</td>  {/* Display patient count */}
-                <td>{booking.assign}</td> {/* Display assigned technician */}
-                <td>{booking.sample_collection}</td>  {/* Display sample collection status */}
-                <td>{booking.payment_status}</td>    {/* Display payment status */}
+                <td>{booking.patient_count || 1}</td>
+                <td>{booking.assign}</td>
+                <td>{booking.sample_collection}</td>
+                <td>{booking.payment_status}</td>
                 <td>
                   <Link to={`/admin/view-booking/${booking.appointment_id}`}>
                     <button className="btn btn-primary btn-sm me-2">View</button>
                   </Link>
-                  <button
+                  {/* <button
                     className="btn btn-danger btn-sm"
                     onClick={() => handleDelete(booking.appointment_id)}
                   >
                     Delete
-                  </button>
+                  </button> */}
                 </td>
               </tr>
             ))

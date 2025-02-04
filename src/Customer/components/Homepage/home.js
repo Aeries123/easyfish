@@ -14,6 +14,7 @@ import HealthPackages from "../HealthPakages";
 import Banner from "../Banner/Banner";
 import PopupCart from "../PopupCart";
 import Cart from "../Cart/cart";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 const tests = [
   {
@@ -166,7 +167,7 @@ const NextArrow = (props) => {
 };
 
 const Home = (props) => {
-  const { cartData, setCartData, clickedIds, setClickedIds,addToCart } = props;
+  const { cartData, setCartData, clickedIds, setClickedIds, addToCart } = props;
   const [isFullDataVisible, setIsFullDataVisible] = useState(false);
   const [isAllImagesVisible, setImagesAllVisible] = useState(false);
   const [testsData, setTestsData] = useState([]);
@@ -189,7 +190,7 @@ const Home = (props) => {
         return response.json();
       })
       .then((data) => {
-        console.log(data,"tests");
+        console.log(data, "tests");
         setTestsData(data.tests);
         setLoading(false);
       })
@@ -261,11 +262,10 @@ const Home = (props) => {
   const buttonContent = isFullDataVisible ? "View Less" : "View More";
 
   const handleAddToCart = (testItem) => {
-    console.log("clicked1")
+    console.log("clicked1");
     // Add the test to the backend and update the local cart data
     addToCart(testItem);
   };
-
 
   return (
     <div className="home-container">
@@ -309,6 +309,7 @@ const Home = (props) => {
                     <div
                       key={test.test_id}
                       className="test-individual-test-card"
+                      style={{position:"relative"}}
                     >
                       <div className="test-individual-test-card-title-container">
                         <h3 className="test-individual-test-card-title">
@@ -370,6 +371,20 @@ const Home = (props) => {
                           ))}
                         </ul>
                         <div className="test-individual-popular-test-button-container">
+                          <Link to={`/particular/test/${test.test_id}`}>
+                            <FaArrowRightLong
+                              style={{
+                                position: "absolute",
+                                right: "5px",
+                                right: "5px",
+                                bottom: "40px",
+                                height: "30px",
+                                width: "30px",
+                                zIndex: 9999,
+                                pointerEvents: "auto",
+                              }}
+                            />
+                          </Link>
                           <button
                             className="test-individual-popular-test-button"
                             onClick={() => handleButtonClick(test)}
