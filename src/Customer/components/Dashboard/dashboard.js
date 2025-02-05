@@ -36,6 +36,11 @@ function Dashboard() {
       },
     },
   };
+  const [message, setMessage] = useState("");
+  const [reportUrl, setReportUrl] = useState(null);
+  const [patientId, setPatientId] = useState("");
+  const [patientDetails, setPatientDetails] = useState("");
+  console.log(patientDetails, "pat det");
 
   console.log("active", activeArray);
   console.log("past", pastArray);
@@ -78,6 +83,28 @@ function Dashboard() {
     };
     getBookingDetails();
   }, []);
+
+  useEffect(() => {
+    const fetchReport = async () => {
+      const id = 40;
+      try {
+        const response = await fetch(`http://localhost:5000/api/get_reportsss`);
+        const data = await response.json();
+        if (response.ok) {
+          console.log(data, "details");
+          setPatientDetails(data.data);
+          setReportUrl(data.report_url);
+          setMessage(data.message);
+        } else {
+          setMessage(data.error || "No report found.");
+        }
+      } catch (error) {
+        setMessage("An error occurred while fetching the report.");
+      }
+    };
+
+    fetchReport();
+  }, []); // Empty dependency array ensures it runs only once on mount
 
   // useEffect(() => {
   //   const getProfileDetails = async () => {
@@ -193,7 +220,7 @@ function Dashboard() {
                 </p>
                 <Link to="/myprofile">
                   <button className="customer-dashboard-edit-profile-btn">
-                    Edit Profile
+                    View Profile
                   </button>
                 </Link>
               </div>
@@ -289,223 +316,6 @@ function Dashboard() {
                 ))}
               </div>
 
-              {/* <table>
-                <thead style={{ border: "1px solid black" }}>
-                  <tr
-                    style={{ border: "1px solid black" }}
-                    className="customer-data"
-                  >
-                    <th
-                      style={{ border: "1px solid black" }}
-                      className="customer-dashboard-text-center text-center customer-data"
-                    >
-                      S.No
-                    </th>
-                    <th
-                      style={{ border: "1px solid black" }}
-                      className="customer-dashboard-text-center text-center customer-data"
-                    >
-                      Test Name
-                    </th>
-
-                    <th
-                      style={{ border: "1px solid black" }}
-                      className="customer-dashboard-text-center text-center customer-data"
-                    >
-                      Date
-                    </th>
-                    
-                    <th
-                      style={{ border: "1px solid black" }}
-                      className="customer-dashboard-text-center text-center customer-data"
-                    >
-                      Price
-                    </th>
-                    <th
-                      style={{ border: "1px solid black" }}
-                      className="customer-dashboard-text-center text-center customer-data"
-                    >
-                      Download
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {orderType === "Active" &&
-                    activeArray.map((each, index) => {
-                      return (
-                        <tr style={{ border: "1px solid black" }}>
-                          <td
-                            style={{ border: "1px solid black" }}
-                            className="customer-dashboard-text-center text-center customer-data"
-                          >
-                            {index + 1}
-                          </td>
-                          <td
-                            style={{ border: "1px solid black" }}
-                            className="customer-dashboard-text-center text-center customer-data"
-                          >
-                            {each.test_names.map((each) => (
-                              <strong className="customer-data">{each}</strong>
-                            ))}
-                          </td>
-                          <td
-                            style={{ border: "1px solid black" }}
-                            className="customer-dashboard-text-center text-center customer-data"
-                          >
-                            {each.slot_date}
-                          </td>
-                          
-                          <td
-                            style={{ border: "1px solid black" }}
-                            className="customer-dashboard-text-center text-center customer-data"
-                          >
-                            {each.total_price}/-
-                          </td>
-                          <td
-                            style={{
-                              border: "1px solid black",
-                              width: "100px",
-                              borderWidth: "0px",
-                              borderRadius: "10px",
-                            }}
-                            className="m-3 text-center customer-data"
-                          >
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                height: "100%",
-                              }}
-                              className="btn btn-danger m-3 customer-data btn-font-size"
-                              onClick={() => generatePDF(each, index)}
-                            >
-                              Download
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  {orderType === "Past" &&
-                    pastArray.map((each, index) => {
-                      
-
-                      return (
-                        <tr style={{ border: "1px solid black" }}>
-                          <td
-                            style={{ border: "1px solid black" }}
-                            className="customer-dashboard-text-center text-center customer-data"
-                          >
-                            {index + 1}
-                          </td>
-                          <td
-                            style={{ border: "1px solid black" }}
-                            className="customer-dashboard-text-center text-center customer-data"
-                          >
-                            {each.test_names.map((each) => (
-                              <strong className="customer-data">{each}</strong>
-                            ))}
-                          </td>
-                          <td
-                            style={{ border: "1px solid black" }}
-                            className="customer-dashboard-text-center text-center customer-data"
-                          >
-                            {each.slot_date}
-                          </td>
-                          
-                          <td
-                            style={{ border: "1px solid black" }}
-                            className="customer-dashboard-text-center text-center customer-data"
-                          >
-                            {each.total_price}/-
-                          </td>
-                          <td
-                            style={{
-                              border: "1px solid black",
-                              width: "100px",
-                              borderWidth: "0px",
-                              borderRadius: "10px",
-                            }}
-                            className="m-3 text-center customer-data"
-                          >
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                height: "100%",
-                              }}
-                              className="btn btn-danger m-3 customer-data btn-font-size"
-                              onClick={() => generatePDF(each, index)}
-                            >
-                              Download
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  {orderType === "Cancelled" &&
-                    cancelledArray.map((each, index) => {
-                      
-
-                      return (
-                        <tr style={{ border: "1px solid black" }}>
-                          <td
-                            style={{ border: "1px solid black" }}
-                            className="customer-dashboard-text-center text-center customer-data"
-                          >
-                            {index + 1}
-                          </td>
-                          <td
-                            style={{ border: "1px solid black" }}
-                            className="customer-dashboard-text-center text-center customer-data"
-                          >
-                            {each.test_names.map((each) => (
-                              <strong className="customer-data">{each}</strong>
-                            ))}
-                          </td>
-                          <td
-                            style={{ border: "1px solid black" }}
-                            className="customer-dashboard-text-center text-center customer-data"
-                          >
-                            {each.slot_date}
-                          </td>
-                          
-
-                         
-                          <td
-                            style={{ border: "1px solid black" }}
-                            className="customer-dashboard-text-center text-center customer-data"
-                          >
-                            {each.total_price}/-
-                          </td>
-                          <td
-                            style={{
-                              border: "1px solid black",
-                              width: "100px",
-                              borderWidth: "0px",
-                              borderRadius: "10px",
-                            }}
-                            className="m-3 text-center btn-font-size"
-                          >
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                height: "100%",
-                              }}
-                              className="btn btn-danger m-3 btn-font-size"
-                              onClick={() => generatePDF(each, index)}
-                            >
-                              Download
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                </tbody>
-              </table> */}
               {bookingDetails.map((each) => (
                 <>
                   <table style={{ margin: "10px" }}>
@@ -597,34 +407,6 @@ function Dashboard() {
                   </table>
                 </>
               ))}
-              {/* <table>
-  <thead>
-    <tr style={{border:"1px solid black"}}>
-      <th style={{border:"1px solid black"}} className="text-center">S.No</th>
-      <th style={{border:"1px solid black"}} className="text-center">User Name</th>
-      <th style={{border:"1px solid black"}} className="text-center">Booking Status</th>
-      <th style={{border:"1px solid black"}} className="text-center">Technician Assigned Status</th>
-      <th style={{border:"1px solid black"}} className="text-center">Amount Status</th>
-      <th style={{border:"1px solid black"}} className="text-center">Action</th>
-    </tr>
-
-
-  </thead>
-  <tbody>
-    <tr style={{border:"1px solid black"}} className="text-center">
-    <td style={{border:"1px solid black"}} className="text-center">1</td>
-    <td style={{border:"1px solid black"}} className="text-center">{userDetails.userName}</td>
-    <td style={{border:"1px solid black"}} className="text-center">Confirmed</td>
-    <td style={{border:"1px solid black"}} className="text-center">Confirmed</td>
-    <td style={{border:"1px solid black"}} className="text-center">Confirmed</td>
-    <td style={{border:"1px solid black"}} className="text-center btn btn-danger m-3 w-50">
-      <Link to="/view/bookings">View</Link>
-      
-      </td>
-    </tr>
-  </tbody>
-  
-</table> */}
             </div>
           </div>
         )}
@@ -674,23 +456,26 @@ function Dashboard() {
           <table border="1" cellPadding="10">
             <thead>
               <tr className="headerRow">
-                <th className="cellStyle">Registered ID</th>
-                <th className="cellStyle">Date</th>
-                <th className="cellStyle">Download Report</th>
+                <th className="cellStyle">Appointment ID</th>
+                <th className="cellStyle">Patient Name</th>
+                <th className="cellStyle">Number</th>
+                <th className="cellStyle">Reports</th>
               </tr>
             </thead>
             <tbody>
-              {registrations.map((registration, index) => (
+              {patientDetails.map((patient, index) => (
                 <tr key={index} className="dataRow">
-                  <td className="cellStyle">{registration.registeredId}</td>
-                  <td className="cellStyle">{registration.date}</td>
+                  <td className="cellStyle">{patient.appointment_id}</td>
+                  <td className="cellStyle">{patient.name}</td>
+                  <td className="cellStyle">{patient.phone}</td>
                   <td className="cellStyle">
                     <a
-                      href={registration.reportLink}
+                      href={patient.report_url}
                       target="_blank"
                       rel="noopener noreferrer"
+                      className="text-blue-500 underline"
                     >
-                      Download
+                      View Report
                     </a>
                   </td>
                 </tr>

@@ -322,10 +322,12 @@ const AdminViewBookingForm = () => {
 
     const formData = new FormData();
     formData.append("report", file);
+    formData.append("patient_id", patientId);
+
 
     try {
       const response = await axios.post(
-        `http://127.0.0.1:5000/api/update-report/${patientId}`,
+        `http://127.0.0.1:5000/api/upload_reportsss`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

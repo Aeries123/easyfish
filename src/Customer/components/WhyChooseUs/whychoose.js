@@ -9,7 +9,7 @@ const whychooseimages = [
   // },
   {
     imageUrl:
-      "https://res.cloudinary.com/ddjsaoac6/image/upload/v1737023403/state-art_lpyj8i.jpg",
+      "https://res.cloudinary.com/dabzdwxet/image/upload/v1738723153/Hygienic_ms2irc.webp",
     imageName: "family",
   },
   {

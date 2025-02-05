@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { MdNotificationsActive } from "react-icons/md";
 import "./Header.css";
- 
+
 const Header = () => {
   const [notifications, setNotifications] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
- 
+
   // Fetch notifications from the backend
   const fetchNotifications = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:5000/api/admin/notifications");
+      const response = await fetch(
+        "http://127.0.0.1:5000/api/admin/notifications"
+      );
       const data = await response.json();
- 
+
       if (data.notifications) {
         setNotifications(data.notifications);
         setUnreadCount(data.notifications.length);
@@ -21,17 +23,19 @@ const Header = () => {
       console.error("Error fetching notifications:", error);
     }
   };
- 
+
   // Mark notifications as read
   const markNotificationsAsRead = async () => {
     try {
-      await fetch("http://127.0.0.1:5000/api/admin/notifications/mark-read", { method: "POST" });
+      await fetch("http://127.0.0.1:5000/api/admin/notifications/mark-read", {
+        method: "POST",
+      });
       setUnreadCount(0);
     } catch (error) {
       console.error("Error marking notifications as read:", error);
     }
   };
- 
+
   // Toggle dropdown and mark notifications as read when opened
   const handleBellClick = () => {
     setShowDropdown(!showDropdown);
@@ -39,30 +43,33 @@ const Header = () => {
       markNotificationsAsRead();
     }
   };
- 
+
   // Fetch notifications every 30 seconds
   useEffect(() => {
     fetchNotifications();
     const interval = setInterval(fetchNotifications, 30000);
     return () => clearInterval(interval);
   }, []);
- 
+
   return (
     <header className="admin-header-header">
       <div className="header-left">
         <img
-          src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736159475/Screenshot_2025-01-06_160018_so8uaf.png"
+          // src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736159475/Screenshot_2025-01-06_160018_so8uaf.png"
+          src="https://res.cloudinary.com/dabzdwxet/image/upload/v1738684838/pathlabs-header_b5n3cj.jpg"
           alt="Logo"
           className="logo"
         />
       </div>
- 
+
       <div className="notification-container">
         <button className="notification-button" onClick={handleBellClick}>
           <MdNotificationsActive className="admin-header-notification-icon" />
-          {unreadCount > 0 && <span className="notification-badge">{unreadCount}</span>}
+          {unreadCount > 0 && (
+            <span className="notification-badge">{unreadCount}</span>
+          )}
         </button>
- 
+
         {showDropdown && (
           <div className="notification-dropdown">
             {notifications.length > 0 ? (
@@ -80,14 +87,13 @@ const Header = () => {
     </header>
   );
 };
- 
+
 export default Header;
- 
- 
+
 // import React from 'react';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'bootstrap/dist/js/bootstrap.bundle.min'; // Import Bootstrap JS
- 
+
 // function Header() {
 //     return (
 //         <div>
@@ -121,5 +127,5 @@ export default Header;
 //         </div>
 //     );
 // }
- 
+
 // export default Header;
