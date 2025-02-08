@@ -10,6 +10,8 @@ const Sidebar = () => {
   const links = [
     { path: "/admin/", label: "Dashboard" },
     // { path: "/admin/login", label: "Login" },
+    { path: "/admin/manage-packages", label: "Manage Packages" },
+
     { path: "/admin/manage-booking", label: "Manage Bookings" },
     { path: "/admin/manage-tests", label: "Manage Tests" },
     { path: "/admin/manage-customer", label: "Manage Customers" },

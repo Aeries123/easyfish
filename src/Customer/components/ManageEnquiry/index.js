@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { FaWhatsapp, FaPhone } from "react-icons/fa";
 import "./index.css"
 
 const ManageEnquiry = () => {
@@ -53,13 +53,13 @@ const ManageEnquiry = () => {
                 Appointment ID
               </th>
               <th className="manage-manage__appointments-table__header-cell">
-                User ID
+                User Name
               </th>
-              <th className="manage-manage__appointments-table__header-cell">
+              {/* <th className="manage-manage__appointments-table__header-cell">
                 Patient ID
-              </th>
+              </th> */}
               <th className="manage-manage__appointments-table__header-cell">
-                Test IDs
+                Test Names
               </th>
               <th className="manage-manage__appointments-table__header-cell">
                 Total Price
@@ -94,13 +94,16 @@ const ManageEnquiry = () => {
                   {appointment.appointment_id}
                 </td>
                 <td className="manage-manage__appointments-table__cell">
-                  {appointment.user_id}
+                  {appointment.user_name}
                 </td>
-                <td className="manage-manage__appointments-table__cell">
+                {/* <td className="manage-manage__appointments-table__cell">
                   {appointment.patient_id}
-                </td>
-                <td className="manage-manage__appointments-table__cell">
-                  {appointment.test_ids}
+                </td> */}
+               <td className="manage-manage_appointments-table_cell">
+                  {/* {Array.isArray(appointment.test_names)
+                    ? appointment.test_names.join(", ")
+                    : "No Tests"} */}
+                    {appointment.test_names}
                 </td>
                 <td className="manage-manage__appointments-table__cell">
                   {appointment.total_price}
@@ -114,8 +117,26 @@ const ManageEnquiry = () => {
                 <td className="manage-manage__appointments-table__cell">
                   {appointment.patient_name}
                 </td>
-                <td className="manage-manage__appointments-table__cell">
+                <td className="manage-manage_appointments-table_cell">
                   {appointment.phone_number}
+                  <a
+                    href={`https://wa.me/${appointment.phone_number}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="whatsapp-icon"
+                  >
+                    <FaWhatsapp
+                      size={20}
+                      color="green"
+                      style={{ marginLeft: 8 }}
+                    />
+                  </a>
+                  <a
+                    href={`tel:${appointment.phone_number}`}
+                    className="phone-icon"
+                  >
+                    <FaPhone size={20} color="blue" style={{ marginLeft: 8 }} />
+                  </a>
                 </td>
                 <td className="manage-manage__appointments-table__cell">
                   {appointment.age}

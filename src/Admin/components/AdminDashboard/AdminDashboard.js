@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./AdminDashboard.css";
 import Header from "../AdminHeader/Header";
 import ManageBooking from "../ManageBooking";
+import { FaWhatsapp, FaPhone } from "react-icons/fa";
 
 const AdminDashboard = () => {
   const [totalAppointments, setTotalAppointments] = useState(0);
@@ -28,8 +29,8 @@ const AdminDashboard = () => {
   // Helper function to format date as dd/mm/yyyy
   const formatDate = (date) => {
     const d = new Date(date);
-    const day = String(d.getDate()).padStart(2, '0');
-    const month = String(d.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0"); // Month is 0-indexed
     const year = d.getFullYear();
     return `${day}/${month}/${year}`;
   };
@@ -37,7 +38,9 @@ const AdminDashboard = () => {
   // Fetch appointment counts
   const fetchAppointmentCounts = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/appointments/counts");
+      const response = await fetch(
+        "http://localhost:5000/api/appointments/counts"
+      );
       const data = await response.json();
 
       if (response.ok) {
@@ -82,7 +85,9 @@ const AdminDashboard = () => {
 
       {/* Date Filter */}
       <div className="admin-dashboard-date-filter-section">
-        <h3 className="admin-dashboard-date-filter-title"><strong>Date Filter:</strong></h3>
+        <h3 className="admin-dashboard-date-filter-title">
+          <strong>Date Filter:</strong>
+        </h3>
         <div className="admin-dashboard-date-filter">
           <input
             type="date"
@@ -96,7 +101,10 @@ const AdminDashboard = () => {
             value={toDate}
             onChange={(e) => setToDate(e.target.value)}
           />
-          <button className="admin-dashboard-filter-button" onClick={handleFilter}>
+          <button
+            className="admin-dashboard-filter-button"
+            onClick={handleFilter}
+          >
             Filter
           </button>
         </div>
@@ -126,23 +134,55 @@ const AdminDashboard = () => {
             <table className="admin-dashboard-table">
               <thead>
                 <tr>
-                  <th className="admin-dashboard-table-header">Patient Name</th>
-                  <th className="admin-dashboard-table-header">Appointment Date</th>
-                  <th className="admin-dashboard-table-header">Status</th>
-                  <th className="admin-dashboard-table-header">Payment Status</th>
-                  <th className="admin-dashboard-table-header">Total Price</th>
+                  <th className="admin-dashboard-table-header">User Name</th>
                   <th className="admin-dashboard-table-header">Contact</th>
+                  {/* <th className="admin-dashboard-table-header">Test Names</th> */}
+
+                  <th className="admin-dashboard-table-header">
+                    Appointment Date
+                  </th>
+                  <th className="admin-dashboard-table-header">Slot Date</th>
+                  <th className="admin-dashboard-table-header">
+                    Patient Count
+                  </th>
+                  <th className="admin-dashboard-table-header">
+                    Assigned Technician
+                  </th>
+                  <th className="admin-dashboard-table-header">
+                    Sample Collection
+                  </th>
+                  <th className="admin-dashboard-table-header">
+                    Payment Status
+                  </th>
+                  <th className="admin-dashboard-table-header">Total Price</th>
                 </tr>
               </thead>
               <tbody>
                 {bookings.map((booking, index) => (
-                  <tr key={index} className="admin-dashboard-table-row">
+                  <tr key={index}>
                     <td>{booking.patient_name}</td>
+                    <td>
+                      {booking.patient_contact}
+                      <a
+                        href={`https://wa.me/${booking.patient_contact}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <FaWhatsapp size={20} color="green" />
+                      </a>
+                      <a href={`tel:${booking.patient_contact}`}>
+                        <FaPhone size={20} color="blue" />
+                      </a>
+                    </td>
+                    {/* <td>{booking.test_names.join(", ")}</td> */}
+
                     <td>{formatDate(booking.appointment_date)}</td>
-                    <td>{booking.status}</td>
+                    <td>{booking.slot_date}</td>
+                    <td>{booking.patient_count || 1}</td>
+                    <td>{booking.assign}</td>
+                    <td>{booking.sample_collection}</td>
                     <td>{booking.payment_status}</td>
                     <td>{booking.total_price}</td>
-                    <td>{booking.patient_contact}</td>
                   </tr>
                 ))}
               </tbody>
@@ -161,9 +201,9 @@ const AdminDashboard = () => {
             <table className="admin-dashboard-table">
               <thead>
                 <tr>
-                  <th className="admin-dashboard-table-header">User Name</th>
-                  <th className="admin-dashboard-table-header">Created At</th>
+                  <th className="admin-dashboard-table-header">Patient Name</th>
                   <th className="admin-dashboard-table-header">Phone</th>
+                  {/* <th className="admin-dashboard-table-header">Created At</th> */}
                   <th className="admin-dashboard-table-header">Test Name</th>
                   <th className="admin-dashboard-table-header">Total Price</th>
                 </tr>
@@ -172,8 +212,32 @@ const AdminDashboard = () => {
                 {enquiries.map((enquiry, index) => (
                   <tr key={index} className="admin-dashboard-table-row">
                     <td>{enquiry.user_name}</td>
-                    <td>{formatDate(enquiry.created_at)}</td>
-                    <td>{enquiry.user_phone}</td>
+                    <td>
+                      {enquiry.user_phone}
+                      <a
+                        href={`https://wa.me/${enquiry.user_phone}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="whatsapp-icon"
+                      >
+                        <FaWhatsapp
+                          size={20}
+                          color="green"
+                          style={{ marginLeft: 8 }}
+                        />
+                      </a>
+                      <a
+                        href={`tel:${enquiry.user_phone}`}
+                        className="phone-icon"
+                      >
+                        <FaPhone
+                          size={20}
+                          color="blue"
+                          style={{ marginLeft: 8 }}
+                        />
+                      </a>
+                    </td>
+                    {/* <td>{formatDate(enquiry.created_at)}</td> */}
                     <td>{enquiry.test_name}</td>
                     <td>{enquiry.total_price}</td>
                   </tr>
@@ -190,9 +254,6 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
-
-
-
 
 // import React, { useState, useEffect } from "react";
 // import { Calendar, dateFnsLocalizer } from "react-big-calendar";

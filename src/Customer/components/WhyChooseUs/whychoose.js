@@ -14,12 +14,12 @@ const whychooseimages = [
   },
   {
     imageUrl:
-      "https://res.cloudinary.com/ddjsaoac6/image/upload/v1737023673/canva-accurate_lm4sjf.jpg",
+      "https://res.cloudinary.com/dabzdwxet/image/upload/v1738733116/home_collection_plbzj7.webp",
     imageName: "family",
   },
   {
     imageUrl:
-      "https://res.cloudinary.com/ddjsaoac6/image/upload/v1737023855/canva-hygine_pusyuw.jpg",
+      "https://res.cloudinary.com/dabzdwxet/image/upload/v1738733115/hygienic_1_pdbzts.webp",
     imageName: "family",
   },
 ];

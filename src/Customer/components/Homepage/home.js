@@ -250,7 +250,7 @@ const Home = (props) => {
     });
   };
 
-  const onClickBookKNow = (each) => {
+  const onClickBookNow = (each) => {
     setCartData((prev) => [...prev, each]);
   };
   const onClickViewMore = () => {
@@ -309,7 +309,7 @@ const Home = (props) => {
                     <div
                       key={test.test_id}
                       className="test-individual-test-card"
-                      style={{position:"relative"}}
+                      style={{ position: "relative" }}
                     >
                       <div className="test-individual-test-card-title-container">
                         <h3 className="test-individual-test-card-title">
@@ -449,14 +449,17 @@ const Home = (props) => {
                 solutions. Our comprehensive services cover a wide range of
                 diagnostic tests, including home sample collection, ensuring
                 that you can access our services from the comfort of your home.
-                We prioritize speed and accuracy, delivering fast online reports
-                so that you can make informed decisions about your health
-                without delay. Our team of skilled pathologists and medical
-                professionals works tirelessly to ensure the highest quality of
-                results. Additionally, we offer 24/7 customer support, so you
-                can always reach out for assistance, whether you have questions
-                about your test, need help interpreting your results, or require
-                support at any step along the way.
+                With our 1 Hour Sample Collection, we ensure that your samples
+                are collected quickly and efficiently, minimizing wait times and
+                providing a seamless experience. We prioritize speed and
+                accuracy, delivering fast online reports within 6 hours, so that
+                you can make informed decisions about your health without delay.
+                Our team of skilled pathologists and medical professionals works
+                tirelessly to ensure the highest quality of results.
+                Additionally, we offer 24/7 customer support, so you can always
+                reach out for assistance, whether you have questions about your
+                test, need help interpreting your results, or require support at
+                any step along the way.
               </p>
             </div>
             <div className="testimonials-slider-container">

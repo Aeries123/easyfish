@@ -91,6 +91,21 @@ const FaqQuestions = () => {
   };
   return (
     <div className="faq-container">
+      <h2 className="faq-each-main-heading">Home Sample Collection</h2>
+      <div>
+        {sampleCollection.map((eachItem, index) => (
+          <div
+            key={eachItem.question}
+            className="each-faq"
+            onClick={() => onClickQuestionIndex1(index)}
+          >
+            <h3 className="each-question">{eachItem.question}</h3>
+            {questionIndex1 === index && (
+              <p className="each-answer">{eachItem.Answer}</p>
+            )}
+          </div>
+        ))}
+      </div>
       <h2 className="faq-each-main-heading">Health Checkup & Packages</h2>
       <div>
         {questionsAndAnswers.map((eachItem, index) => (
@@ -106,22 +121,8 @@ const FaqQuestions = () => {
           </div>
         ))}
       </div>
-      <h2 className="each-main-heading">Home Sample Collection</h2>
-      <div>
-        {sampleCollection.map((eachItem, index) => (
-          <div
-            key={eachItem.question}
-            className="each-faq"
-            onClick={() => onClickQuestionIndex1(index)}
-          >
-            <h3 className="each-question">{eachItem.question}</h3>
-            {questionIndex1 === index && (
-              <p className="each-answer">{eachItem.Answer}</p>
-            )}
-          </div>
-        ))}
-      </div>
-      <h2 className="each-main-heading">Reports</h2>
+
+      <h2 className="faq-each-main-heading">Reports</h2>
       <div>
         {reports.map((eachItem, index) => (
           <div
@@ -136,11 +137,11 @@ const FaqQuestions = () => {
           </div>
         ))}
       </div>
-      <h2 className="each-main-heading">Tests Information & Instructions</h2>
+      <h2 className="faq-each-main-heading">Tests Information & Instructions</h2>
       <div>
         {tests.map((eachItem, index) => (
           <div
-          key={eachItem.question}
+            key={eachItem.question}
             className="each-faq"
             onClick={() => onClickQuestionIndex3(index)}
           >

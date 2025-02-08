@@ -134,7 +134,7 @@ function Tests(props) {
       );
     } else {
       setClickedIds((prev) => [...prev, test_id]);
-      
+
       setCartData((prev) => [...prev, test]);
     }
   };
@@ -144,7 +144,10 @@ function Tests(props) {
   const [testsData, setTestsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [speciality,setSpeciality]=useState(null)
+  const [speciality, setSpeciality] = useState(null);
+  const [categoriesData, setCategoriesData] = useState([]);
+  console.log(categoriesData,"mahesh")
+
   const buttonContent = isFullDataVisible ? "View Less" : "View More";
 
   // console.log(updatedArray);
@@ -153,6 +156,25 @@ function Tests(props) {
   //   const updatedData=updatedArray.filter(eachItem=>eachItem.title.includes(e.target.value))
   //   setUpdatedArray(updatedData)
   // }
+
+  useEffect(() => {
+    // Fetch test categories
+    fetch("http://127.0.0.1:5000/api/test_category")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch categories");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setCategoriesData(data.data); // Assuming the response contains a 'data' field with categories
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
 
   useEffect(() => {
     const endpoint = "http://127.0.0.1:5000/api/tests"; // API endpoint to fetch data from
@@ -191,20 +213,23 @@ function Tests(props) {
   const onChangeTestNames = (e) => {
     setInputValue(e.target.value);
   };
-  const onClickImages=(value)=>{
-    setSpeciality(value)
-  }
-  const filteringData = speciality?testsData.filter(eachItem=>eachItem.speciality===speciality):testsData.filter((each) =>
-    each.test_name.toLowerCase().includes(inputValue)
-  );
-console.log("speciality",speciality)
+  const onClickImages = (value) => {
+    setSpeciality(value);
+  };
+  const filteringData = speciality
+    ? testsData.filter((eachItem) => eachItem.speciality === speciality)
+    : testsData.filter((each) =>
+        each.test_name.toLowerCase().includes(inputValue)
+      );
+  console.log("speciality", speciality);
   const PrevArrow = (props) => {
     const { onClick, style, className } = props;
     return (
       <div
         className={className}
         style={{
-          ...style,display: "block !important",
+          ...style,
+          display: "block !important",
           // width: "50px",
           // height: "50px",
           color: "white",
@@ -212,7 +237,6 @@ console.log("speciality",speciality)
           // position: "absolute",
           // zIndex: 10,
         }}
-        
         onClick={onClick}
       ></div>
     );
@@ -221,20 +245,17 @@ console.log("speciality",speciality)
     const { onClick, style, className } = props;
     return (
       <div
-      style={{
-        ...style,
-        display: "block !important",
-        // width: "30px",
-        // height: "30px",
-        color: "white",
-        backgroundColor: "black",
-        // position: "absolute",
-        // zIndex: 10,
-      }}
-      
+        style={{
+          ...style,
+          display: "block !important",
+          // width: "30px",
+          // height: "30px",
+          color: "white",
+          backgroundColor: "black",
+          // position: "absolute",
+          // zIndex: 10,
+        }}
         className={className}
-        
-          
         onClick={onClick}
       ></div>
     );
@@ -248,16 +269,15 @@ console.log("speciality",speciality)
     arrows: true,
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
-    responsive:[
+    responsive: [
       {
-      breakpoint:478,
-      settings:{
-        slidesToShow:3,
-        slidesToScroll:3
-      }
-      }
-
-    ]
+        breakpoint: 478,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+        },
+      },
+    ],
   };
 
   return (
@@ -285,16 +305,21 @@ console.log("speciality",speciality)
 
         <div className="custom-tests-list-container">
           <Slider {...settings}>
-          {testArray.map((test) => (
-            <div className="custom-tests-list-item-container" key={test.id} onClick={()=>onClickImages(test.name)}>
-              <img
-                src={test.image}
-                alt={test.name}
-                className="custom-test-image"
-              />
-              <p className="custom-test-name">{test.name}</p>
-            </div>
-          ))}</Slider>
+            {categoriesData.map((test) => (
+              <div
+                className="custom-tests-list-item-container"
+                key={test.category_id}
+                onClick={() => onClickImages(test.category_name)}
+              >
+                <img
+                  src={test.image_url}
+                  alt={test.category_name}
+                  className="custom-test-image"
+                />
+                <p className="custom-test-name">{test.category_name}</p>
+              </div>
+            ))}
+          </Slider>
           {/* <CustomizedSlider setTestsData={setTestsData} testsData={testsData} filterData={filteringData} setSpeciality={setSpeciality}/> */}
         </div>
         <div className="custom-tests-search">

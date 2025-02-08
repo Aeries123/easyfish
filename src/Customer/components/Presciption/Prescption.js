@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import Cookies from "js-cookie"; // Import for authentication
 import "./Prescption.css";
 
-const Prescription = ({ isOpen, onClose, onFileUpload }) => {
+const Prescription = ({ isOpen, onClose }) => {
   const [files, setFiles] = useState([]);
   const [collectionMethod, setCollectionMethod] = useState("home");
+  const [loading, setLoading] = useState(false); // Loading state
 
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -43,32 +45,48 @@ const Prescription = ({ isOpen, onClose, onFileUpload }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (files.length === 0) {
-      alert("Please select files before submitting.");
+      alert("Please select a file before submitting.");
       return;
     }
-    alert("Prescription uploaded successfully!");
-    onClose()
 
-    // const formData = new FormData();
-    // files.forEach((file) => formData.append("files", file));
-    // formData.append("collectionMethod", collectionMethod);
+    const jwtToken = Cookies.get("jwtToken");
+    if (!jwtToken) {
+      alert("You must be logged in to upload prescriptions.");
+      return;
+    }
 
-    // try {
-    //   const response = await fetch("/api/upload-prescription", {
-    //     method: "POST",
-    //     body: formData,
-    //   });
+    const formData = new FormData();
+    formData.append("file", files[0]); // Assuming single file upload
+    formData.append("collection_method", collectionMethod);
 
-    //   if (response.ok) {
-    //     alert("Prescription uploaded successfully!");
-    //     onClose();
-    //   } else {
-    //     alert("Error uploading prescription. Please try again.");
-    //   }
-    // } catch (error) {
-    //   console.error("Error uploading prescription:", error);
-    //   alert("An error occurred. Please try again later.");
-    // }
+    // alert("Prescription uploaded successfully!");
+    // onClose();
+
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:5000/api/upload-prescription",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${jwtToken}`, // Attach token
+          },
+          body: formData, // Send as FormData
+        }
+      );
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert(result.message || "Prescription uploaded successfully!");
+        setFiles([]);
+        onClose();
+      } else {
+        alert(result.error || "Error uploading prescription.");
+      }
+    } catch (error) {
+      console.error("Error uploading prescription:", error);
+      alert("An error occurred. Please check the backend logs.");
+    }
   };
 
   if (!isOpen) return null;
@@ -168,8 +186,12 @@ const Prescription = ({ isOpen, onClose, onFileUpload }) => {
             </label>
           </div>
 
-          <button onClick={handleSubmit} className="presciption-button">
-            Submit
+          <button
+            onClick={handleSubmit}
+            className="presciption-button"
+            disabled={loading}
+          >
+            {loading ? "Uploading..." : "Submit"}
           </button>
         </div>
       </div>

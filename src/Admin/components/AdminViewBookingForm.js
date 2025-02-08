@@ -131,6 +131,7 @@
 // export default AdminViewBookingForm;
 
 import React, { useEffect, useState } from "react";
+import { FaWhatsapp, FaPhone } from "react-icons/fa";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -463,7 +464,20 @@ const AdminViewBookingForm = () => {
                       <td>{patient.patient_id}</td>
                       <td>{patient.name}</td>
                       <td>{patient.age}</td>
-                      <td>{patient.phone}</td>
+                      <td>
+              {patient.phone}
+              <a
+                href={`https://wa.me/${patient.phone}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="whatsapp-icon"
+              >
+                <FaWhatsapp size={20} color="green" style={{ marginLeft: 8 }} />
+              </a>
+              <a href={`tel:${patient.phone}`} className="phone-icon">
+                <FaPhone size={20} color="blue" style={{ marginLeft: 8 }} />
+              </a>
+            </td>
                       <td>{patient.gender}</td>
                       <td>{patient.test_names.join(", ")}</td>
                       <td>{patient.total_price}</td>

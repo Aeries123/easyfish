@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { FaWhatsapp, FaPhone } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const ManageCustomer = () => {
@@ -131,7 +132,20 @@ const ManageCustomer = () => {
               <tr key={customer.id}>
                 <td>{customer.id}</td>
                 <td>{customer.customer_name}</td>
-                <td>{customer.phone}</td>
+                <td>
+                {customer.phone}
+                <a
+                  href={`https://wa.me/${customer.phone}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="whatsapp-icon"
+                >
+                  <FaWhatsapp size={20} color="green" style={{ marginLeft: 8 }} />
+                </a>
+                <a href={`tel:${customer.phone}`} className="phone-icon">
+                  <FaPhone size={20} color="blue" style={{ marginLeft: 8 }} />
+                </a>
+              </td>
                 <td>{customer.gender}</td>
                 <td>
                   <Link to={`/admin/edit-customer/${customer.id}`}>

@@ -57,11 +57,12 @@ import AdminEditAddress from "./components/AdminEditAddress";
 import AdminViewPayment from "./components/AdminViewPayment";
 import Technician from "./components/Technician";
 import ManageTechnician from "./components/ManageTechnician";
+import ManagePackages from "./components/ManagePackages"
 
 import "./AdminRoutes.css";
 import ManageEnquiry from "../Customer/components/ManageEnquiry";
 import UserPrescriptions from "./components/UserPrescriptions";
-
+import Packages from "./components/Packages"
 const AdminRoutes = () => {
   const location = useLocation(); // Get the current location
 
@@ -97,6 +98,14 @@ const AdminRoutes = () => {
             <Route
               path="/admin/lab-technician-form"
               element={<LabTechnicianForm />}
+            />
+            <Route
+              path="/admin/manage-packages"
+              element={<ManagePackages />}
+            />
+            <Route
+              path="/admin/package"
+              element={<Packages />}
             />
             <Route path="/admin/payment" element={<Payment />} />
             <Route path="/admin/notification" element={<Notification />} />

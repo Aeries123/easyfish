@@ -52,6 +52,56 @@
   color: #00c853;
 }
 
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 5px #6a1b9a; }
+  50% { box-shadow: 0 0 20px #6a1b9a; }
+  100% { box-shadow: 0 0 5px #6a1b9a; }
+}
+@keyframes blink {
+  0% {
+    background-color: #00c853;
+    color: #fff;
+  }
+  50% {
+    background-color: transparent;
+    color: #00c853;
+  }
+  100% {
+    background-color: #00c853;
+    color: #fff;
+  }
+}
+
+.banner-text .highlights {
+  color: #00c853;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  animation: blink 3.5s infinite ease-in-out;
+  font-size: 25px;
+  padding: 3px;
+  border-radius: 5px;
+}
+
+.banner-subheading {
+  color: #ffffff;
+}
+
+
 .banner-text h2 {
   font-size: 1.2rem;
   color: #555;

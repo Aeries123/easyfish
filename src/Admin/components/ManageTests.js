@@ -183,7 +183,7 @@ const ManageTests = () => {
           <tr>
             <th>Test ID</th>
             <th>Test Name</th>
-            <th>Description</th>
+            {/* <th>Description</th> */}
             <th>Price</th>
             <th>Preparation Instructions</th>
             <th>Test Code</th>
@@ -202,8 +202,8 @@ const ManageTests = () => {
               <tr key={test.test_id}>
                 <td>{test.test_id}</td>
                 <td>{test.test_name}</td>
-                <td>{test.description}</td>
-                <td>${test.price}</td>
+                {/* <td>{test.description}</td> */}
+                <td>{test.price}</td>
                 <td>{test.preparation_instructions}</td>
                 <td>{test.test_code}</td>
                 <td>{test.sample_type}</td>

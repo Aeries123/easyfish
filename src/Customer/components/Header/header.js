@@ -5,6 +5,8 @@ import { AuthContext } from "../Context/AuthContext";
 import "./header.css";
 import { FaUserCircle } from "react-icons/fa";
 import { BiSupport } from "react-icons/bi";
+import { FaWhatsapp, FaPhone } from "react-icons/fa";
+
 
 const headerElements = [
   { elementName: "Home", elementPath: "/" },
@@ -48,7 +50,13 @@ export const Header = () => {
         <div className="header-right-component">
           <div className="header-heading-names">
             <Link to="/book-test">
-              <h1 className="header-header-elements">Tests</h1>
+              <h1 className="header-header-elements">Home Collections</h1>
+            </Link>
+          </div>
+
+          <div className="header-heading-names">
+            <Link to="/about-us">
+              <h1 className="header-header-elements">About</h1>
             </Link>
           </div>
 
@@ -67,7 +75,7 @@ export const Header = () => {
               onMouseLeave={() => setIsTooltipVisible(false)}
               style={{ cursor: "pointer", position: "relative" }}
             >
-              <BiSupport className="header-user-icon" />
+              <FaWhatsapp className="header-user-icon" />
               <span className="header-profile-support">Request Call back</span>
               {isTooltipVisible && (
                 <div className="tooltip">
@@ -84,7 +92,7 @@ export const Header = () => {
             ) : (
               <button className="login-sign-up-button">
                 <Link className="login-signup-link" to="/customer/login">
-                  Login/Signup
+                  Signin
                 </Link>
               </button>
             )}

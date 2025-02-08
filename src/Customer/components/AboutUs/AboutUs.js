@@ -351,7 +351,7 @@ const Timeline = () => {
           <Services />
         </div>
 
-        <div>
+        {/* <div>
           <div className="healthcare-stats">
             <h1>INDIA'S LARGEST HEALTHCARE PLATFORM</h1>
             <div className="stats-grid">
@@ -364,7 +364,7 @@ const Timeline = () => {
               ))}
             </div>
           </div>
-        </div>
+        </div> */}
         {/* <FaqQuestions /> */}
       </div>
     </>

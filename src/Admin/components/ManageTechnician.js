@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';  // Import useNavigate
 import "bootstrap/dist/css/bootstrap.min.css";
+import { FaWhatsapp, FaPhone } from "react-icons/fa";
+
 
 const ManageTechnician = () => {
   const [technicians, setTechnicians] = useState([]);
@@ -77,7 +79,20 @@ const ManageTechnician = () => {
                 <td>{technician.technician_id}</td>
                 <td>{technician.user_id}</td>
                 <td>{technician.name}</td>
-                <td>{technician.phone}</td>
+                <td>
+                              {technician.phone}
+                              <a
+                                href={`https://wa.me/${technician.phone}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="whatsapp-icon"
+                              >
+                                <FaWhatsapp size={20} color="green" style={{ marginLeft: 8 }} />
+                              </a>
+                              <a href={`tel:${technician.phone}`} className="phone-icon">
+                                <FaPhone size={20} color="blue" style={{ marginLeft: 8 }} />
+                              </a>
+                            </td>
                 <td>{technician.assigned_area}</td>
                 <td>{technician.assign}</td>
                 <td>{technician.sample_collection}</td>

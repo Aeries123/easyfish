@@ -101,6 +101,10 @@ const Banner = (props) => {
             Checkups
           </h1>
           <h2>Expert eMedics: 99.94% painless collections</h2>
+          <h3 className="banner-subheading">
+            <span className="highlights">1 Hour Sample Collection</span> |
+            <span className="highlights"> 6 Hours Reports</span>
+          </h3>
         </div>
       </div>
       <div className="banner-card-container">
@@ -113,10 +117,12 @@ const Banner = (props) => {
           />
         </div>
         <div className="banner-buttons">
-          <button className="banner-button primary">Download Report</button>
           <button className="banner-button" onClick={onClickUploadPrescription}>
             Upload Prescription
           </button>
+          <Link to="/my-dashboard">
+            <button className="banner-button primary">Download Report</button>
+          </Link>
         </div>
       </div>
 

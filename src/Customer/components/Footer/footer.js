@@ -32,14 +32,14 @@ export const Footer = () => {
         <div className="footer-section">
           <ul>
             <li>Services</li>
-            <li>Health Checkups</li>
             <li>Home Sample Collection</li>
             <li>Download Reports</li>
             <li>Corporate Wellness</li>
-            <li>COVID-19</li>
+            <li>Contact Us</li>
+            <li>FAQs</li>
           </ul>
         </div>
-        <div className="footer-section contact">
+        {/* <div className="footer-section contact">
           <ul>
             <li>Contact Us</li>
             <li>Virtual Tour</li>
@@ -48,7 +48,7 @@ export const Footer = () => {
             <li>Investors</li>
             <li>FAQs</li>
           </ul>
-        </div>
+        </div> */}
         <div className="footer-section newsletter">
           <h3>Subscribe to News Letter</h3>
           <form>
