@@ -41,25 +41,32 @@ function CustomerRoutes() {
   const [clickedIds, setClickedIds] = useState(
     JSON.parse(localStorage.getItem("clickedIds")) || []
   );
-
-  // const [cartData, setCartData] = useState([]);
-  // const [clickedIds, setClickedIds] = useState([]);
-
-  // Function to get JWT token from cookies
-  // const getJwtToken = () => Cookies.get("jwtToken") || "";
+  const [healthPackages, setHealthPackages] = useState([]);
+  const [packagesClickedIds, setPackagesClickedIds] = useState([]);
+  console.log(packagesClickedIds, "packagesIds");
 
   console.log(cartData, "lkujhyv fjkbhb");
   const token = Cookies.get("jwtToken"); // Get token from cookies
 
   const [cartTotal, setCartTotal] = useState(0);
 
-  // Fetch cart data from backend when component mounts
-
-  // Persist cartData and clickedIds to localStorage on changes
   useEffect(() => {
     localStorage.setItem("cartData", JSON.stringify(cartData));
     updateCartInBackend();
   }, [cartData]);
+
+  useEffect(() => {
+    const fetchPackages = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:5000/api/packages");
+        const data = await response.json();
+        setHealthPackages(data);
+      } catch (error) {
+        console.error("Error fetching packages:", error);
+      }
+    };
+    fetchPackages();
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("clickedIds", JSON.stringify(clickedIds));
@@ -156,6 +163,9 @@ function CustomerRoutes() {
                 clickedIds={clickedIds}
                 setClickedIds={setClickedIds}
                 addToCart={addToCart} // Pass addToCart function
+                healthPackages={healthPackages}
+                setPackagesClickedIds={setPackagesClickedIds}
+                packagesClickedIds={packagesClickedIds}
               />
             }
           />
@@ -173,7 +183,10 @@ function CustomerRoutes() {
           />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/service/:serviceId" element={<ServiceDetail />} />
-          <Route path="/particular/package/:package_id" element={<ParticularPackage/>}/>
+          <Route
+            path="/particular/package/:package_id"
+            element={<ParticularPackage />}
+          />
           <Route
             path="/my-dashboard"
             element={<ProtectedRoute element={<Dashboard />} />}
@@ -193,7 +206,10 @@ function CustomerRoutes() {
           />
           <Route path="/reports" element={<TestReports />} />
           <Route path="/test" element={<Test />} />
-          <Route path="/particular/test/:test_id" element={<ParticularTest/>}/>
+          <Route
+            path="/particular/test/:test_id"
+            element={<ParticularTest />}
+          />
           <Route
             path="/myprofile"
             element={<ProtectedRoute element={<MyProfile />} />}
@@ -208,6 +224,9 @@ function CustomerRoutes() {
                     setCartData={setCartData}
                     clickedIds={clickedIds}
                     setClickedIds={setClickedIds}
+                    healthPackages={healthPackages}
+                    setPackagesClickedIds={setPackagesClickedIds}
+                    packagesClickedIds={packagesClickedIds}
                   />
                 }
               />

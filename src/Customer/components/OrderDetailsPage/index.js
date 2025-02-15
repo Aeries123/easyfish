@@ -226,6 +226,9 @@ const OrderDetailsPage = ({
   setCartData,
   clickedIds,
   setClickedIds,
+  healthPackages,
+  setPakagesClickedIds,
+  packagesClickedIds,
 }) => {
   console.log(cartData, "order details");
 
@@ -245,7 +248,7 @@ const OrderDetailsPage = ({
         ];
   });
 
-  console.log(members.length,"length")
+  console.log(members.length, "length");
 
   const [userDetails, setUserDetails] = useState({
     name: "",
@@ -265,6 +268,35 @@ const OrderDetailsPage = ({
   const [addresses, setAddresses] = useState([]);
   const [isPopupOpened, setIsPopupOpened] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [packageTestIds, setPackageTestIds] = useState([]);
+  const [duplicateTestIds, setDuplicateTestIds] = useState([]);
+  console.log(packageTestIds, "abcdefgh");
+
+  useEffect(() => {
+    const fetchPackageTests = async () => {
+      try {
+        const fetchedTestIds = [];
+        for (const packageId of packagesClickedIds) {
+          const response = await fetch(
+            `http://127.0.0.1:5000/api/packages/${packageId}`
+          );
+          if (!response.ok) throw new Error("Failed to fetch package tests");
+          const data = await response.json();
+          console.log(data, "jhshvcjh");
+          fetchedTestIds.push(...data.test_ids); // Extract test IDs from the package response
+        }
+        setPackageTestIds(fetchedTestIds);
+      } catch (error) {
+        console.error("Error fetching package tests:", error);
+      }
+    };
+
+    if (packagesClickedIds.length > 0) {
+      fetchPackageTests();
+    }
+  }, [packagesClickedIds]);
+
+  console.log("Test IDs from selected packages:", packageTestIds);
 
   useEffect(() => {
     const fetchAddresses = async () => {
@@ -307,7 +339,7 @@ const OrderDetailsPage = ({
         const response = await fetch("http://127.0.0.1:5000/api/tests");
         if (!response.ok) throw new Error("Failed to fetch data");
         const data = await response.json();
-        setTestsData(data);
+        setTestsData(data.tests);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -328,12 +360,36 @@ const OrderDetailsPage = ({
     setSelectedAddress(address); // Update the selected address in the parent component
     handleCloseAddressPopup(); // Close the popup
   };
+    useEffect(() => {
+      if (cartData.length > 0 && packageTestIds.length > 0) {
+        console.log("entered");
+        console.log(members, "members");
+
+        const cartTestIds = members.reduce((acc, member) => {
+          if (Array.isArray(member.clickedIds)) {
+            acc.push(...member.clickedIds.map(id => String(id).trim()));
+          }
+          return acc;
+        }, []);
+
+        console.log(cartTestIds, "cartTestIds");
+
+        // Finding duplicates between cartData and packageTestIds
+        const duplicates = cartTestIds.filter(
+          (testId, index, self) =>
+            self.indexOf(testId) !== index || packageTestIds.includes(testId)
+        );
+
+        console.log("Duplicate test IDs:", [...new Set(duplicates)]);
+        setDuplicateTestIds(duplicates);
+      }
+    }, [cartData, packageTestIds]);
 
   const handleAddMember = async () => {
     if (members.length > 0) {
       // Get the last added member
       const lastMember = members[members.length - 1];
-      console.log(lastMember,"lasst members details")
+      console.log(lastMember, "lasst members details");
 
       // Prepare data to send to the backend
       const memberData = {
@@ -344,7 +400,7 @@ const OrderDetailsPage = ({
           0
         ),
         status: "draft",
-        patientDetails:lastMember
+        patientDetails: lastMember,
       };
 
       // Get the token from cookies
@@ -357,7 +413,7 @@ const OrderDetailsPage = ({
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`, 
+              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(memberData),
           }
@@ -487,6 +543,8 @@ const OrderDetailsPage = ({
                   mainClickedIds={clickedIds}
                   setMainClickedIds={setClickedIds}
                   cartData={member.cartData}
+                  packagesClickedIds={packagesClickedIds}
+                  duplicateTestIds={duplicateTestIds}
                   setCartData={(newCartData) => {
                     const updatedMembers = [...members];
                     updatedMembers[index].cartData = newCartData;

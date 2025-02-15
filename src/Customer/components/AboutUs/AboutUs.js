@@ -195,11 +195,15 @@ const Timeline = () => {
                 </div> */}
               </div>
               <h2 className="vision-title">OUR VISION</h2>
-              <p className="vision-description text-gray-600">
-                Be the most trusted healthcare partner, enabling healthier lives
-                by delivering accurate, reliable, and timely diagnostic
-                solutions, fostering a commitment to excellence, innovation, and
-                compassionate care.
+              <p className="vision-description">
+                To be the leading pathology center, transforming healthcare and
+                research through precision-driven diagnostics, cutting-edge
+                technology, and patient-centric services. Since our
+                establishment in 2011, ACCESS Pathlab has been committed to
+                delivering accurate, fast, and reliable pathology solutions that
+                empower clinicians, hospitals, research organizations, and
+                individuals to make informed decisions and drive medical
+                advancements.
               </p>
             </div>
 

@@ -325,7 +325,6 @@ const AdminViewBookingForm = () => {
     formData.append("report", file);
     formData.append("patient_id", patientId);
 
-
     try {
       const response = await axios.post(
         `http://127.0.0.1:5000/api/upload_reportsss`,
@@ -465,19 +464,27 @@ const AdminViewBookingForm = () => {
                       <td>{patient.name}</td>
                       <td>{patient.age}</td>
                       <td>
-              {patient.phone}
-              <a
-                href={`https://wa.me/${patient.phone}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="whatsapp-icon"
-              >
-                <FaWhatsapp size={20} color="green" style={{ marginLeft: 8 }} />
-              </a>
-              <a href={`tel:${patient.phone}`} className="phone-icon">
-                <FaPhone size={20} color="blue" style={{ marginLeft: 8 }} />
-              </a>
-            </td>
+                        {patient.phone}
+                        <a
+                          href={`https://wa.me/${patient.phone}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="whatsapp-icon"
+                        >
+                          <FaWhatsapp
+                            size={20}
+                            color="green"
+                            style={{ marginLeft: 8 }}
+                          />
+                        </a>
+                        <a href={`tel:${patient.phone}`} className="phone-icon">
+                          <FaPhone
+                            size={20}
+                            color="blue"
+                            style={{ marginLeft: 8 }}
+                          />
+                        </a>
+                      </td>
                       <td>{patient.gender}</td>
                       <td>{patient.test_names.join(", ")}</td>
                       <td>{patient.total_price}</td>

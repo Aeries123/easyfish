@@ -20,14 +20,44 @@ const TestCheckupList = ({
   setCartData,
   clickedIds,
   setClickedIds,
+  packagesClickedIds,
+  duplicateTestIds,
 }) => {
   const [isPopupOpened, setIsPopupOpened] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [testsData, setTestsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [packageTestIds, setPackageTestIds] = useState([]);
+  const [duplicateTestsData, setDuplicateTestsData] = useState([]);
+  console.log(duplicateTestsData);
 
   console.log("member car2d:", cartData);
+
+  useEffect(() => {
+    const fetchDuplicateTests = async () => {
+      if (duplicateTestIds.length === 0) return; // Exit if no duplicate test IDs
+
+      try {
+        const responses = await Promise.all(
+          duplicateTestIds.map((testId) =>
+            fetch(`http://127.0.0.1:5000/api/tests/${testId}`).then((res) =>
+              res.json()
+            )
+          )
+        );
+
+        // Extract test details from responses
+        const duplicateTests = responses.map((res) => res.data).flat(); // Flatten array if multiple tests are returned
+
+        setDuplicateTestsData(duplicateTests);
+      } catch (error) {
+        console.error("Error fetching duplicate tests:", error);
+      }
+    };
+
+    fetchDuplicateTests();
+  }, [duplicateTestIds]);
 
   // Fetch tests data
   useEffect(() => {
@@ -45,6 +75,29 @@ const TestCheckupList = ({
     };
     fetchTests();
   }, []);
+
+  useEffect(() => {
+    const findDuplicates = () => {
+      const duplicates = {}; // Store duplicates per member
+
+      cartData.forEach((member) => {
+        const memberTestIds = member.tests.map((test) => test.test_id); // Extract test IDs for each member
+        const memberDuplicates = memberTestIds.filter((testId) =>
+          packageTestIds.includes(testId)
+        );
+
+        if (memberDuplicates.length > 0) {
+          duplicates[member.member_id] = memberDuplicates; // Store duplicate test IDs per member
+        }
+      });
+
+      console.log("Duplicate test IDs per member:", duplicates);
+    };
+
+    if (cartData.length > 0 && packageTestIds.length > 0) {
+      findDuplicates();
+    }
+  }, [cartData, packageTestIds]);
 
   // Open and close popup
   const handleAddMoreTests = () => setIsPopupOpened(true);
@@ -86,11 +139,19 @@ const TestCheckupList = ({
     test.test_name.toLowerCase().includes(searchInput.toLowerCase())
   );
 
+  const filteredCartData = cartData.filter(
+    (test) => !duplicateTestIds.includes(String(test.test_id)) // Convert test_id to string
+  );
+
+  console.log(duplicateTestIds, "duplicateTestIds");
+
+  console.log(filteredCartData, "filteredData");
+
   return (
     <div className="tests-checkups-main-container">
       <h4 className="tests-checkups-heading">Tests / Checkups Added</h4>
       {cartData.length > 0 ? (
-        cartData.map((test) => (
+        filteredCartData.map((test) => (
           <div key={test.test_id} className="test-item-container">
             <div className="test-item-card-container">
               <span className="test-item-name">{test.test_name}</span>
@@ -106,6 +167,18 @@ const TestCheckupList = ({
         ))
       ) : (
         <p className="no-tests-message">No tests added yet.</p>
+      )}
+
+      {duplicateTestsData.length > 0 && (
+        <div className="duplicate-tests-container">
+          <h5>Duplicate Items (Removed from cart)</h5>
+          {duplicateTestsData.map((test) => (
+            <div key={test.test_id} className="test-item-container duplicate">
+              <span className="test-item-name">{test.test_name}</span>
+              <span className="test-item-price">₹ {test.price}</span>
+            </div>
+          ))}
+        </div>
       )}
 
       <button className="add-more-tests-button" onClick={handleAddMoreTests}>
@@ -144,7 +217,7 @@ export default TestCheckupList;
 
 // import React, { useState, useEffect } from "react";
 // import Popup from "../PopUp/Popup";
-// import { MdDelete } from "react-icons/md";
+// import { MdDelete } from "react-icons/md";956
 // import { MdAddShoppingCart } from "react-icons/md";
 // import "./index.css";
 

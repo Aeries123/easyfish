@@ -20,6 +20,7 @@ const ManageTechnician = () => {
         }
 
         const data = await response.json();
+        
         setTechnicians(data);
       } catch (error) {
         setErrorMessage(error.message);

@@ -1,7 +1,7 @@
-import React, { useEffect,useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FiMinusCircle } from "react-icons/fi";
 import { MdAddCircleOutline } from "react-icons/md";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 import "./index.css"; // Import the CSS for styling
 
 const healthPackages = [
@@ -97,26 +97,32 @@ const healthPackages = [
   },
 ];
 
-
-
 const HealthPackages = (props) => {
-  const { cartData, setCartData, clickedIds, setClickedIds } = props;
-  const [healthPackages, setHealthPackages] = useState([]);
+  const {
+    cartData,
+    setCartData,
+    clickedIds,
+    setClickedIds,
+    healthPackages,
+    setPackagesClickedIds,
+    setHealthPackages,
+  } = props;
+  // const [healthPackages, setHealthPackages] = useState([]);
   const scrollRef = useRef(null);
 
   // Fetch health packages data from the backend
-  useEffect(() => {
-    const fetchPackages = async () => {
-      try {
-        const response = await fetch("http://127.0.0.1:5000/api/packages");
-        const data = await response.json();
-        setHealthPackages(data);
-      } catch (error) {
-        console.error("Error fetching packages:", error);
-      }
-    };
-    fetchPackages();
-  }, []);
+  // useEffect(() => {
+  //   const fetchPackages = async () => {
+  //     try {
+  //       const response = await fetch("http://127.0.0.1:5000/api/packages");
+  //       const data = await response.json();
+  //       setHealthPackages(data);
+  //     } catch (error) {
+  //       console.error("Error fetching packages:", error);
+  //     }
+  //   };
+  //   fetchPackages();
+  // }, []);
 
   const scrollLeft = () => {
     scrollRef.current.scrollBy({
@@ -135,10 +141,16 @@ const HealthPackages = (props) => {
   const onClickButton = (packageItem) => {
     let packageId = packageItem.test_id;
     if (clickedIds.includes(packageId)) {
+      setPackagesClickedIds((prev) =>
+        prev.filter((each) => each !== packageId)
+      );
+
       setClickedIds((prev) => prev.filter((each) => each !== packageId));
       setCartData((prev) => prev.filter((each) => each.test_id !== packageId));
     } else {
       setClickedIds((prev) => [...prev, packageId]);
+      setPackagesClickedIds((prev) => [...prev, packageId]);
+
       setCartData((prev) => [...prev, packageItem]);
     }
   };
@@ -192,9 +204,8 @@ const HealthPackages = (props) => {
         >
           &#8250;
         </button>
+        -
       </div>
-
-     
     </div>
   );
 };

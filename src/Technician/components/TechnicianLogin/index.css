@@ -1,0 +1,146 @@
+/* customerlogin.css */
+
+/* Main container */
+.customer-login-main-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-family: "Roboto", sans-serif;
+  color: #333;
+  height: 80vh;
+  padding: 20px;
+}
+
+/* Slider container */
+.login-slider-container {
+  flex: 1;
+  padding: 20px;
+  max-width: 600px;
+  border-radius: 20px;
+  background-color: #f9f9f9;
+}
+
+.login-slider-image-container {
+  text-align: center;
+}
+
+.login-images {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+/* Form container */
+.login-form-container {
+  flex: 1;
+  max-width: 400px;
+  padding: 40px;
+  border-radius: 20px;
+  background-color: #fff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Subheading */
+.login-sub-heading {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #6a0dad;
+  text-align: center;
+}
+
+/* Description */
+.login-description {
+  font-size: 16px;
+  color: #666;
+  text-align: center;
+}
+
+/* Label styling */
+.login-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Input field styling */
+.login-input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.login-input:focus {
+  border-color: #6a0dad;
+  outline: none;
+}
+
+/* Button */
+.login-button {
+  width: 100%;
+  background-color: #6a0dad;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #5b0c9b;
+}
+
+/* Alternate actions */
+.login-alternate {
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.login-alternate a {
+  color: #6a0dad;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.login-alternate a:hover {
+  text-decoration: underline;
+}
+
+/* Terms and conditions */
+.login-terms {
+  font-size: 12px;
+  margin-top: 20px;
+  color: #999;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  .customer-login-main-container {
+    flex-direction: column;
+    height: auto;
+    padding: 20px;
+  }
+
+  .login-slider-container {
+    margin-bottom: 20px;
+  }
+
+  .login-form-container {
+    width: 100%;
+    max-width: 100%;
+  }
+}

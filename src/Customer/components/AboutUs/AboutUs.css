@@ -145,7 +145,7 @@ div.eCjflQ {
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
+  text-align: left;
   width: 100%;
   background-color: #6a1b9a;
   border-radius: 10px;
@@ -356,18 +356,7 @@ div.eCjflQ {
   width: 50vw;
 }
 
-.vision-section,
-.mission-section {
-  flex: 1 1 calc(50% - 20px);
-  background-color: #6a1b9a;
-  border-radius: 10px;
-  text-align: center;
-  color: #fff;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  opacity: 0;
-  transform: translateY(50px);
-  animation: slideInUp 1.5s ease-in-out forwards;
-}
+
 
 .vision-section:hover,
 .mission-section:hover {

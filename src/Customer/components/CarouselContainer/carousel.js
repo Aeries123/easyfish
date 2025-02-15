@@ -1,6 +1,7 @@
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
 const carouselImages = [
   {
     imageUrl:
@@ -18,6 +19,7 @@ const carouselImages = [
     imageName: "3",
   },
 ];
+
 const settings = {
   slidesToShow: 1,
   slidesToScroll: 1,
@@ -26,14 +28,21 @@ const settings = {
   autoplaySpeed: 3000,
   autoplay: true,
 };
+
 export const CarouselContainer = () => {
   return (
     <div style={{ width: "90%" }}>
       <Slider {...settings}>
         {carouselImages.map((eachItem) => (
-          <img key={eachItem.imageName} src={eachItem.imageUrl} width="90%" height="auto" />
+          <img
+            key={eachItem.imageName}
+            src={eachItem.imageUrl}
+            width="90%"
+            height="auto"
+          />
         ))}
       </Slider>
     </div>
   );
 };
+

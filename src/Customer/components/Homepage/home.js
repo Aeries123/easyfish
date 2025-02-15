@@ -167,7 +167,16 @@ const NextArrow = (props) => {
 };
 
 const Home = (props) => {
-  const { cartData, setCartData, clickedIds, setClickedIds, addToCart } = props;
+  const {
+    cartData,
+    setCartData,
+    clickedIds,
+    setClickedIds,
+    addToCart,
+    healthPackages,
+    setPackagesClickedIds,
+    packagesClickedIds,
+  } = props;
   const [isFullDataVisible, setIsFullDataVisible] = useState(false);
   const [isAllImagesVisible, setImagesAllVisible] = useState(false);
   const [testsData, setTestsData] = useState([]);
@@ -199,6 +208,19 @@ const Home = (props) => {
         setLoading(false); // Set loading to false if an error occurs
       });
   }, []);
+
+  // useEffect(() => {
+  //   const fetchPackages = async () => {
+  //     try {
+  //       const response = await fetch("http://127.0.0.1:5000/api/packages");
+  //       const data = await response.json();
+  //       setHealthPackages(data);
+  //     } catch (error) {
+  //       console.error("Error fetching packages:", error);
+  //     }
+  //   };
+  //   fetchPackages();
+  // }, []);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -499,6 +521,8 @@ const Home = (props) => {
           cartData={cartData}
           setClickedIds={setClickedIds}
           clickedIds={clickedIds}
+          healthPackages={healthPackages}
+          setPackagesClickedIds={setPackagesClickedIds}
         />
       </div>
       <div className="slider-main-container">
