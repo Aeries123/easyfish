@@ -23,9 +23,10 @@ const Sidebar = () => {
     { path: "/admin/manage-review", label: "Manage Reviews" },
     { path: "/admin/manage-payment", label: "Manage Payments" },
     { path: "/admin/manage-category", label: "Manage Categories" },
-    { path: "/admin/manage-technician", label: "Manage Technician" },
+    { path: "/admin/manage-technician", label: "Assigned Technicians" },
+    { path: "/admin/admin-manage-technician", label: " Manage Technicians" },
+    { path: "/admin/approve-leave", label: "Approve Leave" },
     // { path: "/admin/technician", label: "Technician" },
-
     // { path: "/admin/category", label: "Categories" },
     { path: "/admin/manage-notification", label: "Manage Notifications" },
     // { path: "/admin/review", label: "Reviews" },

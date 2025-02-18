@@ -25,7 +25,7 @@ const TestCheckupList = ({
   setPackagesClickedIds,
   duplicateTestIds,
   setDuplicateTestIds,
-  duplicateIds,
+  // duplicateIds,
   packageTestIds,
   members,
 }) => {
@@ -38,8 +38,6 @@ const TestCheckupList = ({
   console.log(duplicateTestsData, "ids");
 
   console.log("member car2d:", cartData);
-
-  
 
   useEffect(() => {
     const fetchDuplicateTests = async () => {
@@ -57,6 +55,7 @@ const TestCheckupList = ({
 
         // Extract test details from responses
         const duplicateTests = responses.map((res) => res.data).flat(); // Flatten array if multiple tests are returned
+        console.log(duplicateTests,"aaaaaaaaa")
 
         setDuplicateTestsData(duplicateTests);
       } catch (error) {
@@ -201,7 +200,7 @@ const TestCheckupList = ({
       setCartData([...cartData, test]);
       setDuplicateTestIds((prev) => prev.filter((id) => id !== test.test_id));
       // setMainCartData([...mainCartData, test]);
-      duplicateIds()
+      // duplicateIds()
     }
   };
 

@@ -1,0 +1,27 @@
+/* Responsive Table Container */
+/* Ensure Table is Scrollable */
+.table-container {
+    overflow-x: auto;
+    max-width: 100%;
+  }
+  
+  /* Make Text Wrap in Small Screens */
+  @media (max-width: 478px) {
+    .table {
+      font-size: 14px; /* Reduce font size for better fit */
+    }
+  
+    .table th,
+    .table td {
+      white-space: normal;
+      word-wrap: break-word;
+    }
+  
+    /* Prevent Test Names from Overflowing */
+    .test-names {
+      max-width: 150px; /* Limit width */
+      word-break: break-word; /* Force break long words */
+      overflow-wrap: break-word;
+    }
+  }
+  

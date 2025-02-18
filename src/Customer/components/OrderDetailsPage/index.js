@@ -375,110 +375,64 @@ const OrderDetailsPage = ({
     handleCloseAddressPopup(); // Close the popup
   };
 
-  // const duplicates = {}; // Store duplicates per member
-  // console.log(duplicates, "gggggg");
+
 
   // useEffect(() => {
-  //   console.log("kkkkkkk");
-  //   console.log(cartData, "maha");
-  //   console.log(packageTestIds, "maha");
-  //   const findDuplicates = () => {
-  //     console.log(members, "kk");
-
-  //     members.forEach((member) => {
-  //       const memberTestIds = member.cartData.map((test) => test.test_id); // Extract test IDs for each member
-  //       console.log(memberTestIds, "mmmmemberTest-ids");
-  //       const memberDuplicates = memberTestIds.filter((testId) =>
-  //         packageTestIds.includes(String(testId))
-  //       );
-
-  //       if (memberDuplicates.length > 0) {
-  //         duplicates[member.member_id] = memberDuplicates; // Store duplicate test IDs per member
-  //       }
-  //     });
-
-  //     console.log("Duplicate test IDs per member:", duplicates);
-  //   };
-
   //   if (cartData.length > 0 && packageTestIds.length > 0) {
-  //     findDuplicates();
+  //     console.log("entered");
+  //     console.log(members, "members");
+
+  //     const cartTestIds = members.reduce((acc, member) => {
+  //       if (Array.isArray(member.clickedIds)) {
+  //         acc.push(...member.clickedIds.map((id) => String(id).trim()));
+  //       }
+  //       return acc;
+  //     }, []);
+
+  //     console.log(cartTestIds, "cartTestIds");
+  //     console.log(packageTestIds, "packageTestIds");
+
+  //     // Finding duplicates between cartData and packageTestIds
+  //     const duplicates = cartTestIds.filter(
+  //       (testId, index, self) =>
+  //         self.indexOf(testId) !== index || packageTestIds.includes(testId)
+  //     );
+
+  //     console.log(duplicates, "mahesh");
+
+  //     console.log("Duplicate test IDs:", [...new Set(duplicates)]);
+  //     setDuplicateTestIds(duplicates);
   //   }
   // }, [cartData, packageTestIds]);
 
-  // const findDuplicate = () => {
-  //   console.log(members, "kk");
+  // const duplicateIds = () => {
+  //   console.log("enefnbahgifisdhvbzvsvdsvdsnibjdjnfhdjioshdv");
+  //   if (cartData.length > 0 && packageTestIds.length > 0) {
+  //     console.log("entered");
+  //     console.log(members, "members");
 
-  //   members.forEach((member) => {
-  //     const memberTestIds = member.cartData.map((test) => test.test_id); // Extract test IDs for each member
-  //     console.log(memberTestIds, "mmmmemberTest-ids");
-  //     const memberDuplicates = memberTestIds.filter((testId) =>
-  //       packageTestIds.includes(String(testId))
+  //     const cartTestIds = members.reduce((acc, member) => {
+  //       if (Array.isArray(member.clickedIds)) {
+  //         acc.push(...member.clickedIds.map((id) => String(id).trim()));
+  //       }
+  //       return acc;
+  //     }, []);
+
+  //     console.log(cartTestIds, "cartTestIds");
+  //     console.log(packageTestIds, "packageTestIds");
+
+  //     // Finding duplicates between cartData and packageTestIds
+  //     const duplicates = cartTestIds.filter(
+  //       (testId, index, self) =>
+  //         self.indexOf(testId) !== index || packageTestIds.includes(testId)
   //     );
 
-  //     if (memberDuplicates.length > 0) {
-  //       duplicates[member.name] = memberDuplicates; // Store duplicate test IDs per member
-  //     }
-  //   });
+  //     console.log(duplicates, "mahesh");
 
-  //   console.log("Duplicate test IDs per member:", duplicates);
+  //     console.log("Duplicate test IDs:", [...new Set(duplicates)]);
+  //     setDuplicateTestIds(duplicates);
+  //   }
   // };
-
-  useEffect(() => {
-    if (cartData.length > 0 && packageTestIds.length > 0) {
-      console.log("entered");
-      console.log(members, "members");
-
-      const cartTestIds = members.reduce((acc, member) => {
-        if (Array.isArray(member.clickedIds)) {
-          acc.push(...member.clickedIds.map((id) => String(id).trim()));
-        }
-        return acc;
-      }, []);
-
-      console.log(cartTestIds, "cartTestIds");
-      console.log(packageTestIds, "packageTestIds");
-
-      // Finding duplicates between cartData and packageTestIds
-      const duplicates = cartTestIds.filter(
-        (testId, index, self) =>
-          self.indexOf(testId) !== index || packageTestIds.includes(testId)
-      );
-
-      console.log(duplicates, "mahesh");
-
-      console.log("Duplicate test IDs:", [...new Set(duplicates)]);
-      setDuplicateTestIds(duplicates);
-    }
-  }, [cartData, packageTestIds]);
-
-  const duplicateIds = () => {
-    console.log("enefnbahgifisdhvbzvsvdsvdsnibjdjnfhdjioshdv");
-    if (cartData.length > 0 && packageTestIds.length > 0) {
-      console.log("entered");
-      console.log(members, "members");
-
-      const cartTestIds = members.reduce((acc, member) => {
-        if (Array.isArray(member.clickedIds)) {
-          acc.push(...member.clickedIds.map((id) => String(id).trim()));
-        }
-        return acc;
-      }, []);
-
-      console.log(cartTestIds, "cartTestIds");
-      console.log(packageTestIds, "packageTestIds");
-
-      // Finding duplicates between cartData and packageTestIds
-      const duplicates = cartTestIds.filter(
-        (testId, index, self) =>
-          self.indexOf(testId) !== index || packageTestIds.includes(testId)
-      );
-
-      console.log(duplicates, "mahesh");
-
-      console.log("Duplicate test IDs:", [...new Set(duplicates)]);
-      setDuplicateTestIds(duplicates);
-    }
-  };
 
   const handleAddMember = async () => {
     // if (cartData.length > 0 && packageTestIds.length > 0) {
@@ -642,7 +596,7 @@ const OrderDetailsPage = ({
                   members={members}
                   packageTestIds={packageTestIds}
                   mainCartData={cartData}
-                  duplicateIds={duplicateIds}
+                  // duplicateIds={duplicateIds}
                   setMainCartData={setCartData}
                   mainClickedIds={clickedIds}
                   setMainClickedIds={setClickedIds}

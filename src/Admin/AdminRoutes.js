@@ -57,12 +57,14 @@ import AdminEditAddress from "./components/AdminEditAddress";
 import AdminViewPayment from "./components/AdminViewPayment";
 import Technician from "./components/Technician";
 import ManageTechnician from "./components/ManageTechnician";
-import ManagePackages from "./components/ManagePackages"
+import ManagePackages from "./components/ManagePackages";
+import AdminManageTechnician from "./components/AdminManageTechnician";
+import ApproveLeave from "./components/ApproveLeave";
 
 import "./AdminRoutes.css";
 import ManageEnquiry from "../Customer/components/ManageEnquiry";
 import UserPrescriptions from "./components/UserPrescriptions";
-import Packages from "./components/Packages"
+import Packages from "./components/Packages";
 const AdminRoutes = () => {
   const location = useLocation(); // Get the current location
 
@@ -94,19 +96,18 @@ const AdminRoutes = () => {
               path="/admin/manage-technician"
               element={<ManageTechnician />}
             />
+            <Route path="/admin/technician" element={<LabTechnicianForm />} />
+            <Route
+              path="/admin/admin-manage-technician"
+              element={<AdminManageTechnician />}
+            />
 
             <Route
               path="/admin/lab-technician-form"
               element={<LabTechnicianForm />}
             />
-            <Route
-              path="/admin/manage-packages"
-              element={<ManagePackages />}
-            />
-            <Route
-              path="/admin/package"
-              element={<Packages />}
-            />
+            <Route path="/admin/manage-packages" element={<ManagePackages />} />
+            <Route path="/admin/package" element={<Packages />} />
             <Route path="/admin/payment" element={<Payment />} />
             <Route path="/admin/notification" element={<Notification />} />
             <Route path="/admin/test-results" element={<Testresults />} />
@@ -126,7 +127,10 @@ const AdminRoutes = () => {
               element={<ManageTimeSlots />}
             />
             <Route path="/admin/tests-form" element={<TestsForm />} />
-            <Route path="/admin/prescriptions" element={<UserPrescriptions />} />
+            <Route
+              path="/admin/prescriptions"
+              element={<UserPrescriptions />}
+            />
 
             <Route path="/admin/technician-form" element={<Technician />} />
 
@@ -138,6 +142,7 @@ const AdminRoutes = () => {
               element={<AppointmentSummary />}
             />
             <Route path="/admin/bookings-form" element={<BookingsForm />} />
+            <Route path="/admin/approve-leave" element={<ApproveLeave />} />
             <Route path="/admin/category" element={<Category />} />
             <Route path="/admin/manage-booking" element={<ManageBooking />} />
             <Route

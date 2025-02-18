@@ -1,35 +1,36 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+ 
 const AdminEditCustomer = () => {
-  const { customerId } = useParams(); // Extract customerId from the URL params
-  const navigate = useNavigate(); // Hook to navigate after update
+  const { customerId } = useParams(); // Extract customerId from URL params
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     customer_name: "",
     password: "",
     phone: "",
     gender: "",
-  }); // State for form data
-  const [loading, setLoading] = useState(true); // State for loading status
-  const [error, setError] = useState(null); // State for errors
-  const [success, setSuccess] = useState(null); // State for success message
-
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+ 
+  // Fetch customer details for editing
   useEffect(() => {
     const fetchCustomer = async () => {
       try {
         const response = await fetch(`http://127.0.0.1:5000/api/customers/${customerId}`);
         const data = await response.json();
-
-        if (response.ok) {
+ 
+        if (response.ok && data.customer) {
           setFormData({
             customer_name: data.customer.customer_name || "",
             phone: data.customer.phone || "",
             gender: data.customer.gender || "",
-            password: "", // Keep password field empty for security reasons
+            password: "", // Keep password empty for security reasons
           });
         } else {
-          setError(data.message || "Error fetching customer details");
+          setError(data.error || "Failed to fetch customer details");
         }
       } catch (err) {
         setError("Error fetching customer details");
@@ -37,10 +38,10 @@ const AdminEditCustomer = () => {
         setLoading(false);
       }
     };
-
+ 
     fetchCustomer();
   }, [customerId]);
-
+ 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -48,24 +49,35 @@ const AdminEditCustomer = () => {
       [name]: value,
     }));
   };
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
+ 
+    const { customer_name, password, phone, gender } = formData;
+ 
+    // Send only non-empty fields to the backend
+    const requestBody = {
+      ...(customer_name && { customer_name }),
+      ...(password && { password }),
+      ...(phone && { phone }),
+      ...(gender && { gender }),
+    };
+ 
     try {
       const response = await fetch(`http://127.0.0.1:5000/api/customers/update/${customerId}`, {
-        method: "POST",
+        method: "PUT", // Change POST to PUT
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(requestBody), // Send only provided fields
       });
-
+ 
       const data = await response.json();
-
+ 
       if (response.ok) {
         setSuccess("Customer updated successfully.");
         setTimeout(() => {
-          navigate(`/admin/view-customer/${customerId}`); // Redirect after success
+          navigate(`/admin/view-customer/${customerId}`);
         }, 2000);
       } else {
         setError(data.error || "Error updating customer");
@@ -74,15 +86,15 @@ const AdminEditCustomer = () => {
       setError("Error updating customer");
     }
   };
-
+ 
   if (loading) {
     return <div>Loading...</div>;
   }
-
+ 
   if (error) {
     return <div className="alert alert-danger">{error}</div>;
   }
-
+ 
   return (
     <div className="container mt-4">
       <h2>Edit Customer</h2>
@@ -97,7 +109,6 @@ const AdminEditCustomer = () => {
             className="form-control"
             value={formData.customer_name}
             onChange={handleInputChange}
-            required
           />
         </div>
         <div className="mb-3">
@@ -118,9 +129,8 @@ const AdminEditCustomer = () => {
             id="gender"
             name="gender"
             className="form-control"
-            value={formData.gender}
+            value={formData.gender || ""}
             onChange={handleInputChange}
-            required
           >
             <option value="">Select Gender</option>
             <option value="Male">Male</option>
@@ -128,6 +138,7 @@ const AdminEditCustomer = () => {
             <option value="Other">Other</option>
           </select>
         </div>
+ 
         <div className="mb-3">
           <label htmlFor="password" className="form-label">Password</label>
           <input
