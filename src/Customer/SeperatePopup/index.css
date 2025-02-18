@@ -247,3 +247,37 @@
   align-items: center;
   padding: 10px;
 }
+
+.popup-popup-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Adjust the space between tabs */
+  padding: 10px;
+  border-bottom: 2px solid #ddd; /* Optional: adds a line below the tabs */
+}
+
+.popup-tab {
+  background-color: #f4f4f4;
+  padding: 5px 20px;
+  border: none;
+  border-radius: 5px;
+  width: 190px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.popup-tab:hover {
+  background-color: #e0e0e0; /* Optional: hover effect */
+}
+
+.popup-tab.active {
+  background-color: #6d0785; /* Active tab background */
+  color: white; /* Active tab text color */
+  border-radius: 5px 5px 0 0; /* Optional: adds top border radius for active tab */
+}
+
+.popup-tab:focus {
+  outline: none; /* Removes focus outline for a cleaner look */
+}

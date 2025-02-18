@@ -29,7 +29,7 @@ const TechnicianVerifyOtp = () => {
 
       if (response.ok) {
         const data = await response.json();
-        Cookies.set("techToken", data.token, { expires: 7 });
+        Cookies.set("jwtToken", data.token, { expires: 7 });
         // setUserName(data.name);
         navigate("/technician/");
       } else {

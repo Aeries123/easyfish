@@ -8,7 +8,7 @@ import Popup from "../PopUp/Popup";
 import { IoCart } from "react-icons/io5";
 
 const Cart = (props) => {
-  const { cartData, setCartData, clickedIds, setClickedIds } = props;
+  const { cartData, setCartData, clickedIds, setClickedIds, packagesClickedIds, healthPackages, setPackagesClickedIds } = props;
   const [testsData, setTestsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -22,7 +22,7 @@ const Cart = (props) => {
     if (jwtToken === undefined) {
       navigate("/customer/login");
     } else {
-      alert("Successfully");
+      navigate("/orders/page");
     }
   };
 
@@ -77,6 +77,9 @@ const Cart = (props) => {
     
     const newClickedIds = clickedIds.filter((id) => id !== test_id);
     setClickedIds(newClickedIds);
+
+    // const newPackagesClickedIds = packagesClickedIds.filter((id) => id !== test_id);
+    // setPackagesClickedIds(newPackagesClickedIds);
   };
   
 
@@ -165,9 +168,9 @@ const Cart = (props) => {
             onClick={onClickProceed}
             className="cart-cart-payment-button"
           >
-            <Link className="proceed-button-link" to="/orders/page">
+            {/* <Link className="proceed-button-link" to="/orders/page"> */}
               Proceed
-            </Link>
+            {/* </Link> */}
           </button>
         </div>
       )}
@@ -186,6 +189,7 @@ const Cart = (props) => {
         onChangeInput={(e) => setSearchInput(e.target.value)}
         onClickProceed={onClickProceed}
         setClickedIds={setClickedIds}
+        healthPackages={healthPackages}
       />
     </div>
   );

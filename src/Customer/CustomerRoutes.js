@@ -42,8 +42,11 @@ function CustomerRoutes() {
     JSON.parse(localStorage.getItem("clickedIds")) || []
   );
   const [healthPackages, setHealthPackages] = useState([]);
-  const [packagesClickedIds, setPackagesClickedIds] = useState([]);
+  const [packagesClickedIds, setPackagesClickedIds] = useState(
+    JSON.parse(localStorage.getItem("packagesClickedIds")) || []
+  );
   console.log(packagesClickedIds, "packagesIds");
+  console.log(healthPackages, "healthPackages");
 
   console.log(cartData, "lkujhyv fjkbhb");
   const token = Cookies.get("jwtToken"); // Get token from cookies
@@ -52,8 +55,14 @@ function CustomerRoutes() {
 
   useEffect(() => {
     localStorage.setItem("cartData", JSON.stringify(cartData));
-    updateCartInBackend();
+    // updateCartInBackend();
   }, [cartData]);
+  useEffect(() => {
+    localStorage.setItem(
+      "packagesClickedIds",
+      JSON.stringify(packagesClickedIds)
+    );
+  }, [packagesClickedIds]);
 
   useEffect(() => {
     const fetchPackages = async () => {
@@ -201,6 +210,9 @@ function CustomerRoutes() {
                 setCartData={setCartData}
                 clickedIds={clickedIds}
                 setClickedIds={setClickedIds}
+                packagesClickedIds={packagesClickedIds}
+                setPackagesClickedIds={setPackagesClickedIds}
+                healthPackages={healthPackages}
               />
             }
           />

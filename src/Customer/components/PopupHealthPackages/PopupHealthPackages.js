@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { FiMinusCircle } from "react-icons/fi";
 import { MdAddCircleOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
-import "./index.css"; // Import the CSS for styling
+import "./PopupHealthPackages.css"; // Import the CSS for styling
 
 const healthPackages = [
   {
@@ -97,7 +97,7 @@ const healthPackages = [
   },
 ];
 
-const HealthPackages = (props) => {
+const PopupHealthPackages = (props) => {
   const {
     cartData,
     setCartData,
@@ -140,7 +140,6 @@ const HealthPackages = (props) => {
 
   const onClickButton = (packageItem) => {
     let packageId = packageItem.test_id;
-    console.log(packageId,"package id")
     if (clickedIds.includes(packageId)) {
       setPackagesClickedIds((prev) =>
         prev.filter((each) => each !== packageId)
@@ -155,41 +154,45 @@ const HealthPackages = (props) => {
       setCartData((prev) => [...prev, packageItem]);
     }
   };
-  console.log(healthPackages,"kshfv jk")
+  console.log(healthPackages, "kshfv jk");
 
   return (
-    <div className="package-health-packages-container">
-      <h2 className="package-heading">Health Packages</h2>
-      <div className="package-scroll-buttons">
-        <button
-          className="package-scroll-button package-left"
+    <div className="health-package-health-packages-container">
+      {/* <h2 className="health-package-heading">Health Packages</h2> */}
+      {/* <div className="health-package-scroll-buttons"> */}
+        {/* <button
+          className="health-package-scroll-button health-package-left"
           onClick={scrollLeft}
         >
           &#8249;
-        </button>
-        <div className="package-card-container" ref={scrollRef}>
+        </button> */}
+        <div className="health-package-card-container" ref={scrollRef}>
           {healthPackages.map((packageItem) => (
-            <div key={packageItem.test_id} className="package-card">
-              <div className="package-card-title-container">
-                <h3 className="package-card-title">{packageItem.test_name}</h3>
-                <p className="package-card-price">₹{packageItem.price}</p>
+            <div key={packageItem.test_id} className="health-package-card">
+              <div className="health-package-card-title-container">
+                <h3 className="health-package-card-title">
+                  {packageItem.test_name}
+                </h3>
+                <p className="health-package-card-price">
+                  ₹{packageItem.price}
+                </p>
               </div>
-              <div className="package-card-description-container">
-                <p className="package-card-description">
+              <div className="health-package-card-description-container">
+                <p className="health-package-card-description">
                   {packageItem.total_parameters} parameters included
                 </p>
-                <p className="package-card-description">
+                <p className="health-package-card-description">
                   Reports ready in: {packageItem.reports_time}
                 </p>
               </div>
-              <div className="package-card-button-container">
+              <div className="health-package-card-button-container">
                 <Link to={`/particular/package/${packageItem.test_id}`}>
-                  <button className="package-card-button package-card-view-button">
+                  <button className="health-package-card-button health-package-card-view-button">
                     View Details
                   </button>
                 </Link>
                 <button
-                  className="package-card-button package-card-book-button"
+                  className="health-package-card-button health-package-card-book-button"
                   onClick={() => onClickButton(packageItem)}
                 >
                   {clickedIds.includes(packageItem.test_id)
@@ -200,16 +203,15 @@ const HealthPackages = (props) => {
             </div>
           ))}
         </div>
-        <button
-          className="package-scroll-button package-right"
+        {/* <button
+          className="health-package-scroll-button health-package-right"
           onClick={scrollRight}
         >
           &#8250;
-        </button>
-        -
-      </div>
+        </button> */}
+      {/* </div> */}
     </div>
   );
 };
 
-export default HealthPackages;
+export default PopupHealthPackages;

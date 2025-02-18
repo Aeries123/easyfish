@@ -4,13 +4,17 @@
   margin: auto;
   padding: 20px;
   font-family: "Roboto", sans-serif;
+  background-color: #f8f9fa;
 }
 
-.dashboard-heading {
-  text-align: center;
+/* Dashboard Heading */
+.tech-dashboard-heading {
   font-size: 24px;
-  color: #333;
   margin-bottom: 20px;
+  font-weight: "bold";
+  color: black;
+  
+
 }
 
 /* Loading & Error Messages */
@@ -25,43 +29,6 @@
   font-size: 18px;
 }
 
-/* Task Summary Cards */
-.dashboard-summary {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 20px;
-}
-
-.card {
-  width: 300px;
-  padding: 15px;
-  text-align: center;
-  border-radius: 8px;
-  font-weight: bold;
-  color: white;
-}
-
-.pending {
-  background-color: #ffcc00;
-}
-
-.in-progress {
-  background-color: #007bff;
-}
-
-.completed {
-  background-color: #28a745;
-}
-
-.card-title {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.card-count {
-  font-size: 22px;
-}
-
 /* Appointments Table */
 .appointments-container {
   margin-top: 20px;
@@ -70,44 +37,77 @@
 .appointments-heading {
   font-size: 20px;
   margin-bottom: 10px;
-}
-
-.no-appointments-text {
   text-align: center;
-  font-size: 18px;
+  font-weight: bold;
 }
 
+/* Table Styling */
 .appointments-table {
   width: 100%;
   border-collapse: collapse;
   background-color: #fff;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border: 2px solid #ddd;
 }
 
-.table-header {
-  background-color: #007bff;
+/* Table Header */
+.tech-appointments-table thead {
+  background-color: purple;
   color: white;
 }
 
-.table-cell {
-  padding: 10px;
-  border: 1px solid #ddd;
+.appointments-table th {
+  padding: 12px;
   text-align: center;
+  font-weight: bold;
+  border: 2px solid #ddd; /* Vertical and horizontal borders */
 }
 
-.table-row:nth-child(even) {
+/* Table Rows */
+.appointments-table tbody tr {
+  text-align: center;
+  border: 2px solid #ddd;
+}
+
+.appointments-table tbody tr:nth-child(even) {
   background-color: #f2f2f2;
 }
 
-/* View Details Button */
-.view-btn {
-  background-color: #007bff;
+/* Table Cells */
+.appointments-table td {
+  padding: 10px;
+  border: 2px solid #ddd; /* Vertical and horizontal borders */
+  text-align: center;
+}
+
+/* Buttons */
+.update-btn, .view-technician {
+  background-color: #28a745;
   color: white;
   padding: 8px 12px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
 }
 
-.view-btn:hover {
+.update-btn:hover {
+  background-color: #218838;
+}
+
+.view-technician {
+  background-color: #007bff;
+}
+
+.view-technician:hover {
   background-color: #0056b3;
+}
+
+/* Select Dropdown */
+select {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
 }

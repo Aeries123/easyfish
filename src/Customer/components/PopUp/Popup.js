@@ -9,6 +9,7 @@ import "./Popup.css";
 
 const Popup = ({
   isPopupOpened,
+  healthPackages,
   onClickClosePopup,
   filteredData,
   handleButtonClick,
@@ -21,6 +22,8 @@ const Popup = ({
   onChangeInput,
   onClickProceed,
 }) => {
+  const [activeTab, setActiveTab] = useState("tests");
+
   const onClickButton = (test) => {
     let testId = test.test_id;
     if (clickedIds.includes(testId)) {
@@ -51,6 +54,22 @@ const Popup = ({
                 onChange={onChangeInput}
                 className="popup-popup-input"
               />
+            </div>
+            <div className="popup-popup-tabs">
+              <button
+                className={`popup-tab ${activeTab === "tests" ? "active" : ""}`}
+                onClick={() => setActiveTab("tests")}
+              >
+                Tests
+              </button>
+              <button
+                className={`popup-tab ${
+                  activeTab === "packages" ? "active" : ""
+                }`}
+                onClick={() => setActiveTab("packages")}
+              >
+                Packages
+              </button>
             </div>
 
             <div className="popup-popup-individual-cards-container-1">
@@ -130,6 +149,20 @@ const Popup = ({
                         </button>
                       </div>
                     </div>
+                  </div>
+                ))
+              ) : activeTab === "packages" && healthPackages.length !== 0 ? (
+                healthPackages.map((pkg) => (
+                  <div
+                    className="popup-popup-individual-card"
+                    key={pkg.package_id}
+                  >
+                    <h4 className="popup-popup-package-heading">
+                      {pkg.package_name}
+                    </h4>
+                    <h5 className="popup-popup-card-price-heading">
+                      ₹{pkg.price}
+                    </h5>
                   </div>
                 ))
               ) : (

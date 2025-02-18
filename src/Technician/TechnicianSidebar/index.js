@@ -9,8 +9,13 @@ const TechnicianSidebar = () => {
   const links = [
     { path: "/technician/", label: "Dashboard" },
     { path: "/technician/apply-leave", label: "Apply Leave" },
-    { path: "/technicianview-leaves/", label: "View Leaves" },
-    { path: "/admin/manage-asssigned-technician", label: "Assigned Tasks" },
+    { path: "/technician/view-leave", label: "View Leaves" },
+    // { path: "/admin/manage-asssigned-technician", label: "Assigned Tasks" },
+
+
+
+    // { path: "/technician_leave/", label: "technician premission letter" },
+
     // { path: "/technician/schedule", label: "Schedule" },
     // { path: "/technician/patients", label: "Patients" },
     // { path: "/technician/test-results", label: "Test Results" },

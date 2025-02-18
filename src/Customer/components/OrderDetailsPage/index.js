@@ -227,7 +227,7 @@ const OrderDetailsPage = ({
   clickedIds,
   setClickedIds,
   healthPackages,
-  setPakagesClickedIds,
+  setPackagesClickedIds,
   packagesClickedIds,
 }) => {
   console.log(cartData, "order details");
@@ -238,6 +238,7 @@ const OrderDetailsPage = ({
       ? JSON.parse(savedMembers)
       : [
           {
+            member_id:1,
             name: "",
             age: "",
             gender: "",
@@ -248,7 +249,17 @@ const OrderDetailsPage = ({
         ];
   });
 
-  console.log(members.length, "length");
+  console.log(members, "length");
+
+  useEffect(() => {
+    setMembers((prevMembers) => {
+      return prevMembers.map((member, index) => ({
+        ...member,
+        cartData: cartData,
+        clickedIds: clickedIds,
+      }));
+    });
+  }, [cartData, clickedIds]);
 
   const [userDetails, setUserDetails] = useState({
     name: "",
@@ -271,6 +282,7 @@ const OrderDetailsPage = ({
   const [packageTestIds, setPackageTestIds] = useState([]);
   const [duplicateTestIds, setDuplicateTestIds] = useState([]);
   console.log(packageTestIds, "abcdefgh");
+  console.log(duplicateTestIds, "Mahiiiii");
 
   useEffect(() => {
     const fetchPackageTests = async () => {
@@ -283,8 +295,10 @@ const OrderDetailsPage = ({
           if (!response.ok) throw new Error("Failed to fetch package tests");
           const data = await response.json();
           console.log(data, "jhshvcjh");
+
           fetchedTestIds.push(...data.test_ids); // Extract test IDs from the package response
         }
+        console.log(fetchedTestIds, "fetchedTestIds");
         setPackageTestIds(fetchedTestIds);
       } catch (error) {
         console.error("Error fetching package tests:", error);
@@ -360,32 +374,116 @@ const OrderDetailsPage = ({
     setSelectedAddress(address); // Update the selected address in the parent component
     handleCloseAddressPopup(); // Close the popup
   };
-    useEffect(() => {
-      if (cartData.length > 0 && packageTestIds.length > 0) {
-        console.log("entered");
-        console.log(members, "members");
 
-        const cartTestIds = members.reduce((acc, member) => {
-          if (Array.isArray(member.clickedIds)) {
-            acc.push(...member.clickedIds.map(id => String(id).trim()));
-          }
-          return acc;
-        }, []);
+  // const duplicates = {}; // Store duplicates per member
+  // console.log(duplicates, "gggggg");
 
-        console.log(cartTestIds, "cartTestIds");
+  // useEffect(() => {
+  //   console.log("kkkkkkk");
+  //   console.log(cartData, "maha");
+  //   console.log(packageTestIds, "maha");
+  //   const findDuplicates = () => {
+  //     console.log(members, "kk");
 
-        // Finding duplicates between cartData and packageTestIds
-        const duplicates = cartTestIds.filter(
-          (testId, index, self) =>
-            self.indexOf(testId) !== index || packageTestIds.includes(testId)
-        );
+  //     members.forEach((member) => {
+  //       const memberTestIds = member.cartData.map((test) => test.test_id); // Extract test IDs for each member
+  //       console.log(memberTestIds, "mmmmemberTest-ids");
+  //       const memberDuplicates = memberTestIds.filter((testId) =>
+  //         packageTestIds.includes(String(testId))
+  //       );
 
-        console.log("Duplicate test IDs:", [...new Set(duplicates)]);
-        setDuplicateTestIds(duplicates);
-      }
-    }, [cartData, packageTestIds]);
+  //       if (memberDuplicates.length > 0) {
+  //         duplicates[member.member_id] = memberDuplicates; // Store duplicate test IDs per member
+  //       }
+  //     });
+
+  //     console.log("Duplicate test IDs per member:", duplicates);
+  //   };
+
+  //   if (cartData.length > 0 && packageTestIds.length > 0) {
+  //     findDuplicates();
+  //   }
+  // }, [cartData, packageTestIds]);
+
+  // const findDuplicate = () => {
+  //   console.log(members, "kk");
+
+  //   members.forEach((member) => {
+  //     const memberTestIds = member.cartData.map((test) => test.test_id); // Extract test IDs for each member
+  //     console.log(memberTestIds, "mmmmemberTest-ids");
+  //     const memberDuplicates = memberTestIds.filter((testId) =>
+  //       packageTestIds.includes(String(testId))
+  //     );
+
+  //     if (memberDuplicates.length > 0) {
+  //       duplicates[member.name] = memberDuplicates; // Store duplicate test IDs per member
+  //     }
+  //   });
+
+  //   console.log("Duplicate test IDs per member:", duplicates);
+  // };
+
+  useEffect(() => {
+    if (cartData.length > 0 && packageTestIds.length > 0) {
+      console.log("entered");
+      console.log(members, "members");
+
+      const cartTestIds = members.reduce((acc, member) => {
+        if (Array.isArray(member.clickedIds)) {
+          acc.push(...member.clickedIds.map((id) => String(id).trim()));
+        }
+        return acc;
+      }, []);
+
+      console.log(cartTestIds, "cartTestIds");
+      console.log(packageTestIds, "packageTestIds");
+
+      // Finding duplicates between cartData and packageTestIds
+      const duplicates = cartTestIds.filter(
+        (testId, index, self) =>
+          self.indexOf(testId) !== index || packageTestIds.includes(testId)
+      );
+
+      console.log(duplicates, "mahesh");
+
+      console.log("Duplicate test IDs:", [...new Set(duplicates)]);
+      setDuplicateTestIds(duplicates);
+    }
+  }, [cartData, packageTestIds]);
+
+  const duplicateIds = () => {
+    console.log("enefnbahgifisdhvbzvsvdsvdsnibjdjnfhdjioshdv");
+    if (cartData.length > 0 && packageTestIds.length > 0) {
+      console.log("entered");
+      console.log(members, "members");
+
+      const cartTestIds = members.reduce((acc, member) => {
+        if (Array.isArray(member.clickedIds)) {
+          acc.push(...member.clickedIds.map((id) => String(id).trim()));
+        }
+        return acc;
+      }, []);
+
+      console.log(cartTestIds, "cartTestIds");
+      console.log(packageTestIds, "packageTestIds");
+
+      // Finding duplicates between cartData and packageTestIds
+      const duplicates = cartTestIds.filter(
+        (testId, index, self) =>
+          self.indexOf(testId) !== index || packageTestIds.includes(testId)
+      );
+
+      console.log(duplicates, "mahesh");
+
+      console.log("Duplicate test IDs:", [...new Set(duplicates)]);
+      setDuplicateTestIds(duplicates);
+    }
+  };
 
   const handleAddMember = async () => {
+    // if (cartData.length > 0 && packageTestIds.length > 0) {
+    //   findDuplicate();
+    // }
     if (members.length > 0) {
       // Get the last added member
       const lastMember = members[members.length - 1];
@@ -428,8 +526,10 @@ const OrderDetailsPage = ({
       }
     }
 
+    const newMemberId = members.length > 0 ? members[members.length - 1].member_id + 1 : 1;
     // Add a new member after saving the last member's data
     const newMember = {
+      member_id:newMemberId,
       name: "",
       age: "",
       gender: "",
@@ -449,6 +549,7 @@ const OrderDetailsPage = ({
     const updatedMembers = [...members];
     updatedMembers[index] = { ...updatedMembers[index], ...updatedDetails };
     setMembers(updatedMembers);
+    console.log(updatedMembers, "g");
   };
 
   const handleDateSelection = (date) => {
@@ -538,13 +639,19 @@ const OrderDetailsPage = ({
                 />
                 <TestCheckupList
                   tests={testsData}
+                  members={members}
+                  packageTestIds={packageTestIds}
                   mainCartData={cartData}
+                  duplicateIds={duplicateIds}
                   setMainCartData={setCartData}
                   mainClickedIds={clickedIds}
                   setMainClickedIds={setClickedIds}
                   cartData={member.cartData}
                   packagesClickedIds={packagesClickedIds}
+                  setPackagesClickedIds={setPackagesClickedIds}
                   duplicateTestIds={duplicateTestIds}
+                  setDuplicateTestIds={setDuplicateTestIds}
+                  healthPackages={healthPackages}
                   setCartData={(newCartData) => {
                     const updatedMembers = [...members];
                     updatedMembers[index].cartData = newCartData;

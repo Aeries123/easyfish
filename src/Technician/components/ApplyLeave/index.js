@@ -1,41 +1,84 @@
-// src/components/ApplyLeave.js
-import React, { useState } from "react";
+import { useState } from "react";
+import Cookies from 'js-cookie'
 import axios from "axios";
-import { toast } from "react-toastify";
+import "./index.css"; // Import the external CSS file
 
 const ApplyLeave = () => {
-  const [leaveDate, setLeaveDate] = useState("");
-  const [reason, setReason] = useState("");
+    const [leaveDate, setLeaveDate] = useState("");
+    const [reason, setReason] = useState("");
+    const [message, setMessage] = useState("");
+    const [error, setError] = useState("");
 
-  const applyLeave = async () => {
-    try {
-      const token = localStorage.getItem("token"); // Assuming user is logged in
-      const response = await axios.post(
-        "http://localhost:5000/api/technician/apply-leave",
-        { leave_date: leaveDate, reason },
-        { headers: { Authorization: token } }
-      );
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setMessage("");
+        setError("");
 
-      toast.success("Leave applied successfully!");
-      setLeaveDate("");
-      setReason("");
-    } catch (error) {
-      toast.error(error.response?.data?.error || "Error applying leave");
-    }
-  };
+        const token = Cookies.get("techToken"); // Retrieve token from cookies
 
-  return (
-    <div className="leave-form">
-      <h2>Apply for Leave</h2>
-      <label>Leave Date:</label>
-      <input type="date" value={leaveDate} onChange={(e) => setLeaveDate(e.target.value)} />
+        if (!token) {
+            setError("Unauthorized: Please login again.");
+            return;
+        }
 
-      <label>Reason:</label>
-      <textarea value={reason} onChange={(e) => setReason(e.target.value)} />
+        try {
+            const response = await axios.post(
+                "http://127.0.0.1:5000/api/technician/apply-leave",
+                {
+                    leave_date: leaveDate,
+                    reason: reason,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
 
-      <button onClick={applyLeave}>Submit Leave</button>
-    </div>
-  );
+            setMessage(response.data.message);
+            setLeaveDate("");
+            setReason("");
+        } catch (err) {
+            setError(err.response?.data?.error || "Something went wrong.");
+        }
+    };
+
+    return (
+        <div className="apply-leave-container">
+            <h2 className="apply-leave-heading">Apply for Leave</h2>
+            
+            {message && <div className="success-message">{message}</div>}
+            {error && <div className="error-message">{error}</div>}
+
+            <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label className="apply-leave-label">Leave Date:</label>
+                    <input
+                        type="date"
+                        className="apply-leave-input"
+                        value={leaveDate}
+                        onChange={(e) => setLeaveDate(e.target.value)}
+                        required
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label className="apply-leave-label">Reason:</label>
+                    <textarea
+                        className="apply-leave-textarea"
+                        value={reason}
+                        onChange={(e) => setReason(e.target.value)}
+                        rows="3"
+                    ></textarea>
+                </div>
+
+                <button type="submit" className="apply-leave-button">
+                    Apply Leave
+                </button>
+            </form>
+        </div>
+    );
 };
 
 export default ApplyLeave;

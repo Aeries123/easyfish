@@ -20,23 +20,31 @@ const TestCheckupList = ({
   setCartData,
   clickedIds,
   setClickedIds,
+  healthPackages,
   packagesClickedIds,
+  setPackagesClickedIds,
   duplicateTestIds,
+  setDuplicateTestIds,
+  duplicateIds,
+  packageTestIds,
+  members,
 }) => {
   const [isPopupOpened, setIsPopupOpened] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [testsData, setTestsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [packageTestIds, setPackageTestIds] = useState([]);
   const [duplicateTestsData, setDuplicateTestsData] = useState([]);
-  console.log(duplicateTestsData);
+  console.log(duplicateTestsData, "ids");
 
   console.log("member car2d:", cartData);
+
+  
 
   useEffect(() => {
     const fetchDuplicateTests = async () => {
       if (duplicateTestIds.length === 0) return; // Exit if no duplicate test IDs
+      console.log(duplicateTestIds,"nani")
 
       try {
         const responses = await Promise.all(
@@ -76,28 +84,85 @@ const TestCheckupList = ({
     fetchTests();
   }, []);
 
-  useEffect(() => {
-    const findDuplicates = () => {
-      const duplicates = {}; // Store duplicates per member
+  // const duplicates = {}; // Store duplicates per member
+  // console.log(duplicates,"gggggg")
 
-      cartData.forEach((member) => {
-        const memberTestIds = member.tests.map((test) => test.test_id); // Extract test IDs for each member
+  // useEffect(() => {
+  //   console.log("kkkkkkk")
+  //   console.log(cartData,"maha")
+  //   console.log(packageTestIds,"maha")
+  //   const findDuplicates = () => {
+  //     console.log("kkkkkkk")
+
+  //     cartData.forEach((member) => {
+  //       const memberTestIds = member.tests.map((test) => test.test_id); // Extract test IDs for each member
+  //       const memberDuplicates = memberTestIds.filter((testId) =>
+  //         packageTestIds.includes(testId)
+  //       );
+
+  //       if (memberDuplicates.length > 0) {
+  //         duplicates[member.member_id] = memberDuplicates; // Store duplicate test IDs per member
+  //       }
+  //     });
+
+  //     console.log("Duplicate test IDs per member:", duplicates);
+  //   };
+
+  //   if (cartData.length > 0 && packageTestIds.length > 0) {
+  //     findDuplicates();
+  //   }
+
+  // }, [cartData, packageTestIds]);
+
+
+  const duplicates = {}; // Store duplicates per member
+    console.log(duplicates, "gggggg");
+  
+    useEffect(() => {
+      console.log("kkkkkkk");
+      console.log(cartData, "maha");
+      console.log(packageTestIds, "maha");
+      const findDuplicates = () => {
+        console.log(members, "kk");
+  
+        members.forEach((member) => {
+          const memberTestIds = member.cartData.map((test) => test.test_id); // Extract test IDs for each member
+          console.log(memberTestIds, "mmmmemberTest-ids");
+          const memberDuplicates = memberTestIds.filter((testId) =>
+            packageTestIds.includes(String(testId))
+          );
+  
+          if (memberDuplicates.length > 0) {
+            duplicates[member.member_id] = memberDuplicates; // Store duplicate test IDs per member
+          }
+        });
+  
+        console.log("Duplicate test IDs per member:", duplicates);
+      };
+  
+      if (cartData.length > 0 && packageTestIds.length > 0) {
+        findDuplicates();
+      }
+    }, [cartData, packageTestIds]);
+  
+    const findDuplicate = () => {
+      console.log(members, "kk");
+  
+      members.forEach((member) => {
+        const memberTestIds = member.cartData.map((test) => test.test_id); // Extract test IDs for each member
+        console.log(memberTestIds, "mmmmemberTest-ids");
         const memberDuplicates = memberTestIds.filter((testId) =>
-          packageTestIds.includes(testId)
+          packageTestIds.includes(String(testId))
         );
-
+  
         if (memberDuplicates.length > 0) {
-          duplicates[member.member_id] = memberDuplicates; // Store duplicate test IDs per member
+          duplicates[member.name] = memberDuplicates; // Store duplicate test IDs per member
         }
       });
-
+  
       console.log("Duplicate test IDs per member:", duplicates);
     };
 
-    if (cartData.length > 0 && packageTestIds.length > 0) {
-      findDuplicates();
-    }
-  }, [cartData, packageTestIds]);
 
   // Open and close popup
   const handleAddMoreTests = () => setIsPopupOpened(true);
@@ -108,8 +173,11 @@ const TestCheckupList = ({
     // setCartData((prev) => prev.filter((item) => item.test_id !== testId));
     // setClickedIds((prev) => prev.filter((id) => id !== testId));
     // Check if the testId exists in any member's clickedIds
-    setMainClickedIds((prev) => prev.filter((id) => id !== testId));
-    setMainCartData((prev) => prev.filter((item) => item.test_id !== testId));
+    const test_id = testId;
+    // setMainClickedIds((prev) => prev.filter((id) => id !== testId));
+    // setMainCartData((prev) => prev.filter((item) => item.test_id !== testId));
+    setDuplicateTestIds((prev) => prev.filter((id) => id !== testId));
+    setPackagesClickedIds((prev) => prev.filter((id) => id !== testId));
     onRemoveTest(testId);
   };
 
@@ -121,16 +189,19 @@ const TestCheckupList = ({
       console.log(setMainClickedIds, "set");
 
       setClickedIds(clickedIds.filter((id) => id !== test.test_id));
+      setPackagesClickedIds(clickedIds.filter((id) => id !== test.test_id));
       setCartData(cartData.filter((item) => item.test_id !== test.test_id));
-      setMainCartData((prev) =>
-        prev.filter((each) => each.test_id !== test.test_id)
-      );
-      setMainClickedIds((prev) => prev.filter((each) => each !== test.test_id));
+      // setMainCartData((prev) =>
+      //   prev.filter((each) => each.test_id !== test.test_id)
+      // );
+      // setMainClickedIds((prev) => prev.filter((each) => each !== test.test_id));
     } else {
       setClickedIds([...clickedIds, test.test_id]);
-      setMainClickedIds([...mainClickedIds, test.test_id]);
+      // setMainClickedIds([...mainClickedIds]);
       setCartData([...cartData, test]);
-      setMainCartData([...mainCartData, test]);
+      setDuplicateTestIds((prev) => prev.filter((id) => id !== test.test_id));
+      // setMainCartData([...mainCartData, test]);
+      duplicateIds()
     }
   };
 
@@ -204,6 +275,7 @@ const TestCheckupList = ({
         setMainCartData={setMainCartData}
         mainClickeddIds={mainClickedIds}
         setMainClickedIds={setMainClickedIds}
+        healthPackages={healthPackages}
       />
 
       <div className="test-item-add-doctor-container">

@@ -283,11 +283,11 @@ const Home = (props) => {
   };
   const buttonContent = isFullDataVisible ? "View Less" : "View More";
 
-  const handleAddToCart = (testItem) => {
-    console.log("clicked1");
-    // Add the test to the backend and update the local cart data
-    addToCart(testItem);
-  };
+  // const handleAddToCart = (testItem) => {
+  //   console.log("clicked1");
+  //   // Add the test to the backend and update the local cart data
+  //   addToCart(testItem);
+  // };
 
   return (
     <div className="home-container">
@@ -511,6 +511,7 @@ const Home = (props) => {
               setCartData={setCartData}
               setClickedIds={setClickedIds}
               clickedIds={clickedIds}
+              healthPackages={healthPackages}
             />
           </div>
         )}

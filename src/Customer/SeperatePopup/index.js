@@ -4,6 +4,8 @@ import { FiMinusCircle } from "react-icons/fi";
 import { MdAddCircleOutline } from "react-icons/md";
 import { FaCartArrowDown } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+// import HealthPackages from "../components/HealthPakages";
+import PopupHealthPackages from "../components/PopupHealthPackages/PopupHealthPackages";
 
 import "./index.css";
 
@@ -15,10 +17,12 @@ const SeperatePopup = ({
   clickedIds,
   setClickedIds,
   setCartData,
+  setPackagesClickedIds,
   cartData,
   totalPrice,
   name,
   onChangeInput,
+  healthPackages,
   onClickProceed,
 }) => {
   // const onClickButton = (test) => {
@@ -37,6 +41,9 @@ const SeperatePopup = ({
   //   }
   // };
   // console.log("member card:",cartData)
+
+  const [activeTab, setActiveTab] = useState("tests");
+  console.log(activeTab, "zzzz");
 
   return (
     isPopupOpened && (
@@ -58,8 +65,25 @@ const SeperatePopup = ({
             />
           </div>
 
+          <div className="popup-popup-tabs">
+            <button
+              className={`popup-tab ${activeTab === "tests" ? "active" : ""}`}
+              onClick={() => setActiveTab("tests")}
+            >
+              Tests
+            </button>
+            <button
+              className={`popup-tab ${
+                activeTab === "packages" ? "active" : ""
+              }`}
+              onClick={() => setActiveTab("packages")}
+            >
+              Packages
+            </button>
+          </div>
+
           <div className="separate-separate-popup-popup-individual-cards-container-1">
-            {filteredData.length !== 0 ? (
+            {activeTab === "tests" && filteredData.length !== 0 ? (
               filteredData.map((test) => (
                 <div
                   className="separate-separate-popup-popup-individual-card"
@@ -137,6 +161,25 @@ const SeperatePopup = ({
                   </div>
                 </div>
               ))
+            ) : activeTab === "packages" && healthPackages.length !== 0 ? (
+              // healthPackages.map((pkg) => (
+              //   <div className="popup-popup-individual-card" key={pkg.test_id}>
+              //     <h4 className="popup-popup-package-heading">
+              //       {pkg.test_name}
+              //     </h4>
+              //     <h5 className="popup-popup-card-price-heading">
+              //       ₹{pkg.price}
+              //     </h5>
+              //   </div>
+              // ))
+              <PopupHealthPackages
+                setCartData={setCartData}
+                cartData={cartData}
+                setClickedIds={setClickedIds}
+                clickedIds={clickedIds}
+                healthPackages={healthPackages}
+                setPackagesClickedIds={setPackagesClickedIds}
+              />
             ) : (
               <div className="separate-separate-popup-popup-not-found-container">
                 <img

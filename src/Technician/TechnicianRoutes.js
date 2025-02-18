@@ -7,10 +7,11 @@ import TechnicianLogin from "./components/TechnicianLogin";
 import TechnicianVerifyOTP from "./components/TechnicianVerifyOtp";
 import TechnicianRegistration from "./components/TechnicianRegistration";
 import ManageAssignedTechnician from "./components/ManageAssignedTechnician";
-import TechnicianPasswordLogin from "./components/TechnicianPasswordLogin";
-import ViewTechnicianDashboard from "./components/ViewTechnicianDashboard";
+import ViewTechnicianDashboard from "./ViewTechnicianDashboard";
 import ApplyLeave from "./components/ApplyLeave";
-import ViewLeaves from "./ViewLeave";
+import ViewLeave from "./components/ViewLeave";
+
+import TechnicianPasswordLogin from "./components/TechnicianPasswordLogin";
 import "./TechnicianRoutes.css";
 
 const TechnicianRoutes = () => {
@@ -33,10 +34,6 @@ const TechnicianRoutes = () => {
           <Route path="/technician/" element={<TechnicianDashboard />} />
           <Route path="/technician/send-otp" element={<TechnicianLogin />} />
           <Route
-            path="/technician/login"
-            element={<TechnicianPasswordLogin />}
-          />
-          <Route
             path="/technician/verify-otp"
             element={<TechnicianVerifyOTP />}
           />
@@ -48,13 +45,26 @@ const TechnicianRoutes = () => {
             path="/admin/manage-asssigned-technician"
             element={<ManageAssignedTechnician />}
           />
+
           <Route
             path="/technician-details/:appointmentId"
             element={<ViewTechnicianDashboard />}
           />
-          <Route
+
+
+         <Route
             path="/technician/apply-leave"
-            element={<ApplyLeave />}
+            element={<ApplyLeave/>}
+          />
+
+          <Route
+            path="/technician/view-leave"
+            element={<ViewLeave/>}
+          />
+
+          <Route
+            path="/technician/login"
+            element={<TechnicianPasswordLogin />}
           />
         </Routes>
       </div>
