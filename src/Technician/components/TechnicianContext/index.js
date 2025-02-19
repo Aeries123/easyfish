@@ -5,6 +5,7 @@ export const index = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [userName, setUserName] = useState(null);
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   console.log("A Updated")
 
@@ -12,7 +13,7 @@ export const AuthProvider = ({ children }) => {
     const token = Cookies.get("jwtToken");
 
     if (token) {
-      fetch("http://127.0.0.1:5000/api/get/profile", {
+      fetch(`${BASE_URL}/api/get/profile`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

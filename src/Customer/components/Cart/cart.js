@@ -17,6 +17,7 @@ const Cart = (props) => {
   const navigate = useNavigate();
 
   const jwtToken = Cookies.get("jwtToken");
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   const onClickProceed = () => {
     if (jwtToken === undefined) {
@@ -37,7 +38,7 @@ const Cart = (props) => {
   };
 
   useEffect(() => {
-    const endpoint = "http://127.0.0.1:5000/api/tests";
+    const endpoint = `${BASE_URL}/api/tests`;
     fetch(endpoint)
       .then((response) => {
         if (!response.ok) {

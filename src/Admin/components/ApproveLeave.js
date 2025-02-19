@@ -4,6 +4,8 @@ import axios from "axios";
 const ApproveLeave = () => {
   const [leaves, setLeaves] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState({});
+
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
  
   useEffect(() => {
     fetchLeaves();
@@ -12,7 +14,7 @@ const ApproveLeave = () => {
   const fetchLeaves = async () => {
     try {
       const response = await axios.get(
-        "http://127.0.0.1:5000/api/technician/leaves"
+        `${BASE_URL}/api/technician/leaves`
       );
       const formattedLeaves = response.data.map((leave) => ({
         ...leave,
@@ -44,7 +46,7 @@ const ApproveLeave = () => {
  
     try {
       await axios.put(
-        `http://127.0.0.1:5000/api/admin/approve-leave/${leaveId}`,
+        `${BASE_URL}/api/admin/approve-leave/${leaveId}`,
         {
           technician_id: technicianId,
           status: newStatus,

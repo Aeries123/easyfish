@@ -9,11 +9,13 @@ const ManagePackages = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   useEffect(() => {
     const fetchPackages = async () => {
       try {
         const response = await fetch(
-          "http://127.0.0.1:5000/api/admin/packages"
+          `${BASE_URL}/api/admin/packages`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch packages");

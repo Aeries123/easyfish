@@ -5,6 +5,8 @@ const UserPrescriptions = () => {
     const [prescriptions, setPrescriptions] = useState([]);
     const [error, setError] = useState("");
 
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
+
     useEffect(() => {
         fetchPrescriptions();
     }, []);
@@ -12,7 +14,7 @@ const UserPrescriptions = () => {
     const fetchPrescriptions = async () => {
         try {
 
-            const response = await axios.get("http://127.0.0.1:5000/get-prescriptions", {
+            const response = await axios.get(`${BASE_URL}/get-prescriptions`, {
             
             });
 

@@ -14,6 +14,7 @@ const LabTechnicianForm = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
  
   const validatePhone = (phone) => {
     const phoneRegex = /^[0-9]{10}$/;  // Validate for a 10-digit phone number
@@ -52,7 +53,7 @@ const LabTechnicianForm = () => {
  
     try {
       setLoading(true);
-      const response = await fetch("http://127.0.0.1:5000/api/technicians/register", {
+      const response = await fetch(`${BASE_URL}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

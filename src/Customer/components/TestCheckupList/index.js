@@ -4,6 +4,7 @@ import { MdDelete } from "react-icons/md";
 import { MdAddShoppingCart } from "react-icons/md";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import AddDoctorPopup from "../AddDoctorPopup";
+import MemberList from "../MemberList/MemberList";
 import "./index.css";
 
 const TestCheckupList = ({
@@ -35,19 +36,24 @@ const TestCheckupList = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [duplicateTestsData, setDuplicateTestsData] = useState([]);
-  console.log(duplicateTestsData, "ids");
+  const [duplicateIds, setDuplicateIds] = useState([]);
+  console.log(duplicateIds, "ids");
+  const uniqueDuplicateTestIds = [...new Set(duplicateIds)];
+  console.log(uniqueDuplicateTestIds, "ids -1");
 
   console.log("member car2d:", cartData);
+
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
     const fetchDuplicateTests = async () => {
       if (duplicateTestIds.length === 0) return; // Exit if no duplicate test IDs
-      console.log(duplicateTestIds,"nani")
+      console.log(duplicateTestIds, "nani");
 
       try {
         const responses = await Promise.all(
           duplicateTestIds.map((testId) =>
-            fetch(`http://127.0.0.1:5000/api/tests/${testId}`).then((res) =>
+            fetch(`${BASE_URL}/api/tests/${testId}`).then((res) =>
               res.json()
             )
           )
@@ -55,7 +61,7 @@ const TestCheckupList = ({
 
         // Extract test details from responses
         const duplicateTests = responses.map((res) => res.data).flat(); // Flatten array if multiple tests are returned
-        console.log(duplicateTests,"aaaaaaaaa")
+        console.log(duplicateTests, "aaaaaaaaa");
 
         setDuplicateTestsData(duplicateTests);
       } catch (error) {
@@ -70,7 +76,7 @@ const TestCheckupList = ({
   useEffect(() => {
     const fetchTests = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/tests");
+        const response = await fetch(`${BASE_URL}/api/tests`);
         if (!response.ok) throw new Error("Failed to fetch data");
         const data = await response.json();
         setTestsData(data.tests);
@@ -113,57 +119,57 @@ const TestCheckupList = ({
 
   // }, [cartData, packageTestIds]);
 
-
-  const duplicates = {}; // Store duplicates per member
-    console.log(duplicates, "gggggg");
-  
-    useEffect(() => {
-      console.log("kkkkkkk");
-      console.log(cartData, "maha");
-      console.log(packageTestIds, "maha");
-      const findDuplicates = () => {
-        console.log(members, "kk");
-  
-        members.forEach((member) => {
-          const memberTestIds = member.cartData.map((test) => test.test_id); // Extract test IDs for each member
-          console.log(memberTestIds, "mmmmemberTest-ids");
-          const memberDuplicates = memberTestIds.filter((testId) =>
-            packageTestIds.includes(String(testId))
-          );
-  
-          if (memberDuplicates.length > 0) {
-            duplicates[member.member_id] = memberDuplicates; // Store duplicate test IDs per member
-          }
-        });
-  
-        console.log("Duplicate test IDs per member:", duplicates);
-      };
-  
-      if (cartData.length > 0 && packageTestIds.length > 0) {
-        findDuplicates();
-      }
-    }, [cartData, packageTestIds]);
-  
-    const findDuplicate = () => {
+  useEffect(() => {
+    console.log("kkkkkkk");
+    console.log(cartData, "maha");
+    console.log(packageTestIds, "maha");
+    const findDuplicates = () => {
+      const duplicates = {}; // Store duplicates per member
+      // const allDuplicateIds = new Set(duplicates);
+      console.log(duplicates, "gggggg");
       console.log(members, "kk");
-  
+
       members.forEach((member) => {
         const memberTestIds = member.cartData.map((test) => test.test_id); // Extract test IDs for each member
         console.log(memberTestIds, "mmmmemberTest-ids");
         const memberDuplicates = memberTestIds.filter((testId) =>
           packageTestIds.includes(String(testId))
         );
-  
+
         if (memberDuplicates.length > 0) {
-          duplicates[member.name] = memberDuplicates; // Store duplicate test IDs per member
+          duplicates[member.member_id] = memberDuplicates; // Store duplicate test IDs per member
         }
       });
-  
+
       console.log("Duplicate test IDs per member:", duplicates);
+      setDuplicateIds(Object.values(duplicates).flat());
     };
 
+    if (cartData.length > 0 && packageTestIds.length > 0) {
+      findDuplicates();
+    }
+  }, [cartData, packageTestIds]);
+
+  // const findDuplicate = () => {
+  //   console.log(members, "kk");
+
+  //   members.forEach((member) => {
+  //     const memberTestIds = member.cartData.map((test) => test.test_id); // Extract test IDs for each member
+  //     console.log(memberTestIds, "mmmmemberTest-ids");
+  //     const memberDuplicates = memberTestIds.filter((testId) =>
+  //       packageTestIds.includes(String(testId))
+  //     );
+
+  //     if (memberDuplicates.length > 0) {
+  //       duplicates[member.name] = memberDuplicates; // Store duplicate test IDs per member
+  //     }
+  //   });
+
+  //   console.log("Duplicate test IDs per member:", duplicates);
+  // };
 
   // Open and close popup
+
   const handleAddMoreTests = () => setIsPopupOpened(true);
   const handleClosePopup = () => setIsPopupOpened(false);
 
@@ -210,10 +216,10 @@ const TestCheckupList = ({
   );
 
   const filteredCartData = cartData.filter(
-    (test) => !duplicateTestIds.includes(String(test.test_id)) // Convert test_id to string
+    (test) => !uniqueDuplicateTestIds.map(String).includes(String(test.test_id))
   );
 
-  console.log(duplicateTestIds, "duplicateTestIds");
+  console.log(uniqueDuplicateTestIds, "uniqueDuplicateTestIds");
 
   console.log(filteredCartData, "filteredData");
 
@@ -239,7 +245,9 @@ const TestCheckupList = ({
         <p className="no-tests-message">No tests added yet.</p>
       )}
 
-      {duplicateTestsData.length > 0 && (
+      <MemberList members={members} duplicateTestIds={duplicateIds} />
+
+      {/* {duplicateTestsData.length > 0 && (
         <div className="duplicate-tests-container">
           <h5>Duplicate Items (Removed from cart)</h5>
           {duplicateTestsData.map((test) => (
@@ -249,7 +257,7 @@ const TestCheckupList = ({
             </div>
           ))}
         </div>
-      )}
+      )} */}
 
       <button className="add-more-tests-button" onClick={handleAddMoreTests}>
         <MdAddShoppingCart className="add-more-tests-icon" />

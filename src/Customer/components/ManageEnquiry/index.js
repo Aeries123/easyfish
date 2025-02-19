@@ -7,12 +7,14 @@ const ManageEnquiry = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   // Fetch draft appointments from the backend
   useEffect(() => {
     const fetchDraftAppointments = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/draft_appointments"
+          `${BASE_URL}/api/draft_appointments`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch draft appointments");

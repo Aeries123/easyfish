@@ -148,6 +148,8 @@ function Tests(props) {
   const [categoriesData, setCategoriesData] = useState([]);
   console.log(categoriesData,"mahesh")
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   const buttonContent = isFullDataVisible ? "View Less" : "View More";
 
   // console.log(updatedArray);
@@ -159,7 +161,7 @@ function Tests(props) {
 
   useEffect(() => {
     // Fetch test categories
-    fetch("http://127.0.0.1:5000/api/test_category")
+    fetch(`${BASE_URL}/api/test_category`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch categories");
@@ -177,7 +179,7 @@ function Tests(props) {
   }, []);
 
   useEffect(() => {
-    const endpoint = "http://127.0.0.1:5000/api/tests"; // API endpoint to fetch data from
+    const endpoint = `${BASE_URL}/api/tests`; // API endpoint to fetch data from
 
     // Fetch data from the API
     fetch(endpoint)

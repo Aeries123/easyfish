@@ -8,10 +8,12 @@ const AdminViewCategory = () => {
   const [category, setCategory] = useState(null); // State to store category details
   const [loading, setLoading] = useState(true); // State to manage loading state
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   useEffect(() => {
     const fetchCategory = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/api/test_category/${categoryId}`);
+        const response = await fetch(`${BASE_URL}/api/test_category/${categoryId}`);
         const data = await response.json();
         
         if (response.ok) {

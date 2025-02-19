@@ -4,7 +4,7 @@ import { FiMinusCircle } from "react-icons/fi";
 import { MdAddCircleOutline } from "react-icons/md";
 import { FaCartArrowDown } from "react-icons/fa6";
 import { Link } from "react-router-dom";
-// import HealthPackages from "../components/HealthPakages";
+
 import PopupHealthPackages from "../components/PopupHealthPackages/PopupHealthPackages";
 
 import "./index.css";

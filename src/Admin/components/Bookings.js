@@ -20,10 +20,12 @@ const BookingsForm = () => {
     });
   };
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const apiUrl = 'http://127.0.0.1:5000/api/book-test';
+    const apiUrl = `${BASE_URL}/api/book-test`;
 
     // Make sure the 'test_id' is converted to an array for the backend
     const testIds = formData.test_id.split(',').map(id => id.trim());

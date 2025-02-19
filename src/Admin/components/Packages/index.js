@@ -9,6 +9,8 @@ const Packages = () => {
   const [error, setError] = useState(null);
   const [duplicateTests, setDuplicateTests] = useState([]);
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -22,7 +24,7 @@ const Packages = () => {
     };
   
     try {
-      const response = await axios.post("http://127.0.0.1:5000/api/packages", payload, {
+      const response = await axios.post(`${BASE_URL}/api/packages`, payload, {
         headers: { "Content-Type": "application/json" },
       });
   

@@ -7,6 +7,8 @@ const Category = () => {
     image: null,
   });
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -46,7 +48,7 @@ const Category = () => {
     formDataToSend.append("image", formData.image);
 
     try {
-      const response = await fetch("http://localhost:5000/api/test_category", {
+      const response = await fetch(`${BASE_URL}/api/test_category`, {
         method: "POST",
         body: formDataToSend,
       });

@@ -20,12 +20,15 @@ const TestsForm = () => {
   const [categories, setCategories] = useState([]);
   const [message, setMessage] = useState("");
   console.log(categories);
+
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   // console.log("categories_name", categories.data[0].category_name);
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/test_category");
+        const response = await fetch(`${BASE_URL}/api/test_category`);
         if (response.ok) {
           const data = await response.json();
           console.log("Categories:", data.data);
@@ -56,7 +59,7 @@ const TestsForm = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/api/register/tests", {
+      const response = await fetch(`${BASE_URL}/api/register/tests`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

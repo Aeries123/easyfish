@@ -8,10 +8,12 @@ export const ParticularPackage = () => {
   const [error, setError] = useState(null);
   const { package_id } = useParams();
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   useEffect(() => {
     const getPackageDetails = async () => {
       try {
-        const getDetails = `http://127.0.0.1:5000/api/packages/${package_id}`;
+        const getDetails = `${BASE_URL}/api/packages/${package_id}`;
         const fetchedData = await fetch(getDetails, { method: "GET" });
 
         if (fetchedData.ok) {

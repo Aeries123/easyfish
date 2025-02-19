@@ -13,6 +13,8 @@ const VerifyOTP = () => {
   const navigate = useNavigate();
   const phone = location.state?.phone; // Getting phone from state
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   const sliderSettings = {
     dots: true,
     infinite: true,
@@ -35,7 +37,7 @@ const VerifyOTP = () => {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/api/verify-otp", {
+      const response = await fetch(`${BASE_URL}/api/verify-otp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

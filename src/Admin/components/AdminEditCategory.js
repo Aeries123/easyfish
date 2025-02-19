@@ -13,11 +13,13 @@ const AdminEditCategory = () => {
   const [error, setError] = useState(""); // Error handling state
   const [success, setSuccess] = useState(""); // Success handling state
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   useEffect(() => {
     // Fetch the category data
     const fetchCategory = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/api/test_category/${categoryId}`);
+        const response = await fetch(`${BASE_URL}/api/test_category/${categoryId}`);
         const data = await response.json();
         console.log(data,"category_image")
         
@@ -75,7 +77,7 @@ const AdminEditCategory = () => {
     }
 
     try {
-      const response = await fetch(`http://127.0.0.1:5000/api/test_category/${categoryId}`, {
+      const response = await fetch(`${BASE_URL}/api/test_category/${categoryId}`, {
         method: "PUT",
         body: formData,
       });

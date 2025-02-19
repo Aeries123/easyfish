@@ -6,6 +6,7 @@ const Prescription = ({ isOpen, onClose }) => {
   const [files, setFiles] = useState([]);
   const [collectionMethod, setCollectionMethod] = useState("home");
   const [loading, setLoading] = useState(false); // Loading state
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -64,7 +65,7 @@ const Prescription = ({ isOpen, onClose }) => {
 
     try {
       const response = await fetch(
-        "http://127.0.0.1:5000/api/upload-prescription",
+        `${BASE_URL}/api/upload-prescription`,
         {
           method: "POST",
           headers: {

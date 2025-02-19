@@ -6,10 +6,12 @@ const AdminViewTests = () => {
   const [testDetails, setTestDetails] = useState(null); // State to store test details
   const navigate = useNavigate();
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   useEffect(() => {
     const fetchTestDetails = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/api/tests/${testId}`);
+        const response = await fetch(`${BASE_URL}/api/tests/${testId}`);
         const data = await response.json();
 
         if (response.ok) {

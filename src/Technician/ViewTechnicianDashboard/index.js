@@ -9,6 +9,8 @@ const ViewTechnicianDashboard = () => {
   const [appointment, setAppointment] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 
   useEffect(() => {
     const token = Cookies.get("techToken");
@@ -21,7 +23,7 @@ const ViewTechnicianDashboard = () => {
     const fetchAppointmentDetails = async () => {
       try {
         const response = await fetch(
-          `http://127.0.0.1:5000/api/get-technician-appointments/${appointmentId}`,
+          `${BASE_URL}/api/get-technician-appointments/${appointmentId}`,
           {
             method: "GET",
             headers: {

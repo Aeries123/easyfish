@@ -1,0 +1,4 @@
+.member-duplicate-list-container {
+    display: flex;
+    flex-direction: column;
+}

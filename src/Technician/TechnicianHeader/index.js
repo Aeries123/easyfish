@@ -6,12 +6,14 @@ const TechnicianHeader = () => {
   const [notifications, setNotifications] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 
   // Fetch notifications from the backend
   const fetchNotifications = async () => {
     try {
       const response = await fetch(
-        "http://127.0.0.1:5000/api/admin/notifications"
+       `${BASE_URL}/api/admin/notifications`
       );
       const data = await response.json();
 
@@ -27,7 +29,7 @@ const TechnicianHeader = () => {
   // Mark notifications as read
   const markNotificationsAsRead = async () => {
     try {
-      await fetch("http://127.0.0.1:5000/api/admin/notifications/mark-read", {
+      await fetch(`${BASE_URL}/api/admin/notifications/mark-read`, {
         method: "POST",
       });
       setUnreadCount(0);

@@ -284,13 +284,15 @@ const OrderDetailsPage = ({
   console.log(packageTestIds, "abcdefgh");
   console.log(duplicateTestIds, "Mahiiiii");
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   useEffect(() => {
     const fetchPackageTests = async () => {
       try {
         const fetchedTestIds = [];
         for (const packageId of packagesClickedIds) {
           const response = await fetch(
-            `http://127.0.0.1:5000/api/packages/${packageId}`
+            `${BASE_URL}/api/packages/${packageId}`
           );
           if (!response.ok) throw new Error("Failed to fetch package tests");
           const data = await response.json();
@@ -323,7 +325,7 @@ const OrderDetailsPage = ({
           return;
         }
 
-        const response = await fetch("http://127.0.0.1:5000/api/addresses", {
+        const response = await fetch(`${BASE_URL}/api/addresses`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -350,7 +352,7 @@ const OrderDetailsPage = ({
   useEffect(() => {
     const fetchTests = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/tests");
+        const response = await fetch(`${BASE_URL}/api/tests`);
         if (!response.ok) throw new Error("Failed to fetch data");
         const data = await response.json();
         setTestsData(data.tests);
@@ -460,7 +462,7 @@ const OrderDetailsPage = ({
 
       try {
         const response = await fetch(
-          "http://127.0.0.1:5000/api/draft_appointments",
+          `${BASE_URL}/api/draft_appointments`,
           {
             method: "POST",
             headers: {

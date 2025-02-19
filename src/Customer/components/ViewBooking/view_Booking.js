@@ -10,9 +10,11 @@ export const ViewBookings = () => {
     const {appointment_id}=useParams()
     console.log(appointment_id,"view id")
 
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
+
     useEffect(() => {
         const patientsDetails = async () => {
-            const patientsDataApi = `http://127.0.0.1:5000/api/get-appointments_details/${appointment_id}`;
+            const patientsDataApi = `${BASE_URL}/api/get-appointments_details/${appointment_id}`;
             const options = {
                 method: "GET",
                 

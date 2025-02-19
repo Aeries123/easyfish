@@ -17,6 +17,8 @@ const PopupCart = (props) => {
   const [searchInput, setSearchInput] = useState("");
   const navigate = useNavigate();
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   const jwtToken = Cookies.get("jwtToken");
 
   const onClickProceed = () => {
@@ -36,7 +38,7 @@ const PopupCart = (props) => {
   };
 
   useEffect(() => {
-    const endpoint = "http://127.0.0.1:5000/api/tests";
+    const endpoint = `${BASE_URL}/api/tests`;
     fetch(endpoint)
       .then((response) => {
         if (!response.ok) {

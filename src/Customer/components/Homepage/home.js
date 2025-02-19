@@ -185,10 +185,13 @@ const Home = (props) => {
 
   const scrollContainerRef = useRef(null);
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  console.log("BASE_URL:", process.env.REACT_APP_BASE_URL);
+
   console.log("home afwrvg", testsData);
 
   useEffect(() => {
-    const endpoint = "http://127.0.0.1:5000/api/tests"; // API endpoint to fetch data from
+    const endpoint = `${BASE_URL}/api/tests`; // API endpoint to fetch data from
 
     // Fetch data from the API
     fetch(endpoint)
@@ -208,19 +211,6 @@ const Home = (props) => {
         setLoading(false); // Set loading to false if an error occurs
       });
   }, []);
-
-  // useEffect(() => {
-  //   const fetchPackages = async () => {
-  //     try {
-  //       const response = await fetch("http://127.0.0.1:5000/api/packages");
-  //       const data = await response.json();
-  //       setHealthPackages(data);
-  //     } catch (error) {
-  //       console.error("Error fetching packages:", error);
-  //     }
-  //   };
-  //   fetchPackages();
-  // }, []);
 
   if (loading) {
     return <div>Loading...</div>;

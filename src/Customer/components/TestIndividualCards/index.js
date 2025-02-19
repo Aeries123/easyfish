@@ -13,8 +13,10 @@ const TestIndividualCards = ({
   const [error, setError] = useState(null);
   const scrollContainerRef = useRef(null);
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   useEffect(() => {
-    const endpoint = "http://127.0.0.1:5000/api/tests"; // API endpoint
+    const endpoint = `${BASE_URL}/api/tests`; // API endpoint
 
     // Fetch data from the API
     fetch(endpoint)

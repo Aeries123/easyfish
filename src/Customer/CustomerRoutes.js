@@ -30,11 +30,14 @@ import { ParticularTest } from "./components/ParticularTest/ParticularTest";
 import { ParticularPackage } from "./components/ParticularPackage/ParticularPackage";
 import Cookies from "js-cookie"; // Import js-cookie
 
+
 function CustomerRoutes() {
   // const [cartData, setCartData] = useState([]);
   // const [clickedIds, setClickedIds] = useState([]);
   // const [cartData, setCartData] = useState([]);
   // const [clickedIds, setClickedIds] = useState([]);
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  
   const [cartData, setCartData] = useState(
     JSON.parse(localStorage.getItem("cartData")) || []
   );
@@ -67,7 +70,7 @@ function CustomerRoutes() {
   useEffect(() => {
     const fetchPackages = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/packages");
+        const response = await fetch(`${BASE_URL}/api/packages`);
         const data = await response.json();
         setHealthPackages(data);
       } catch (error) {
@@ -88,7 +91,7 @@ function CustomerRoutes() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/add-to-cart",
+        `${BASE_URL}/api/add-to-cart`,
         { test_ids: testIds, total_price: cartTotal },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -102,24 +105,6 @@ function CustomerRoutes() {
       console.error("Error updating cart data:", error);
     }
   };
-
-  // useEffect(() => {
-  //   const fetchCartData = async () => {
-  //     try {
-  //       const response = await axios.get("http://localhost:5000/api/get-cart", {
-  //         headers: { Authorization: `Bearer ${token}` },
-  //       });
-  //       // const data = await response.json();
-  //       console.log(response.data, "uyvwfgbiubhkj");
-  //       setCartData(response.data.test_details || []);
-  //       setClickedIds(response.data.cartData.map((item) => item.id) || []);
-  //     } catch (error) {
-  //       console.error("Error fetching cart data:", error);
-  //     }
-  //   };
-
-  //   fetchCartData();
-  // }, []);
 
   useEffect(() => {
     const calculateTotal = () => {
@@ -136,7 +121,7 @@ function CustomerRoutes() {
     try {
       console.log("clicked2");
       const response = await axios.post(
-        "http://localhost:5000/api/add-to-cart",
+        `${BASE_URL}/api/add-to-cart`,
         {
           test_ids: testItem.test_id,
           total_price: cartTotal, // Sending total price

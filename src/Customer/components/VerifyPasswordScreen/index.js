@@ -11,6 +11,8 @@ const VerifyOtp = () => {
 
   const email = location.state?.email || ""; // Get email from navigation state
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   useEffect(() => {
     if (!email) {
       navigate("/forgot-password"); // Redirect if email is not provided
@@ -24,7 +26,7 @@ const VerifyOtp = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/customers/forgot-password/verify_otp",
+        `${BASE_URL}/api/customers/forgot-password/verify_otp`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

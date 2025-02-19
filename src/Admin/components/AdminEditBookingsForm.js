@@ -10,11 +10,13 @@ const AdminEditBookingForm = () => {
   const [successMessage, setSuccessMessage] = useState(null); // State to handle success message
   const [testOptions, setTestOptions] = useState([]); // State for available tests
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   useEffect(() => {
     const fetchBookingDetails = async () => {
       try {
         const response = await fetch(
-          `http://127.0.0.1:5000/api/get_userbookings/${id}`,
+          `${BASE_URL}/api/get_userbookings/${id}`,
           {
             method: "GET",
             headers: {
@@ -38,7 +40,7 @@ const AdminEditBookingForm = () => {
 
     const fetchTests = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/tests");
+        const response = await fetch(`${BASE_URL}/api/tests`);
         const data = await response.json();
         if (response.ok) {
           setTestOptions(data.tests); // Assuming the API returns the list of tests
@@ -66,7 +68,7 @@ const AdminEditBookingForm = () => {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:5000/api/book-test/edit/${id}`,
+        `${BASE_URL}/api/book-test/edit/${id}`,
         {
           method: "PUT",
           headers: {

@@ -8,11 +8,12 @@ const ManageTechnician = () => {
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
  
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/get-assigned-appointments");
+        const response = await fetch(`${BASE_URL}/api/get-assigned-appointments`);
  
         if (!response.ok) {
           throw new Error("Failed to fetch assigned appointments");

@@ -13,6 +13,8 @@ const AdminDashboard = () => {
   const [fromDate, setFromDate] = useState(""); // Start date
   const [toDate, setToDate] = useState(""); // End date
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   // Get today's date in YYYY-MM-DD format
   const today = new Date().toISOString().split("T")[0];
 
@@ -32,6 +34,7 @@ const AdminDashboard = () => {
     const day = String(d.getDate()).padStart(2, "0");
     const month = String(d.getMonth() + 1).padStart(2, "0"); // Month is 0-indexed
     const year = d.getFullYear();
+
     return `${day}/${month}/${year}`;
   };
 
@@ -39,7 +42,7 @@ const AdminDashboard = () => {
   const fetchAppointmentCounts = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/appointments/counts"
+        `${BASE_URL}/api/appointments/counts`
       );
       const data = await response.json();
 
@@ -58,7 +61,7 @@ const AdminDashboard = () => {
   // Fetch bookings and enquiries using the provided start and end dates
   const fetchBookingsAndEnquiries = async (start = "", end = "") => {
     try {
-      const url = `http://localhost:5000/api/bookings?from=${start}&to=${end}`;
+      const url = `${BASE_URL}/api/bookings?from=${start}&to=${end}`;
       const response = await fetch(url);
       const data = await response.json();
 

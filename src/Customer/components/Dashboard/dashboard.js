@@ -40,6 +40,8 @@ function Dashboard() {
   const [reportUrl, setReportUrl] = useState(null);
   const [patientId, setPatientId] = useState("");
   const [patientDetails, setPatientDetails] = useState("");
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   console.log(patientDetails, "pat det");
 
   console.log("active", activeArray);
@@ -67,7 +69,7 @@ function Dashboard() {
 
   useEffect(() => {
     const getBookingDetails = async () => {
-      const BookingUrl = "http://127.0.0.1:5000/api/get-appointments";
+      const BookingUrl = `${BASE_URL}/api/get-appointments`;
       const options = {
         method: "GET",
         headers: {
@@ -88,7 +90,7 @@ function Dashboard() {
     const fetchReport = async () => {
       const id = 40;
       try {
-        const response = await fetch(`http://localhost:5000/api/get_reportsss`);
+        const response = await fetch(`${BASE_URL}/api/get_reportsss`);
         const data = await response.json();
         if (response.ok) {
           console.log(data, "details");

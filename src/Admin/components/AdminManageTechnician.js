@@ -8,11 +8,13 @@ const AdminManageTechnician = () => {
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
  
   useEffect(() => {
     const fetchTechnicians = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/technicians");
+        const response = await fetch(`${BASE_URL}/api/technicians`);
  
         if (!response.ok) {
           throw new Error("Failed to fetch technicians");

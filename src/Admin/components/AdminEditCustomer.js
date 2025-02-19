@@ -14,12 +14,14 @@ const AdminEditCustomer = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
  
   // Fetch customer details for editing
   useEffect(() => {
     const fetchCustomer = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/api/customers/${customerId}`);
+        const response = await fetch(`${BASE_URL}/api/customers/${customerId}`);
         const data = await response.json();
  
         if (response.ok && data.customer) {
@@ -64,7 +66,7 @@ const AdminEditCustomer = () => {
     };
  
     try {
-      const response = await fetch(`http://127.0.0.1:5000/api/customers/update/${customerId}`, {
+      const response = await fetch(`${BASE_URL}/api/customers/update/${customerId}`, {
         method: "PUT", // Change POST to PUT
         headers: {
           "Content-Type": "application/json",

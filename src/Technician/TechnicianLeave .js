@@ -5,6 +5,8 @@ const TechnicianLeave = () => {
   const [leaveDate, setLeaveDate] = useState("");
   const [reason, setReason] = useState("");
   const [message, setMessage] = useState("");
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,7 +17,7 @@ const TechnicianLeave = () => {
       return;
     }
 
-    const response = await fetch("http://127.0.0.1:5000/api/technician-leave", {
+    const response = await fetch(`${BASE_URL}/api/technician-leave`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

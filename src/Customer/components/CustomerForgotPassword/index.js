@@ -19,6 +19,8 @@ const ForgotPassword = () => {
     slidesToScroll: 1,
   };
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -37,7 +39,7 @@ const ForgotPassword = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/customers/forgot-password",
+        `${BASE_URL}/api/customers/forgot-password`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

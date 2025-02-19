@@ -8,12 +8,14 @@ const AdminViewAddress = () => {
   const [loading, setLoading] = useState(true); // State for loading status
   const [error, setError] = useState(null); // State to handle errors
   const navigate = useNavigate();
+
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
   
   useEffect(() => {
     const fetchAddress = async () => {
       try {
         console.log(`Fetching address with ID: ${addressId}`); // Log addressId
-        const response = await fetch(`http://127.0.0.1:5000/api/addresses/${addressId}`, {
+        const response = await fetch(`${BASE_URL}/api/addresses/${addressId}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`, // Assuming token is stored in localStorage
           },

@@ -9,10 +9,12 @@ const ManageBooking = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/api/get-appointments`);
+        const response = await fetch(`${BASE_URL}/api/get-appointments`);
         const data = await response.json();
 
         console.log("Fetched appointments data:", data);
@@ -52,7 +54,7 @@ const ManageBooking = () => {
     if (!confirmDelete) return;
 
     try {
-      const response = await fetch(`http://127.0.0.1:5000/api/book-test/delete/${id}`, {
+      const response = await fetch(`${BASE_URL}/api/book-test/delete/${id}`, {
         method: "DELETE",
       });
       if (response.ok) {

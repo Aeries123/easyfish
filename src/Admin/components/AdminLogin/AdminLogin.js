@@ -10,6 +10,7 @@ const AdminLogin = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const navigate = useNavigate(); // Use useNavigate hook
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 
   const handleLogin = async (e) => {
@@ -18,7 +19,7 @@ const AdminLogin = () => {
     setSuccess(""); // Clear previous success messages
   
     try {
-      const response = await fetch("http://localhost:5000/api/customers/login", {
+      const response = await fetch(`${BASE_URL}/api/customers/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

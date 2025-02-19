@@ -12,6 +12,8 @@ const CustomerSignup = () => {
     gender: "",
   });
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate(); // Initialize useNavigate
@@ -36,7 +38,7 @@ const CustomerSignup = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/api/customers/register", {
+      const response = await fetch(`${BASE_URL}/api/customers/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

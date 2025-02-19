@@ -8,6 +8,7 @@ const ApplyLeave = () => {
     const [reason, setReason] = useState("");
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,7 +24,7 @@ const ApplyLeave = () => {
 
         try {
             const response = await axios.post(
-                "http://127.0.0.1:5000/api/technician/apply-leave",
+               `${BASE_URL}/api/technician/apply-leave`,
                 {
                     leave_date: leaveDate,
                     reason: reason,

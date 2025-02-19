@@ -9,6 +9,7 @@ const TechnicianDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [updatedStatus, setUpdatedStatus] = useState({});
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
     const token = Cookies.get("techToken");
@@ -20,7 +21,7 @@ const TechnicianDashboard = () => {
 
     const fetchAppointments = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/get-technician-appointmentss", {
+        const response = await fetch(`${BASE_URL}/api/get-technician-appointmentss`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -62,7 +63,7 @@ const TechnicianDashboard = () => {
     const token = Cookies.get("techToken");
     try {
       const response = await fetch(
-        "http://127.0.0.1:5000/api/update-sample-collection",
+       ` ${BASE_URL}/api/update-sample-collection`,
         {
           method: "POST",
           headers: {

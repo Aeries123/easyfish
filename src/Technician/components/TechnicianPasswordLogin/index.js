@@ -8,13 +8,14 @@ const TechnicianPasswordLogin = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
  
   const handleLogin = async (e) => {
     e.preventDefault();
     setError(""); // Clear previous errors
  
     try {
-      const response = await axios.post("http://127.0.0.1:5000/api/technicians/login", {
+      const response = await axios.post(`${BASE_URL}/api/technicians/login`, {
         phone,
         password,
       });

@@ -13,6 +13,8 @@ const CustomerLogin = () => {
 
   const navigate = useNavigate();
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   const sliderSettings = {
     dots: true,
     infinite: true,
@@ -47,7 +49,7 @@ const CustomerLogin = () => {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/api/send-otp", {
+      const response = await fetch(`${BASE_URL}/api/send-otp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

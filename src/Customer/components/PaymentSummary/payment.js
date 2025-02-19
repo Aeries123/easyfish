@@ -24,6 +24,8 @@ export const PaymentSummary = ({
   console.log(userDetails, "payments");
   console.log(members, "abcd");
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   // const onClickProceed = () => {
   //   if (isSlotBooked && !isAbled) {
   //     alert("Successfully Completed");
@@ -46,7 +48,7 @@ export const PaymentSummary = ({
       }
 
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/book-and-pay", {
+        const response = await fetch(`${BASE_URL}/api/book-and-pay`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

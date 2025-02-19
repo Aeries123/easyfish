@@ -4,6 +4,7 @@ import "./index.css";
 
 const AssignedTasks = () => {
   const navigate = useNavigate();
+  
 
   // Dummy data for assigned tasks
   const dummyTasks = [

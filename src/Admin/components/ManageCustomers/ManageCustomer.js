@@ -9,13 +9,15 @@ const ManageCustomer = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [customersPerPage] = useState(5);
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   console.log("manage customers", customers);
 
   // Fetch customers from API
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/customers");
+        const response = await fetch(`${BASE_URL}/api/customers`);
         const data = await response.json();
         console.log("API Response:", data); // Log the response to ensure it's correct
         if (response.ok) {
@@ -69,7 +71,7 @@ const ManageCustomer = () => {
     if (confirmDelete) {
       try {
         const response = await fetch(
-          `http://127.0.0.1:5000/api/customers/delete/${customerId}`,
+          `${BASE_URL}/api/customers/delete/${customerId}`,
           {
             method: "DELETE",
             headers: {

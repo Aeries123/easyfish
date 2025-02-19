@@ -9,6 +9,7 @@ const ManageReview = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [reviewsPerPage] = useState(9); // Number of reviews per page
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   // Fetch reviews from the backend
   useEffect(() => {
@@ -16,7 +17,7 @@ const ManageReview = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get('http://127.0.0.1:5000/review');
+        const response = await axios.get(`${BASE_URL}/review`);
         setReviews(response.data);
       } catch (err) {
         setError('Failed to fetch reviews. Please try again later.');
@@ -44,7 +45,7 @@ const ManageReview = () => {
     if (!confirmDelete) return;
 
     try {
-      const response = await axios.delete(`http://127.0.0.1:5000/review/${reviewId}`);
+      const response = await axios.delete(`${BASE_URL}/review/${reviewId}`);
       if (response.status === 200) {
         // Remove the deleted review from the local state
         setReviews(reviews.filter((review) => review.review_id !== reviewId));

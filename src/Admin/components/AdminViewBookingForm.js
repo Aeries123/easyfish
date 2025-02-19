@@ -148,11 +148,13 @@ const AdminViewBookingForm = () => {
   const [assignStatus, setAssignStatus] = useState(""); // Track status of the button
   const [selectedFiles, setSelectedFiles] = useState({});
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   useEffect(() => {
     const fetchBookingDetails = async () => {
       try {
         const response = await fetch(
-          `http://127.0.0.1:5000/api/get-appointments_details/${id}`
+          `${BASE_URL}/api/get-appointments_details/${id}`
         );
         const data = await response.json();
         if (response.ok) {
@@ -168,7 +170,7 @@ const AdminViewBookingForm = () => {
 
     const fetchTechnicians = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/technicians");
+        const response = await fetch(`${BASE_URL}/api/technicians`);
         const data = await response.json();
         if (response.ok) {
           setTechnicians(data);
@@ -200,7 +202,7 @@ const AdminViewBookingForm = () => {
 
     try {
       const response = await fetch(
-        "http://127.0.0.1:5000/api/assign-technician",
+        `${BASE_URL}/api/assign-technician`,
         {
           method: "POST",
           headers: {
@@ -233,7 +235,7 @@ const AdminViewBookingForm = () => {
   const handleSampleCollection = async () => {
     try {
       const response = await fetch(
-        "http://127.0.0.1:5000/api/update-sample-collection",
+        `${BASE_URL}/api/update-sample-collection`,
         {
           method: "POST",
           headers: {
@@ -277,7 +279,7 @@ const AdminViewBookingForm = () => {
 
       // Make a POST request to reassign the technician using fetch
       const response = await fetch(
-        "http://127.0.0.1:5000/api/delete-assignment",
+        `${BASE_URL}/api/delete-assignment`,
         {
           method: "POST",
           headers: {
@@ -327,7 +329,7 @@ const AdminViewBookingForm = () => {
 
     try {
       const response = await axios.post(
-        `http://127.0.0.1:5000/api/upload_reportsss`,
+        `${BASE_URL}/api/upload_reportsss`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

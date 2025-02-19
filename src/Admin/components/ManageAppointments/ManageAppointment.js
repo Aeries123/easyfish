@@ -16,6 +16,8 @@ const ManageAppointment = () => {
     { appointment_id: 9, test_id: 109 },
     { appointment_id: 10, test_id: 110 },
   ]);
+
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
   
   const [formData, setFormData] = useState({
     appointment_id: '',
@@ -42,7 +44,7 @@ const ManageAppointment = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const apiUrl = 'http://localhost:5000/addappointmenttest'; // Backend URL
+    const apiUrl = `${BASE_URL}/addappointmenttest`; // Backend URL
 
     fetch(apiUrl, {
       method: 'POST',
@@ -71,7 +73,7 @@ const ManageAppointment = () => {
 
   // Delete Appointment
   const handleDelete = (appointment_id) => {
-    const apiUrl = `http://localhost:5000/deleteappointment/${appointment_id}`;
+    const apiUrl = `${BASE_URL}/deleteappointment/${appointment_id}`;
 
     fetch(apiUrl, {
       method: 'DELETE',

@@ -13,6 +13,7 @@ const CustomerAddress = ({ onClose }) => {
     country: "India", // Default country
     pincode: "",
   });
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -31,7 +32,7 @@ const CustomerAddress = ({ onClose }) => {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:5000//api/addresses", {
+      const response = await fetch(`${BASE_URL}/api/addresses`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

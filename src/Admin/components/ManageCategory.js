@@ -8,11 +8,12 @@ const ManageCategory = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isDeleting, setIsDeleting] = useState(false); // To track deletion state
   const rowsPerPage = 9;
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/test_category");
+        const response = await fetch(`${BASE_URL}/api/test_category`);
         const data = await response.json();
         console.log("Fetched categories data:", data);
 
@@ -65,7 +66,7 @@ const ManageCategory = () => {
     setCategories(updatedCategories);
   
     try {
-      const response = await fetch(`http://127.0.0.1:5000/api/test_category/${categoryId}`, {
+      const response = await fetch(`${BASE_URL}/api/test_category/${categoryId}`, {
         method: "DELETE",
       });
   

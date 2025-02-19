@@ -11,6 +11,7 @@ const TechnicianVerifyOtp = () => {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
   const phone = location.state?.phone || "";
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   const handleVerifyOTP = async (e) => {
     e.preventDefault();
@@ -20,7 +21,7 @@ const TechnicianVerifyOtp = () => {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/api/verify-otp", {
+      const response = await fetch(`${BASE_URL}/api/verify-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phone, otp }),

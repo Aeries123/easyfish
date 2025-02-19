@@ -9,11 +9,12 @@ const ManageTests = () => {
   const [file, setFile] = useState(null);  // For file input during import
   const rowsPerPage = 9;  // Rows per page for pagination
   const navigate = useNavigate();  // useNavigate for redirection
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
     const fetchTests = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:5000/api/tests');
+        const response = await fetch(`${BASE_URL}/api/tests`);
         const data = await response.json();
         console.log("fetching tests", data);
 
@@ -58,7 +59,7 @@ const ManageTests = () => {
     const confirmDelete = window.confirm("Are you sure you want to delete this test?");
     if (confirmDelete) {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/api/tests/${testId}`, {
+        const response = await fetch(`${BASE_URL}/api/tests/${testId}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
@@ -97,7 +98,7 @@ const ManageTests = () => {
     formData.append('file', file);
 
     try {
-        const response = await fetch('http://127.0.0.1:5000/api/tests/import', {
+        const response = await fetch(`${BASE_URL}/api/tests/import`, {
             method: 'POST',
             body: formData,
         });
@@ -125,7 +126,7 @@ const ManageTests = () => {
   // Export tests via API
   const handleExportTests = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/tests/export', {
+      const response = await fetch(`${BASE_URL}/api/tests/export`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,  // Pass JWT token for authentication

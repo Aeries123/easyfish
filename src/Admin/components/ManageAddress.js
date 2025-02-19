@@ -9,10 +9,12 @@ const ManageAddress = () => {
   const [alertMessage, setAlertMessage] = useState(""); // State for alert message
   const rowsPerPage = 5;
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:5000/api/addresses', {
+        const response = await fetch(`${BASE_URL}/api/addresses`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`, // Assuming token is stored in localStorage
           },
@@ -69,7 +71,7 @@ const ManageAddress = () => {
     setAddresses(updatedAddresses);
 
     try {
-      const response = await fetch(`http://127.0.0.1:5000/api/admin/addresses/${addressId}`, {
+      const response = await fetch(`${BASE_URL}/api/admin/addresses/${addressId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`, // Assuming token is stored in localStorage

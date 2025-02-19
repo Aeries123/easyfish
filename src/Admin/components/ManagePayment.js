@@ -7,11 +7,12 @@ const ManagePayment = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
     const fetchPayments = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/get-payments");
+        const response = await fetch(`${BASE_URL}/api/get-payments`);
         const data = await response.json();
 
         console.log("Fetched payments data:", data);

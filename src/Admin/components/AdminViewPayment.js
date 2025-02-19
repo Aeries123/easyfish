@@ -8,10 +8,12 @@ const AdminViewPayment = () => {
   const [paymentDetails, setPaymentDetails] = useState(null); // State to store payment details
   const [errorMessage, setErrorMessage] = useState(null); // State for error messages
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   useEffect(() => {
     const fetchPaymentDetails = async () => {
         try {
-          const response = await fetch(`http://127.0.0.1:5000/api/get-payments/${appointment_id}`, {
+          const response = await fetch(`${BASE_URL}/api/get-payments/${appointment_id}`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",

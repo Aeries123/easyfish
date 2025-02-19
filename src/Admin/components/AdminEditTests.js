@@ -20,13 +20,15 @@ const AdminEditTests = () => {
   });
   const [categories, setCategories] = useState([]); // To store categories
   const [errorMessage, setErrorMessage] = useState("");
+
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
  
   console.log(formData,"category")
  
   useEffect(() => {
     const fetchTestDetails = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/api/tests/${testId}`);
+        const response = await fetch(`${BASE_URL}/api/tests/${testId}`);
         const data = await response.json();
  
         if (response.ok) {
@@ -56,7 +58,7 @@ const AdminEditTests = () => {
  
     const fetchCategories = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/test_category"); // Replace with your categories endpoint
+        const response = await fetch(`${BASE_URL}/api/test_category`); // Replace with your categories endpoint
         const data = await response.json();
         console.log(data,"datatagatatat")
  
@@ -115,7 +117,7 @@ const AdminEditTests = () => {
         category_id: selectedCategory?.id || null, // Add category_id to payload
       };
  
-      const response = await fetch(`http://127.0.0.1:5000/api/tests/${testId}`, {
+      const response = await fetch(`${BASE_URL}/api/tests/${testId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

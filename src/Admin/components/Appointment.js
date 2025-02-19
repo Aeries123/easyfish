@@ -19,10 +19,12 @@ const Booking = () => {
     });
   };
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const apiUrl = 'http://localhost:5000/addappointmenttest'; // Backend URL
+    const apiUrl = `${BASE_URL}/addappointmenttest`; // Backend URL
 
     fetch(apiUrl, {
       method: 'POST',

@@ -10,6 +10,8 @@ const CustomerForm = () => {
     gender: '',
   });
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -21,7 +23,7 @@ const CustomerForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const apiUrl = 'http://localhost:5000/api/customers/register';
+    const apiUrl =`${BASE_URL}/api/customers/register`;
 
     fetch(apiUrl, {
       method: 'POST',

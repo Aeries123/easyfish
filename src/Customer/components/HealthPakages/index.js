@@ -109,20 +109,7 @@ const HealthPackages = (props) => {
   } = props;
   // const [healthPackages, setHealthPackages] = useState([]);
   const scrollRef = useRef(null);
-
-  // Fetch health packages data from the backend
-  // useEffect(() => {
-  //   const fetchPackages = async () => {
-  //     try {
-  //       const response = await fetch("http://127.0.0.1:5000/api/packages");
-  //       const data = await response.json();
-  //       setHealthPackages(data);
-  //     } catch (error) {
-  //       console.error("Error fetching packages:", error);
-  //     }
-  //   };
-  //   fetchPackages();
-  // }, []);
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   const scrollLeft = () => {
     scrollRef.current.scrollBy({

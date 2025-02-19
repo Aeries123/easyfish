@@ -8,10 +8,12 @@ export const ParticularTest = () => {
   const [error, setError] = useState(null);
   const {test_id}=useParams()
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   useEffect(() => {
     const getDataDetails = async () => {
       try {
-        const getDetails = `http://127.0.0.1:5000/api/tests/${test_id}`; // Correct test_id
+        const getDetails = `${BASE_URL}/api/tests/${test_id}`; // Correct test_id
         const fetchDetails = await fetch(getDetails, { method: "GET" });
 
         if (fetchDetails.ok) {

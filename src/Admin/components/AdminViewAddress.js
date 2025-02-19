@@ -8,12 +8,14 @@ const AdminViewAddress = () => {
   const [loading, setLoading] = useState(true); // State for loading status
   const [error, setError] = useState(null); // State to handle errors
   const navigate = useNavigate();
+
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
   
   useEffect(() => {
     const fetchCustomer = async () => {
       try {
         console.log(`Fetching customer with ID: ${customerId}`); // Log customerId
-        const response = await fetch(`http://127.0.0.1:5000/api/customers/${customerId}`);
+        const response = await fetch(`${BASE_URL}/api/customers/${customerId}`);
         const data = await response.json();
   
         if (response.ok) {
