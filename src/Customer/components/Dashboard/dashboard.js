@@ -61,6 +61,7 @@ function Dashboard() {
     userPhoneNumber: "",
   });
   const [bookingDetails, setBookingDetails] = useState([]);
+  console.log(bookingDetails,"booking details")
 
   const active = [];
   const past = [];
