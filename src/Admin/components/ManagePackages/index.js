@@ -3,106 +3,148 @@ import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 
-const ManagePackages = () => {
-  const [packages, setPackages] = useState([]);
+const ManageProducts = () => {
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [filterBy, setFilterBy] = useState("name"); // Default filter
 
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const BASE_URL = process.env.REACT_APP_BASE_URL || "http://127.0.0.1:5000";
 
   useEffect(() => {
-    const fetchPackages = async () => {
+    const fetchProducts = async () => {
       try {
-        const response = await fetch(
-          `${BASE_URL}/api/admin/packages`
-        );
+        const response = await fetch(`${BASE_URL}/api/products`);
         if (!response.ok) {
-          throw new Error("Failed to fetch packages");
+          throw new Error("Failed to fetch products");
         }
-
         const data = await response.json();
-        setPackages(data);
+        setProducts(data);
       } catch (error) {
-        console.error("Error fetching packages:", error);
-        setErrorMessage("Failed to fetch packages");
+        console.error("Error fetching products:", error);
+        setErrorMessage("Failed to fetch products");
       } finally {
         setLoading(false);
       }
     };
-
-    fetchPackages();
+    fetchProducts();
   }, []);
 
+  // Handle Delete
+  const handleDelete = async (productId) => {
+    if (!window.confirm("Are you sure you want to delete this product?")) return;
+
+    try {
+      const response = await fetch(`${BASE_URL}/api/products/${productId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete product");
+      }
+
+      setProducts(products.filter((product) => product.id !== productId));
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      setErrorMessage("Failed to delete product");
+    }
+  };
+
   // Search Filter Function
-  const filteredPackages = packages.filter((pkg) =>
-    pkg.package_name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredProducts = products.filter((product) =>
+    product[filterBy]?.toString().toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
-    <div className="container mt-4">
-      <h2 className="text-center">Admin Packages</h2>
+    <div className="container-fluid mt-4">
+      <h2 className="text-center">Manage Products</h2>
 
-      {/* Add Package Button */}
+      {/* Add Product Button */}
       <div className="d-flex justify-content-center mb-3">
-        <Link to="/admin/package">
-          <button className="btn btn-success">Add Package</button>
+        <Link to="/admin/add-product">
+          <button className="btn btn-success">Add Product</button>
         </Link>
       </div>
 
       {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
 
-      {/* Search Bar */}
-      <div className="mb-3">
+      {/* Search and Filter */}
+      <div className="mb-3 d-flex gap-2">
+        <select className="form-control" value={filterBy} onChange={(e) => setFilterBy(e.target.value)}>
+          <option value="name">Product Name</option>
+          <option value="category">Category Name</option>
+        </select>
         <input
           type="text"
           className="form-control"
-          placeholder="Search by package name..."
+          placeholder={`Search by ${filterBy.replace("_", " ")}...`}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </div>
 
       {loading ? (
-        <div className="text-center">Loading packages...</div>
-      ) : filteredPackages.length > 0 ? (
+        <div className="text-center">Loading products...</div>
+      ) : filteredProducts.length > 0 ? (
         <div className="table-container">
           <table className="table table-bordered">
             <thead className="thead-dark">
               <tr>
-                <th>Package ID</th>
-                <th>Package Name</th>
-                <th>No. of Tests</th>
-                <th>Test Names</th>
-                <th>Total Price</th>
-                <th>Discount (%)</th>
-                <th>Final Price</th>
+                <th>Product ID</th>
+                <th>Image</th>
+                <th>Category Name</th>
+                <th>Product Name</th>
+                <th>Description</th>
+                <th>Stock</th>
+                <th>Price</th>
+                <th>Weight</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {filteredPackages.map((pkg) => (
-                <tr key={pkg.package_id}>
-                  <td>{pkg.package_id}</td>
-                  <td>{pkg.package_name}</td>
-                  <td>{pkg.no_of_tests}</td>
-                  <td className="break-text">
-                    {pkg.test_details.map((each) =>
-                      each.parameters.join(", ")
+              {filteredProducts.map((product) => (
+                <tr key={product.id}>
+                  <td>{product.id}</td>
+                  <td>
+                    {product.images.length > 0 ? (
+                      <img
+                        src={product.images[0]}
+                        alt="Product"
+                        style={{ width: "50px", height: "50px", objectFit: "cover" }}
+                      />
+                    ) : (
+                      "No Image"
                     )}
                   </td>
-                  <td>₹{pkg.total_price_before_discount}</td>
-                  <td>{pkg.discount}%</td>
-                  <td>₹{pkg.final_price}</td>
+                  <td>{product.category || "N/A"}</td>
+                  <td>{product.name}</td>
+                  <td>{product.description}</td>
+                  <td>{product.stock}</td>
+                  <td>${product.defaultPrice?.toFixed(2)}</td>
+                  <td>{product.defaultWeight}g</td>
+                  <td>
+                    <Link to={`/admin/edit-product/${product.id}`} className="btn btn-warning btn-sm mx-1">
+                      Edit
+                    </Link>
+
+                    <Link to={`/admin/view-product/${product.id}`} className="btn btn-warning btn-sm mx-1">
+                      View
+                    </Link>
+                    <button className="btn btn-danger btn-sm" onClick={() => handleDelete(product.id)}>
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       ) : (
-        <div>No packages found.</div>
+        <div>No products found.</div>
       )}
     </div>
   );
 };
 
-export default ManagePackages;
+export default ManageProducts;

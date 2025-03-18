@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -6,33 +6,52 @@ const ManageAddress = () => {
   const [addresses, setAddresses] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [alertMessage, setAlertMessage] = useState(""); // State for alert message
+  const [alertMessage, setAlertMessage] = useState(""); // Alert message state
   const rowsPerPage = 5;
 
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const BASE_URL = "http://127.0.0.1:5000";
 
   useEffect(() => {
-    const fetchAddresses = async () => {
-      try {
-        const response = await fetch(`${BASE_URL}/api/addresses`, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`, // Assuming token is stored in localStorage
-          },
-        });
-        const data = await response.json();
-
-        if (response.ok) {
-          setAddresses(data || []);
-        } else {
-          console.error('Error fetching addresses:', data.message);
-        }
-      } catch (error) {
-        console.error('Error fetching addresses:', error);
-      }
-    };
-
     fetchAddresses();
   }, []);
+
+  const fetchAddresses = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/addresses`);
+      const data = await response.json();
+
+      if (response.ok) {
+        setAddresses(data.addresses || []);
+      } else {
+        console.error('Error fetching addresses:', data.error);
+      }
+    } catch (error) {
+      console.error('Error fetching addresses:', error);
+    }
+  };
+
+  const handleDelete = async (address_id) => {
+    if (!window.confirm("Are you sure you want to delete this address?")) return;
+
+    try {
+      const response = await fetch(`${BASE_URL}/api/addresses/${address_id}`, {
+        method: "DELETE",
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setAlertMessage(result.message);
+        fetchAddresses(); // Refresh addresses list
+      } else {
+        setAlertMessage("Error: " + result.error);
+      }
+    } catch (error) {
+      console.error("Error deleting address:", error);
+    }
+
+    setTimeout(() => setAlertMessage(""), 3000);
+  };
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -50,54 +69,14 @@ const ManageAddress = () => {
 
   const indexOfLastAddress = currentPage * rowsPerPage;
   const indexOfFirstAddress = indexOfLastAddress - rowsPerPage;
-  const currentAddresses = filteredAddresses.slice(
-    indexOfFirstAddress,
-    indexOfLastAddress
-  );
-
+  const currentAddresses = filteredAddresses.slice(indexOfFirstAddress, indexOfLastAddress);
   const totalPages = Math.ceil(filteredAddresses.length / rowsPerPage);
 
-  const handlePrevious = () => currentPage > 1 && setCurrentPage((prev) => prev - 1);
-  const handleNext = () => currentPage < totalPages && setCurrentPage((prev) => prev + 1);
-
-  const handleDeleteAddress = async (addressId) => {
-    const confirmDelete = window.confirm('Are you sure you want to delete this address?');
-    if (!confirmDelete) return;
-
-    // Optimistically update the UI: set the `isDeleting` flag for the specific address
-    const updatedAddresses = addresses.map((address) =>
-      address.address_id === addressId ? { ...address, isDeleting: true } : address
-    );
-    setAddresses(updatedAddresses);
-
-    try {
-      const response = await fetch(`${BASE_URL}/api/admin/addresses/${addressId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Assuming token is stored in localStorage
-        },
-      });
-
-      if (response.ok) {
-        setAddresses(addresses.filter((address) => address.address_id !== addressId));
-        setAlertMessage("Address deleted successfully!");
-      } else {
-        setAlertMessage("Failed to delete address.");
-      }
-    } catch (error) {
-      setAlertMessage("Error deleting address.");
-      console.error('Error deleting address:', error);
-    }
-
-    // Hide alert after 3 seconds
-    setTimeout(() => setAlertMessage(""), 3000);
-  };
-
   return (
-    <div className="container mt-4">
+    <div className="container-fluid mt-4">
       <h2>Manage Addresses</h2>
       <Link to="/admin/add-address">
-        <button>Add Address</button>
+        <button className="btn btn-primary mb-3">Add Address</button>
       </Link>
 
       {/* Search Input */}
@@ -111,23 +90,20 @@ const ManageAddress = () => {
 
       {/* Alert Message */}
       {alertMessage && (
-        <div className="alert alert-info mt-3">
-          {alertMessage}
-        </div>
+        <div className="alert alert-info mt-3">{alertMessage}</div>
       )}
 
       <table className="table table-bordered mt-3">
         <thead className="thead-dark">
           <tr>
             <th>Address ID</th>
-            <th>Door No</th>
-            <th>Street</th>
-            <th>Village</th>
-            <th>Mandal</th>
-            <th>District</th>
+            <th>Customer Name</th>
+            <th>Address</th>
+            <th>City</th>
             <th>State</th>
-            <th>Country</th>
-            <th>Pincode</th>
+            <th>Zip Code</th>
+            <th>Address Type</th>
+            <th>Created At</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -136,37 +112,34 @@ const ManageAddress = () => {
             currentAddresses.map((address) => (
               <tr key={address.address_id}>
                 <td>{address.address_id}</td>
-                <td>{address.door_no}</td>
-                <td>{address.street}</td>
-                <td>{address.village}</td>
-                <td>{address.mandal}</td>
-                <td>{address.district}</td>
+                <td>{address.customer_name}</td>
+                <td>{address.address}</td>
+                <td>{address.city}</td>
                 <td>{address.state}</td>
-                <td>{address.country}</td>
-                <td>{address.pincode}</td>
+                <td>{address.zip_code}</td>
+                <td>{address.address_type}</td>
+                <td>{address.created_at}</td>
                 <td>
-                  <Link to={`/admin/view-address/${address.address_id}`}>
-                    <button className="btn btn-sm btn-info me-2">View</button>
-                  </Link>
-
                   <Link to={`/admin/edit-address/${address.address_id}`}>
-                    <button className="btn btn-sm btn-primary me-2">Edit</button>
+                    <button className="btn btn-warning btn-sm mx-1">Edit</button>
                   </Link>
 
-                  {/* Delete Button */}
+
+                  <Link to={`/admin/view-address/${address.address_id}`}>
+                    <button className="btn btn-warning btn-sm mx-1">View</button>
+                  </Link>
                   <button
-                    className="btn btn-sm btn-danger"
-                    onClick={() => handleDeleteAddress(address.address_id)}
-                    disabled={address.isDeleting} // Disable delete for this specific address
+                    className="btn btn-danger btn-sm"
+                    onClick={() => handleDelete(address.address_id)}
                   >
-                    {address.isDeleting ? 'Deleting...' : 'Delete'}
+                    Delete
                   </button>
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="10" className="text-center">
+              <td colSpan="9" className="text-center">
                 No addresses available.
               </td>
             </tr>
@@ -178,12 +151,12 @@ const ManageAddress = () => {
       <nav className="mt-3">
         <ul className="pagination justify-content-center">
           <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-            <button className="page-link" onClick={handlePrevious}>
+            <button className="page-link" onClick={() => setCurrentPage((prev) => prev - 1)}>
               Previous
             </button>
           </li>
           <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-            <button className="page-link" onClick={handleNext}>
+            <button className="page-link" onClick={() => setCurrentPage((prev) => prev + 1)}>
               Next
             </button>
           </li>

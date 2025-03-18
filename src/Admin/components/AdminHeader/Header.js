@@ -58,7 +58,7 @@ const Header = () => {
       <div className="header-left">
         <img
           // src="https://res.cloudinary.com/ddjsaoac6/image/upload/v1736159475/Screenshot_2025-01-06_160018_so8uaf.png"
-          src="https://res.cloudinary.com/dabzdwxet/image/upload/v1738684838/pathlabs-header_b5n3cj.jpg"
+          src="https://res.cloudinary.com/dabzdwxet/image/upload/v1742019821/easy_fish_logo_llhozd.jpg"
           alt="Logo"
           className="logo"
         />

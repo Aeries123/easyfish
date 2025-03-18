@@ -108,7 +108,7 @@ const ManageNotification = () => {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container-fluid mt-5">
       <h2>Manage Notifications</h2>
       
       {/* Search bar */}

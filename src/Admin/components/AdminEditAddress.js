@@ -2,109 +2,150 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const AdminViewAddress = () => {
-  const { addressId } = useParams(); // Extract addressId from the URL params
-  const [address, setAddress] = useState(null); // State to store address details
-  const [loading, setLoading] = useState(true); // State for loading status
-  const [error, setError] = useState(null); // State to handle errors
+const AdminEditAddress = () => {
+  const { addressId } = useParams();
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    address: "",
+    city: "",
+    state: "",
+    zip_code: "",
+    address_type: "home",
+  });
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
-  
+  const BASE_URL = "http://127.0.0.1:5000";
+
   useEffect(() => {
-    const fetchAddress = async () => {
-      try {
-        console.log(`Fetching address with ID: ${addressId}`); // Log addressId
-        const response = await fetch(`${BASE_URL}/api/addresses/${addressId}`, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`, // Assuming token is stored in localStorage
-          },
-        });
-        const data = await response.json();
-  
-        if (response.ok) {
-          setAddress(data); // Set the address data in state
-        } else {
-          console.error("API error:", data.error); // Log API errors
-          setError(data.error || "Error fetching address details");
-        }
-      } catch (err) {
-        console.error("Fetch error:", err); // Log fetch errors
-        setError("Error fetching address details");
-      } finally {
-        setLoading(false);
-      }
-    };
-  
     fetchAddress();
-  }, [addressId]); // Dependency array includes addressId to refetch when it changes
+  }, []);
 
-  if (loading) {
-    return <div>Loading...</div>; // Display a loading message
-  }
+  const fetchAddress = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/addresses/${addressId}`);
+      const data = await response.json();
+      console.log(data,"data")
 
-  if (error) {
-    return <div className="alert alert-danger">{error}</div>; // Display error message
-  }
+      if (response.ok) {
+        setFormData({
+          address: data.address || "",
+          city: data.city || "",
+          state: data.state || "",
+          zip_code: data.zip_code || "",
+          address_type: data.address_type || "home",
+        });
+      } else {
+        setError("Error fetching address details");
+      }
+    } catch (error) {
+      setError("Error fetching address details");
+      console.error("Fetch error:", error);
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSuccessMessage("");
+    try {
+      const response = await fetch(`${BASE_URL}/api/addresses/${addressId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setSuccessMessage("Address updated successfully");
+        setTimeout(() => navigate("/admin/manage-address"), 2000);
+      } else {
+        setError(result.error || "Failed to update address");
+      }
+    } catch (error) {
+      setError("Error updating address");
+      console.error("Update error:", error);
+    }
+  };
 
   return (
     <div className="container mt-4">
-      <h2>Address Details</h2>
-   
-      <table className="table table-bordered">
-        <tbody>
-          <tr>
-            <th>Address ID</th>
-            <td>{address.address_id}</td>
-          </tr>
-          <tr>
-            <th>Door No</th>
-            <td>{address.door_no}</td>
-          </tr>
-          <tr>
-            <th>Street</th>
-            <td>{address.street}</td>
-          </tr>
-          <tr>
-            <th>Village</th>
-            <td>{address.village}</td>
-          </tr>
-          <tr>
-            <th>Mandal</th>
-            <td>{address.mandal}</td>
-          </tr>
-          <tr>
-            <th>District</th>
-            <td>{address.district}</td>
-          </tr>
-          <tr>
-            <th>State</th>
-            <td>{address.state}</td>
-          </tr>
-          <tr>
-            <th>Country</th>
-            <td>{address.country}</td>
-          </tr>
-          <tr>
-            <th>Pincode</th>
-            <td>{address.pincode}</td>
-          </tr>
-          <tr>
-            <th>Created At</th>
-            <td>{address.created_at}</td>
-          </tr>
-          <tr>
-            <th>Updated At</th>
-            <td>{address.updated_at}</td>
-          </tr>
-        </tbody>
-      </table>
+      <h2>Edit Address</h2>
 
-      <button onClick={() => navigate(-1)} className="btn btn-secondary">
-        Go Back
-      </button>
+      {error && <div className="alert alert-danger">{error}</div>}
+      {successMessage && <div className="alert alert-success">{successMessage}</div>}
+
+      <form onSubmit={handleSubmit}>
+        <div className="mb-3">
+          <label className="form-label">Address</label>
+          <input
+            type="text"
+            className="form-control"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label">City</label>
+          <input
+            type="text"
+            className="form-control"
+            name="city"
+            value={formData.city}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label">State</label>
+          <input
+            type="text"
+            className="form-control"
+            name="state"
+            value={formData.state}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label">Zip Code</label>
+          <input
+            type="text"
+            className="form-control"
+            name="zip_code"
+            value={formData.zip_code}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label">Address Type</label>
+          <select
+            className="form-control"
+            name="address_type"
+            value={formData.address_type}
+            onChange={handleChange}
+          >
+            <option value="home">Home</option>
+            <option value="work">Work</option>
+          </select>
+        </div>
+
+        <button type="submit" className="btn btn-primary">Update Address</button>
+      </form>
     </div>
   );
 };
 
-export default AdminViewAddress;
+export default AdminEditAddress;

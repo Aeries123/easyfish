@@ -60,7 +60,8 @@ import ManageTechnician from "./components/ManageTechnician";
 import ManagePackages from "./components/ManagePackages";
 import AdminManageTechnician from "./components/AdminManageTechnician";
 import ApproveLeave from "./components/ApproveLeave";
-
+import AdminEditProduct from "./components/AdminEditProduct/AdminEditProduct";
+import AdminViewProduct from "./components/AdminViewProduct/AdminViewProduct";
 import "./AdminRoutes.css";
 import ManageEnquiry from "../Customer/components/ManageEnquiry";
 import UserPrescriptions from "./components/UserPrescriptions";
@@ -107,6 +108,20 @@ const AdminRoutes = () => {
               element={<LabTechnicianForm />}
             />
             <Route path="/admin/manage-packages" element={<ManagePackages />} />
+
+            <Route
+              path="/admin/edit-product/:id"
+              element={<AdminEditProduct />}
+            />
+            <Route
+              path="/admin/view-product/:id"
+              element={<AdminViewProduct />}
+            />
+
+
+
+
+
             <Route path="/admin/package" element={<Packages />} />
             <Route path="/admin/payment" element={<Payment />} />
             <Route path="/admin/notification" element={<Notification />} />
@@ -212,11 +227,11 @@ const AdminRoutes = () => {
 
             <Route
               path="/admin/view-address/:customerId"
-              element={<AdminViewCustomer />}
+              element={<AdminViewAddress />}
             />
             <Route
-              path="/admin/edit-address/:customerId"
-              element={<AdminEditCustomer />}
+              path="/admin/edit-address/:AddressId"
+              element={<AdminEditAddress />}
             />
             <Route
               path="/admin/view-payment/:AppointmentId"

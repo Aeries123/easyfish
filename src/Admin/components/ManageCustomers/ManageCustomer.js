@@ -9,9 +9,7 @@ const ManageCustomer = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [customersPerPage] = useState(5);
 
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
-
-  console.log("manage customers", customers);
+  const BASE_URL = process.env.REACT_APP_BASE_URL || "http://127.0.0.1:5000";
 
   // Fetch customers from API
   useEffect(() => {
@@ -19,30 +17,30 @@ const ManageCustomer = () => {
       try {
         const response = await fetch(`${BASE_URL}/api/customers`);
         const data = await response.json();
-        console.log("API Response:", data); // Log the response to ensure it's correct
+        
         if (response.ok) {
-          setCustomers(data.customers || []); // Set the customers data from the API
+          setCustomers(data); // The API returns an array, so we set it directly
         } else {
-          console.error("Error fetching customers:", data.message);
+          console.error("Error fetching customers:", data.error);
         }
       } catch (error) {
         console.error("Error fetching customers:", error);
       }
     };
 
-    fetchCustomers(); // Fetch customers on component mount
+    fetchCustomers();
   }, []);
 
   // Search handler to filter customers
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
-    setCurrentPage(1); // Reset to the first page when a new search is performed
+    setCurrentPage(1);
   };
 
   // Filter customers based on the search term
   const filteredCustomers = customers.filter((customer) =>
     Object.values(customer).some((value) =>
-      value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+      value?.toString().toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
 
@@ -63,50 +61,14 @@ const ManageCustomer = () => {
     if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
   };
 
-  // Delete handler for deleting a customer
-  const handleDeleteCustomer = async (customerId) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this customer?"
-    );
-    if (confirmDelete) {
-      try {
-        const response = await fetch(
-          `${BASE_URL}/api/customers/delete/${customerId}`,
-          {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-              // Remove or adjust this line if `Authorization` is not needed
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-
-        if (response.ok) {
-          setCustomers(
-            customers.filter((customer) => customer.id !== customerId)
-          ); // Adjust `customer.id` to `customer.customer_id` if needed
-          alert("Customer deleted successfully.");
-        } else {
-          const errorData = await response.json();
-          console.error("Error deleting customer:", errorData.error);
-          alert(errorData.error || "Failed to delete the customer.");
-        }
-      } catch (error) {
-        console.error("Error deleting customer:", error);
-        alert("Failed to delete the customer.");
-      }
-    }
-  };
-
   return (
-    <div className="container mt-5">
+    <div className="container-fluid mt-5">
       <h2>Manage Customers</h2>
       <Link to="/admin/customer">
-        <button>Add Customer</button>
+        <button className="btn btn-success">Add Customer</button>
       </Link>
 
-      <div className="form-group">
+      <div className="form-group mt-3">
         <input
           type="text"
           className="form-control"
@@ -124,48 +86,38 @@ const ManageCustomer = () => {
             <th>ID</th>
             <th>Customer Name</th>
             <th>Phone</th>
-            <th>Gender</th>
+            <th>Email</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {currentCustomers.length > 0 ? (
             currentCustomers.map((customer) => (
-              <tr key={customer.id}>
-                <td>{customer.id}</td>
-                <td>{customer.customer_name}</td>
+              <tr key={customer.customer_id}>
+                <td>{customer.customer_id}</td>
+                <td>{customer.name}</td>
                 <td>
-                {customer.phone}
-                <a
-                  href={`https://wa.me/${customer.phone}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="whatsapp-icon"
-                >
-                  <FaWhatsapp size={20} color="green" style={{ marginLeft: 8 }} />
-                </a>
-                <a href={`tel:${customer.phone}`} className="phone-icon">
-                  <FaPhone size={20} color="blue" style={{ marginLeft: 8 }} />
-                </a>
-              </td>
-                <td>{customer.gender}</td>
-                <td>
-                  <Link to={`/admin/edit-customer/${customer.id}`}>
-                    <button className="btn btn-primary btn-sm me-2">
-                      Edit
-                    </button>
-                  </Link>
-                  <Link to={`/admin/view-customer/${customer.id}`}>
-                    <button className="btn btn-primary btn-sm me-2">
-                      View
-                    </button>
-                  </Link>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => handleDeleteCustomer(customer.id)}
+                  {customer.phone}
+                  <a
+                    href={`https://wa.me/${customer.phone}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="whatsapp-icon ms-2"
                   >
-                    Delete
-                  </button>
+                    <FaWhatsapp size={20} color="green" />
+                  </a>
+                  <a href={`tel:${customer.phone}`} className="phone-icon ms-2">
+                    <FaPhone size={20} color="blue" />
+                  </a>
+                </td>
+                <td>{customer.email}</td>
+                <td>
+                  <Link to={`/admin/edit-customer/${customer.customer_id}`}>
+                    <button className="btn btn-primary btn-sm me-2 ">Edit</button>
+                  </Link>
+                  <Link to={`/admin/view-customer/${customer.customer_id}`}>
+                    <button className="btn btn-secondary btn-sm me-2">View</button>
+                  </Link>
                 </td>
               </tr>
             ))
