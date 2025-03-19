@@ -1,163 +1,131 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { FaWhatsapp, FaPhone } from "react-icons/fa"; // Import icons
+import "./ManageBookings.css";
 
 const ManageBooking = () => {
-  const [bookings, setBookings] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
-
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const BASE_URL = process.env.REACT_APP_BASE_URL || "http://127.0.0.1:5000";
+  console.log(orders,"abcd")
 
   useEffect(() => {
-    const fetchAppointments = async () => {
-      try {
-        const response = await fetch(`${BASE_URL}/api/get-appointments`);
-        const data = await response.json();
-
-        console.log("Fetched appointments data:", data);
-
-        if (response.ok) {
-          setBookings(data || []);
-        } else {
-          console.error("Failed to fetch appointments:", data.error || "Unknown error");
-        }
-      } catch (error) {
-        console.error("Error fetching appointments:", error);
-      }
-    };
-
-    fetchAppointments();
+    fetchOrders();
   }, []);
 
-  const filteredBookings = bookings.filter((booking) =>
-    Object.values(booking).some(
-      (value) =>
-        value &&
-        value.toString().toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  );
-
-  const indexOfLastBooking = currentPage * rowsPerPage;
-  const indexOfFirstBooking = indexOfLastBooking - rowsPerPage;
-  const currentBookings = filteredBookings.slice(indexOfFirstBooking, indexOfLastBooking);
-
-  const totalPages = Math.ceil(filteredBookings.length / rowsPerPage);
-
-  const handlePrevious = () => currentPage > 1 && setCurrentPage((prev) => prev - 1);
-  const handleNext = () => currentPage < totalPages && setCurrentPage((prev) => prev + 1);
-
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this booking?");
-    if (!confirmDelete) return;
-
+  const fetchOrders = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/api/book-test/delete/${id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(`${BASE_URL}/api/orders`);
+      const data = await response.json();
       if (response.ok) {
-        setBookings(bookings.filter((b) => b.appointment_id !== id));
+        setOrders(data || []);
       } else {
-        console.error("Failed to delete booking");
+        console.error("Failed to fetch orders:", data.error || "Unknown error");
       }
     } catch (error) {
-      console.error("Error deleting booking:", error);
+      console.error("Error fetching orders:", error);
     }
   };
 
+  const handleDelete = async (orderId) => {
+    if (!window.confirm("Are you sure you want to delete this order?")) return;
+    try {
+      const response = await fetch(`${BASE_URL}/api/orders/${orderId}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        setOrders(orders.filter((order) => order.order_id !== orderId));
+        alert("Order deleted successfully!");
+      } else {
+        const data = await response.json();
+        alert("Error: " + (data.error || "Could not delete order"));
+      }
+    } catch (error) {
+      console.error("Error deleting order:", error);
+      alert("Failed to delete order. Please try again.");
+    }
+  };
+
+  const filteredOrders = orders.filter((order) =>
+    order.customer_name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const indexOfLastOrder = currentPage * rowsPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - rowsPerPage;
+  const currentOrders = filteredOrders.slice(
+    indexOfFirstOrder,
+    indexOfLastOrder
+  );
+  const totalPages = Math.ceil(filteredOrders.length / rowsPerPage);
+
   return (
-    <div className="container mt-4">
-      <h2>Manage Bookings</h2>
+    <div className="container">
+      <h2 className="title">Manage Orders</h2>
       <input
         type="text"
-        className="form-control mb-3"
-        placeholder="Search bookings..."
+        className="search-box"
+        placeholder="Search by customer name..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <table className="table table-bordered">
+      <table className="table">
         <thead>
           <tr>
-            <th>Appointment ID</th>
-            <th>Patient Name</th>
-            <th>Contact</th>
-            <th>Test Names</th>
-            <th>Appointment Date</th>
-            <th>Slot Date</th>
+            <th>Order ID</th>
+            <th>Customer Name</th>
+            <th>Order Date</th>
             <th>Status</th>
             <th>Total Price</th>
-            <th>Patient Count</th>
-            <th>Assigned Technician</th>
-            <th>Sample Collection</th>
-            <th>Payment Status</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {currentBookings.length > 0 ? (
-            currentBookings.map((booking) => (
-              <tr key={booking.appointment_id}>
-                <td>{booking.appointment_id}</td>
-                <td>{booking.patient_name}</td>
+          {currentOrders.length > 0 ? (
+            currentOrders.map((order) => (
+              <tr key={order.order_id}>
+                <td>{order.order_id}</td>
+                <td>{order.customer_name}</td>
+                <td>{new Date(order.order_date).toLocaleDateString()}</td>
+                <td>{order.status}</td>
+                <td>${order.total_price}</td>
                 <td>
-                  {booking.patient_contact} {" "}
-                  <a
-                    href={`https://wa.me/${booking.patient_contact}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-success me-2"
-                  >
-                    <FaWhatsapp size={20} />
-                  </a>
-                  <a href={`tel:${booking.patient_contact}`} className="text-primary">
-                    <FaPhone size={20} />
-                  </a>
-                </td>
-                <td>{booking.test_names.join(", ")}</td>
-                <td>{new Date(booking.appointment_date).toLocaleDateString()}</td>
-                <td>{new Date(booking.slot_date).toLocaleDateString()}</td>
-                <td>{booking.status}</td>
-                <td>{booking.total_price}</td>
-                <td>{booking.patient_count || 1}</td>
-                <td>{booking.assign}</td>
-                <td>{booking.sample_collection}</td>
-                <td>{booking.payment_status}</td>
-                <td>
-                  <Link to={`/admin/view-booking/${booking.appointment_id}`}>
-                    <button className="btn btn-primary btn-sm me-2">View</button>
+                  <Link to={`/admin/view-booking/${order.order_id}`}>
+                    <button className="btn">View</button>
                   </Link>
-                  {/* <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => handleDelete(booking.appointment_id)}
+                  <Link to={`/admin/edit-booking/${order.order_id}`}>
+                    <button className="btn">Edit</button>
+                  </Link>
+                  <button
+                    className="btn delete-btn"
+                    onClick={() => handleDelete(order.order_id)}
                   >
                     Delete
-                  </button> */}
+                  </button>
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="12" className="text-center">
-                No bookings found.
+              <td colSpan="6" className="no-data">
+                No orders found.
               </td>
             </tr>
           )}
         </tbody>
       </table>
-      <div className="d-flex justify-content-between mt-3">
+      <div className="pagination">
         <button
-          className="btn btn-secondary"
+          className="page-btn"
           disabled={currentPage === 1}
-          onClick={handlePrevious}
+          onClick={() => setCurrentPage(currentPage - 1)}
         >
           Previous
         </button>
         <button
-          className="btn btn-secondary"
+          className="page-btn"
           disabled={currentPage === totalPages}
-          onClick={handleNext}
+          onClick={() => setCurrentPage(currentPage + 1)}
         >
           Next
         </button>

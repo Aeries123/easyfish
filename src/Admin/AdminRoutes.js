@@ -45,7 +45,7 @@ import AdminLogin from "./components/AdminLogin/AdminLogin";
 import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
 
 import AdminEditBookingsForm from "./components/AdminEditBookingsForm";
-import AdminViewBookingsForm from "./components/AdminViewBookingForm";
+import AdminViewBookingForm from "./components/AdminViewBookingForm";
 import AdminEditCategory from "./components/AdminEditCategory";
 import AdminViewCategory from "./components/AdminViewCategory";
 import AdminEditTests from "./components/AdminEditTests";
@@ -66,6 +66,9 @@ import "./AdminRoutes.css";
 import ManageEnquiry from "../Customer/components/ManageEnquiry";
 import UserPrescriptions from "./components/UserPrescriptions";
 import Packages from "./components/Packages";
+import ManagePayments from "./components/ManagePayments/ManagePayments";
+import ManageAdminPayment from "./components/ManageAdminPayment/ManageAdminPayment";
+import ManageReviews from "./components/ManageReviews/ManajeReviews";
 const AdminRoutes = () => {
   const location = useLocation(); // Get the current location
 
@@ -97,6 +100,7 @@ const AdminRoutes = () => {
               path="/admin/manage-technician"
               element={<ManageTechnician />}
             />
+            <Route path="/admin/manage-reviews" element={<ManageReviews />} />
             <Route path="/admin/technician" element={<LabTechnicianForm />} />
             <Route
               path="/admin/admin-manage-technician"
@@ -106,6 +110,11 @@ const AdminRoutes = () => {
             <Route
               path="/admin/lab-technician-form"
               element={<LabTechnicianForm />}
+            />
+            <Route path="/admin/manage-payments" element={<ManagePayments />} />
+            <Route
+              path="/admin/manage-payments/:id"
+              element={<ManageAdminPayment />}
             />
             <Route path="/admin/manage-packages" element={<ManagePackages />} />
 
@@ -117,10 +126,6 @@ const AdminRoutes = () => {
               path="/admin/view-product/:id"
               element={<AdminViewProduct />}
             />
-
-
-
-
 
             <Route path="/admin/package" element={<Packages />} />
             <Route path="/admin/payment" element={<Payment />} />
@@ -195,9 +200,10 @@ const AdminRoutes = () => {
               element={<AdminEditBookingsForm />}
             />
             <Route
-              path="/admin/view-booking/:id"
-              element={<AdminViewBookingsForm />}
+              path="/admin/view-booking/:order_id"
+              element={<AdminViewBookingForm />}
             />
+
             <Route
               path="/admin/view-category/:categoryId"
               element={<AdminViewCategory />}

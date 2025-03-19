@@ -12,7 +12,7 @@ const Sidebar = () => {
     // { path: "/admin/login", label: "Login" },
     { path: "/admin/manage-packages", label: "Manage Products" },
 
-    // { path: "/admin/manage-booking", label: "Manage Bookings" },
+    { path: "/admin/manage-booking", label: "Manage Bookings" },
     // { path: "/admin/manage-tests", label: "Manage Tests" },
     { path: "/admin/manage-customer", label: "Manage Customers" },
     // { path: "/admin/prescriptions", label: "Prescriptions" },
@@ -23,6 +23,8 @@ const Sidebar = () => {
     // { path: "/admin/manage-review", label: "Manage Reviews" },
     // { path: "/admin/manage-payment", label: "Manage Payments" },
     { path: "/admin/manage-category", label: "Manage Categories" },
+    { path: "/admin/manage-payments", label: "Manage Payments" },
+    { path: "/admin/manage-reviews", label: "Manage Reviews" },
     // { path: "/admin/manage-technician", label: "Assigned Technicians" },
     // { path: "/admin/admin-manage-technician", label: " Manage Technicians" },
     // { path: "/admin/approve-leave", label: "Approve Leave" },
@@ -31,6 +33,7 @@ const Sidebar = () => {
     { path: "/admin/manage-notification", label: "Manage Notifications" },
     // { path: "/admin/review", label: "Reviews" },
     { path: "/admin/manage-address", label: "Manage Addresses" },
+    
     // { path: "/admin/addresses", label: "Addresses" },
     // { path: "/admin/settings", label: "Settings" },
 
