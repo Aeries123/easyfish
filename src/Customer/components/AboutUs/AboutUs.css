@@ -189,12 +189,12 @@ div.eCjflQ {
 }
 
 /* Icon Container */
-.icon svg {
+/* .icon svg {
   width: 50px;
   height: 50px;
-  color: #6a1b9a; /* Purple color for icons */
-  transition: transform 0.3s ease; /* Smooth transition */
-}
+  color: #6a1b9a; /* Purple color for icons 
+  transition: transform 0.3s ease;  Smooth transition 
+} */
 
 .icon svg:hover {
   transform: scale(1.2); /* Slightly enlarge icon on hover */
@@ -392,11 +392,11 @@ div.eCjflQ {
   margin-bottom: 20px;
 }
 
-.icon svg {
+/* .icon svg {
   width: 50px;
   height: 50px;
-  color: #ffcc00; /* Vision icon color */
-}
+  color: #ffcc00; /* Vision icon color 
+} */
 
 .mission-icon-container svg {
   color: #4fc3f7; /* Mission icon color */

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "./ManageAddress.css";
+
 
 const ManageAddress = () => {
   const [addresses, setAddresses] = useState([]);
@@ -75,9 +77,9 @@ const ManageAddress = () => {
   return (
     <div className="container-fluid mt-4">
       <h2>Manage Addresses</h2>
-      <Link to="/admin/add-address">
+      {/* <Link to="/admin/add-address">
         <button className="btn btn-primary mb-3">Add Address</button>
-      </Link>
+      </Link> */}
 
       {/* Search Input */}
       <input
@@ -120,14 +122,14 @@ const ManageAddress = () => {
                 <td>{address.address_type}</td>
                 <td>{address.created_at}</td>
                 <td>
-                  <Link to={`/admin/edit-address/${address.address_id}`}>
+                  {/* <Link to={`/admin/edit-address/${address.address_id}`}>
                     <button className="btn btn-warning btn-sm mx-1">Edit</button>
-                  </Link>
+                  </Link> */}
 
-
+{/* 
                   <Link to={`/admin/view-address/${address.address_id}`}>
                     <button className="btn btn-warning btn-sm mx-1">View</button>
-                  </Link>
+                  </Link> */}
                   <button
                     className="btn btn-danger btn-sm"
                     onClick={() => handleDelete(address.address_id)}

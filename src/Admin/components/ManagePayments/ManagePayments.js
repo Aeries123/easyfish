@@ -69,13 +69,13 @@ const ManagePayments = () => {
   };
 
   return (
-    <div className="container">
-      <h2>Manage Payments</h2>
+    <div className="container-fluid">
+      <h2 className="payment-header">Manage Payments</h2>
       {/* <Link to="/admin/payment" className="add-payment-btn">
         Add Payment
       </Link> */}
 
-      <input
+      {/* <input
         type="text"
         className="search-box"
         placeholder="Search payments"
@@ -95,7 +95,7 @@ const ManagePayments = () => {
           onChange={(e) => setEndDate(e.target.value)}
         />
         <button onClick={handleDateFilterChange}>Filter</button>
-      </div>
+      </div> */}
 
       <div className="table-container">
         <table>
@@ -120,7 +120,7 @@ const ManagePayments = () => {
                   <td>{payment.order_id}</td>
                   <td>{payment.name}</td>{" "}
                   {/* Replace customer_id with customer_name */}
-                  <td>${payment.amount}</td>
+                  <td>₹{payment.amount}</td>
                   <td>{payment.payment_method}</td>
                   <td>{payment.transaction_id}</td>
                   <td>{payment.status}</td>

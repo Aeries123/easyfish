@@ -69,6 +69,9 @@ import Packages from "./components/Packages";
 import ManagePayments from "./components/ManagePayments/ManagePayments";
 import ManageAdminPayment from "./components/ManageAdminPayment/ManageAdminPayment";
 import ManageReviews from "./components/ManageReviews/ManajeReviews";
+import AdminAddProduct from "./components/AdminAddProduct/AdminAddProduct";
+import ManageBestSeller from "./components/AdminEditProduct/ManageBestSeller/ManageBestSeller";
+
 const AdminRoutes = () => {
   const location = useLocation(); // Get the current location
 
@@ -239,10 +242,18 @@ const AdminRoutes = () => {
               path="/admin/edit-address/:AddressId"
               element={<AdminEditAddress />}
             />
+
+            <Route path="/admin/add-product" element={<AdminAddProduct />} />
+
             <Route
-              path="/admin/view-payment/:AppointmentId"
-              element={<AdminViewPayment />}
+              path="/admin/view-payment/:paymentId"
+              element={<ManageAdminPayment />}
             />
+                        <Route path="/admin/manage-bestseller" element={<ManageBestSeller />} />
+
+
+
+
           </Routes>
         </div>
       </div>

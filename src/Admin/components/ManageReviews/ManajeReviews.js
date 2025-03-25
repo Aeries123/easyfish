@@ -89,7 +89,7 @@ const ManageReviews = () => {
     <div className="manage-reviews-container">
       <h2 className="title">Manage Reviews</h2>
 
-      <div className="filter-container">
+      {/* <div className="filter-container">
         <input
           type="text"
           className="search-box-review"
@@ -115,7 +115,7 @@ const ManageReviews = () => {
             Filter
           </button>
         </div>
-      </div>
+      </div> */}
 
       <div className="table-container">
         <table className="reviews-table">

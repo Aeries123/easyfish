@@ -99,7 +99,7 @@ const ManageReview = () => {
               <th>Review</th>
               <th>Helpfulness</th>
               <th>Date</th>
-              <th>Actions</th>
+              {/* <th>Actions</th> */}
             </tr>
           </thead>
           <tbody>
@@ -113,14 +113,14 @@ const ManageReview = () => {
                   <td>{review.review_text}</td>
                   <td>{review.helpfulness_count}</td>
                   <td>{new Date(review.created_at).toLocaleString()}</td>
-                  <td>
+                  {/* <td>
                     <button
                       className="btn btn-danger btn-sm"
                       onClick={() => handleDelete(review.review_id)}
                     >
                       Delete
                     </button>
-                  </td>
+                  </td> */}
                 </tr>
               ))
             ) : (

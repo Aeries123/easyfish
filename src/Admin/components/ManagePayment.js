@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+
 const ManagePayment = () => {
   const [payments, setPayments] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -54,7 +55,7 @@ const ManagePayment = () => {
 
   return (
     <div className="container mt-4">
-      <h2>Manage Payments</h2>
+      <h2  className="Payments-title">Manage Payments</h2>
       <input
         type="text"
         className="form-control mb-3"

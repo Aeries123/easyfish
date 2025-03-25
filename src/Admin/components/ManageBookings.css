@@ -1,3 +1,16 @@
 .manage-bookings-container {
     width: 60vw;
 }
+
+.btn {
+    background-color: hsl(240, 100%, 50%);
+    color: white;
+}
+
+.title{
+    margin-top: 50px;
+}
+.container-order{
+    background-color: rgb(114, 27, 83);
+}
+

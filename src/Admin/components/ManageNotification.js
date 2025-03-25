@@ -1,117 +1,67 @@
-// src/components/ManageNotification.js
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ManageNotification = () => {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [notificationsPerPage] = useState(5); // Number of notifications to display per page
-  const [searchQuery, setSearchQuery] = useState(''); // Search query state
+  const [notificationsPerPage] = useState(5);
+  const [searchQuery, setSearchQuery] = useState('');
+  const BASE_URL = process.env.REACT_APP_BASE_URL || "http://127.0.0.1:5000";
 
-  // Mock Data - Example notifications
-  const mockNotifications = [
-    {
-      notification_id: 1,
-      message: "Your account has been successfully created.",
-      sent_at: "2025-01-17T10:30:00Z",
-      is_read: false,
-    },
-    {
-      notification_id: 2,
-      message: "You have a new message from support.",
-      sent_at: "2025-01-16T14:45:00Z",
-      is_read: true,
-    },
-    {
-      notification_id: 3,
-      message: "Don't forget to check out our latest features.",
-      sent_at: "2025-01-15T09:00:00Z",
-      is_read: false,
-    },
-    {
-      notification_id: 4,
-      message: "New updates available for your account.",
-      sent_at: "2025-01-14T08:30:00Z",
-      is_read: true,
-    },
-    {
-      notification_id: 5,
-      message: "Your password has been changed successfully.",
-      sent_at: "2025-01-13T11:00:00Z",
-      is_read: false,
-    },
-    {
-      notification_id: 6,
-      message: "Your subscription is about to expire.",
-      sent_at: "2025-01-12T07:15:00Z",
-      is_read: true,
-    },
-    {
-      notification_id: 7,
-      message: "You have a new comment on your post.",
-      sent_at: "2025-01-11T17:30:00Z",
-      is_read: false,
-    },
-    {
-      notification_id: 8,
-      message: "Your account settings have been updated.",
-      sent_at: "2025-01-10T09:25:00Z",
-      is_read: true,
-    },
-  ];
-
-  // Simulate fetching data from an API
   useEffect(() => {
-    setTimeout(() => {
-      setNotifications(mockNotifications); // Set the mock data after a delay
-      setLoading(false);
-    }, 1000); // Simulate a 1-second delay for fetching
+    fetchNotifications();
   }, []);
 
-  // Filter notifications based on search query
-  const filteredNotifications = notifications.filter((notification) =>
+  const fetchNotifications = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/api/notificationss`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }  // Include token if required
+      });
+      setNotifications(response.data.notifications || []);
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleReadStatus = async (id, isRead) => {
+    try {
+      await axios.put(`${BASE_URL}/api/notificationss/${id}`, { is_read: !isRead }, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      setNotifications(notifications.map(notification =>
+        notification.id === id ? { ...notification, is_read: !isRead } : notification
+      ));
+    } catch (error) {
+      console.error("Error updating notification status:", error);
+    }
+  };
+
+  const deleteNotification = async (id) => {
+    try {
+      await axios.delete(`${BASE_URL}/api/notificationss/${id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      setNotifications(notifications.filter(notification => notification.id !== id));
+    } catch (error) {
+      console.error("Error deleting notification:", error);
+    }
+  };
+
+  const filteredNotifications = notifications.filter(notification =>
     notification.message.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Paginate notifications
   const indexOfLastNotification = currentPage * notificationsPerPage;
   const indexOfFirstNotification = indexOfLastNotification - notificationsPerPage;
-  const currentNotifications = filteredNotifications.slice(
-    indexOfFirstNotification,
-    indexOfLastNotification
-  );
-
-  // Change page
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  // Mark notification as read/unread
-  const toggleReadStatus = (notificationId) => {
-    setNotifications((prevNotifications) =>
-      prevNotifications.map((notification) =>
-        notification.notification_id === notificationId
-          ? { ...notification, is_read: !notification.is_read }
-          : notification
-      )
-    );
-  };
-
-  // Delete a notification
-  const deleteNotification = (notificationId) => {
-    setNotifications((prevNotifications) =>
-      prevNotifications.filter(
-        (notification) => notification.notification_id !== notificationId
-      )
-    );
-  };
+  const currentNotifications = filteredNotifications.slice(indexOfFirstNotification, indexOfLastNotification);
 
   return (
     <div className="container-fluid mt-5">
       <h2>Manage Notifications</h2>
-      
-      {/* Search bar */}
       <div className="mb-4">
         <input
           type="text"
@@ -121,7 +71,6 @@ const ManageNotification = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </div>
-
       {loading ? (
         <p>Loading...</p>
       ) : (
@@ -130,6 +79,7 @@ const ManageNotification = () => {
             <thead>
               <tr>
                 <th>ID</th>
+                <th>Title</th>
                 <th>Message</th>
                 <th>Sent At</th>
                 <th>Status</th>
@@ -137,31 +87,27 @@ const ManageNotification = () => {
               </tr>
             </thead>
             <tbody>
-              {currentNotifications.map((notification) => (
-                <tr
-                  key={notification.notification_id}
-                  className={notification.is_read ? 'table-success' : 'table-warning'}
-                >
-                  <td>{notification.notification_id}</td>
+              {currentNotifications.map(notification => (
+                <tr key={notification.id} className={notification.is_read ? 'table-success' : 'table-warning'}>
+                  <td>{notification.id}</td>
+                  <td>{notification.title}</td>
                   <td>{notification.message}</td>
-                  <td>{new Date(notification.sent_at).toLocaleString()}</td>
+                  <td>{new Date(notification.created_at).toLocaleString()}</td>
                   <td>
-                    {notification.is_read ? (
-                      <span className="badge bg-success">Read</span>
-                    ) : (
-                      <span className="badge bg-warning">Unread</span>
-                    )}
+                    <span className={`badge ${notification.is_read ? 'bg-success' : 'bg-warning'}`}>
+                      {notification.is_read ? 'Read' : 'Unread'}
+                    </span>
                   </td>
                   <td>
                     <button
-                      className="btn btn-secondary mr-2"
-                      onClick={() => toggleReadStatus(notification.notification_id)}
+                      className="btn btn-secondary me-2"
+                      onClick={() => toggleReadStatus(notification.id, notification.is_read)}
                     >
                       Mark as {notification.is_read ? 'Unread' : 'Read'}
                     </button>
                     <button
                       className="btn btn-danger"
-                      onClick={() => deleteNotification(notification.notification_id)}
+                      onClick={() => deleteNotification(notification.id)}
                     >
                       Delete
                     </button>
@@ -170,30 +116,24 @@ const ManageNotification = () => {
               ))}
             </tbody>
           </table>
-
-          {/* Pagination */}
           <div className="d-flex justify-content-between">
             <button
               className="btn btn-secondary"
-              onClick={() => handlePageChange(currentPage - 1)}
+              onClick={() => setCurrentPage(currentPage - 1)}
               disabled={currentPage === 1}
             >
               Previous
             </button>
             <button
               className="btn btn-secondary"
-              onClick={() => handlePageChange(currentPage + 1)}
+              onClick={() => setCurrentPage(currentPage + 1)}
               disabled={currentPage * notificationsPerPage >= filteredNotifications.length}
             >
               Next
             </button>
           </div>
-
-          {/* Pagination info */}
           <div className="mt-3 text-center">
-            <p>
-              Page {currentPage} of {Math.ceil(filteredNotifications.length / notificationsPerPage)}
-            </p>
+            <p>Page {currentPage} of {Math.ceil(filteredNotifications.length / notificationsPerPage)}</p>
           </div>
         </>
       )}

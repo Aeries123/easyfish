@@ -3,11 +3,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const CustomerForm = () => {
   const [formData, setFormData] = useState({
-   
-    customer_name: '',
-    password: '',
+    name: '',
+    email: '',
     phone: '',
-    gender: '',
+    password: '',
+    profile_picture: null, // File state
   });
 
   const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -20,36 +20,51 @@ const CustomerForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  // Handle file selection
+  const handleFileChange = (e) => {
+    setFormData({
+      ...formData,
+      profile_picture: e.target.files[0], // Store file
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const apiUrl =`${BASE_URL}/api/customers/register`;
+    const apiUrl = `${BASE_URL}/api/customers/register`;
 
-    fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => {
-        if (response.ok) {
-          alert('Customer added successfully!');
-          setFormData({
-           
-            customer_name: '',
-            password: '',
-            phone: '',
-            gender: '',
-          });
-        } else {
-          alert('Failed to add customer.');
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        alert('An error occurred.');
+    // Create FormData to send file
+    const formDataToSend = new FormData();
+    formDataToSend.append('name', formData.name);
+    formDataToSend.append('email', formData.email);
+    formDataToSend.append('phone', formData.phone);
+    formDataToSend.append('password', formData.password);
+    if (formData.profile_picture) {
+      formDataToSend.append('profile_picture', formData.profile_picture);
+    }
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        body: formDataToSend, // Sending FormData instead of JSON
       });
+
+      if (response.ok) {
+        alert('Customer added successfully!');
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          password: '',
+          profile_picture: null,
+        });
+      } else {
+        alert('Failed to add customer.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred.');
+    }
   };
 
   return (
@@ -57,37 +72,29 @@ const CustomerForm = () => {
       <h2 className="text-center">Customer Form</h2>
       <form onSubmit={handleSubmit}>
         <div className="row">
-          {/* Customer ID */}
-        
-
-          {/* User ID */}
-       
-        </div>
-
-        <div className="row">
           {/* Customer Name */}
           <div className="form-group col-md-6">
-            <label htmlFor="customer_name">Customer Name</label>
+            <label htmlFor="name">Customer Name</label>
             <input
               type="text"
               className="form-control"
-              id="customer_name"
-              name="customer_name"
-              value={formData.customer_name}
+              id="name"
+              name="name"
+              value={formData.name}
               onChange={handleChange}
               required
             />
           </div>
 
-          {/* Password */}
+          {/* Email */}
           <div className="form-group col-md-6">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="email">Email</label>
             <input
-              type="password"
+              type="email"
               className="form-control"
-              id="password"
-              name="password"
-              value={formData.password}
+              id="email"
+              name="email"
+              value={formData.email}
               onChange={handleChange}
               required
             />
@@ -109,22 +116,33 @@ const CustomerForm = () => {
             />
           </div>
 
-          {/* Gender */}
+          {/* Password */}
           <div className="form-group col-md-6">
-            <label htmlFor="gender">Gender</label>
-            <select
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
               className="form-control"
-              id="gender"
-              name="gender"
-              value={formData.gender}
+              id="password"
+              name="password"
+              value={formData.password}
               onChange={handleChange}
               required
-            >
-              <option value="">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </select>
+            />
+          </div>
+        </div>
+
+        <div className="row">
+          {/* Profile Picture Upload */}
+          <div className="form-group col-md-6">
+            <label htmlFor="profile_picture">Profile Picture</label>
+            <input
+              type="file"
+              className="form-control"
+              id="profile_picture"
+              name="profile_picture"
+              onChange={handleFileChange}
+              accept="image/*"
+            />
           </div>
         </div>
 

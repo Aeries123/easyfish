@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaWhatsapp, FaPhone } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./ManageCustomer.css";
 
 const ManageCustomer = () => {
   const [customers, setCustomers] = useState([]);
@@ -64,9 +65,9 @@ const ManageCustomer = () => {
   return (
     <div className="container-fluid mt-5">
       <h2>Manage Customers</h2>
-      <Link to="/admin/customer">
+      {/* <Link to="/admin/customer">
         <button className="btn btn-success">Add Customer</button>
-      </Link>
+      </Link> */}
 
       <div className="form-group mt-3">
         <input
@@ -80,14 +81,14 @@ const ManageCustomer = () => {
 
       {/* Customers Table */}
       <h3 className="mt-5">Customers List</h3>
-      <table className="table table-bordered mt-4">
+      <table className="customer-table">
         <thead>
           <tr>
             <th>ID</th>
             <th>Customer Name</th>
             <th>Phone</th>
             <th>Email</th>
-            <th>Actions</th>
+            {/* <th>Actions</th> */}
           </tr>
         </thead>
         <tbody>
@@ -112,12 +113,12 @@ const ManageCustomer = () => {
                 </td>
                 <td>{customer.email}</td>
                 <td>
-                  <Link to={`/admin/edit-customer/${customer.customer_id}`}>
+                  {/* <Link to={`/admin/edit-customer/${customer.customer_id}`}>
                     <button className="btn btn-primary btn-sm me-2 ">Edit</button>
                   </Link>
                   <Link to={`/admin/view-customer/${customer.customer_id}`}>
                     <button className="btn btn-secondary btn-sm me-2">View</button>
-                  </Link>
+                  </Link> */}
                 </td>
               </tr>
             ))

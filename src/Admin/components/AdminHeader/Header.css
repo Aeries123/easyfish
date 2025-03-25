@@ -3,7 +3,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0px 1px;
-  background: linear-gradient(135deg, #360b93, #392c50);
+  background: linear-gradient(to right, #2E3192, #1BFFFF);
   color: #231c81;
   position: fixed;
   width: 100%;
@@ -11,6 +11,16 @@
   left: 0;
   z-index: 1000;
   padding-right: 10px;
+}
+.easyfish {
+  margin-right: 1400px;
+  background: linear-gradient(to right, #1bff58, #00aaff); /* Adjust colors as needed */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-decoration: underline;
+  font-size: 30px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-weight: bold;
 }
 
 .header-left {
@@ -155,8 +165,9 @@ h1 {
 }
 
 .logo {
-  height: 76px;
-  width: 249px;
+  height: 100px;
+  width: 165px;
+  padding: 5px;
 }
 
 /* .logo {

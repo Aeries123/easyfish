@@ -141,12 +141,15 @@ const ManageCategory = () => {
                     Delete
                   </button>
 
-                   <Link to={`/admin/edit-category/${category.category_id}`}>
-                                      <button className="btn btn-primary btn-sm me-2">Edit</button>
-                                    </Link>
-                  <Link to={`/admin/view-category/${category.category_id}`}>
+                  <Link to={`/admin/edit-category/${category.category_id}`}>
+  <button className="btn btn-danger btn-sm me-2" style={{ width: "60px", height: "35px", padding: "2px 5px" }}>
+    Edit
+  </button>
+</Link>
+
+                  {/* <Link to={`/admin/view-category/${category.category_id}`}>
                     <button className="btn btn-secondary btn-sm">View</button>
-                  </Link>
+                  </Link> */}
                 </td>
               </tr>
             ))

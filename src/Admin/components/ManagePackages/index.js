@@ -89,7 +89,7 @@ const ManageProducts = () => {
       ) : filteredProducts.length > 0 ? (
         <div className="table-container">
           <table className="table table-bordered">
-            <thead className="thead-dark">
+            <thead className="manage-thead-dark">
               <tr>
                 <th>Product ID</th>
                 <th>Image</th>
@@ -121,16 +121,16 @@ const ManageProducts = () => {
                   <td>{product.name}</td>
                   <td>{product.description}</td>
                   <td>{product.stock}</td>
-                  <td>${product.defaultPrice?.toFixed(2)}</td>
+                  <td>{product.defaultPrice?.toFixed(2)}</td>
                   <td>{product.defaultWeight}g</td>
                   <td>
                     <Link to={`/admin/edit-product/${product.id}`} className="btn btn-warning btn-sm mx-1">
                       Edit
                     </Link>
 
-                    <Link to={`/admin/view-product/${product.id}`} className="btn btn-warning btn-sm mx-1">
+                    {/* <Link to={`/admin/view-product/${product.id}`} className="btn btn-warning btn-sm mx-1">
                       View
-                    </Link>
+                    </Link> */}
                     <button className="btn btn-danger btn-sm" onClick={() => handleDelete(product.id)}>
                       Delete
                     </button>

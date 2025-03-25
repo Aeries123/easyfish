@@ -48,7 +48,7 @@ const ManageBooking = () => {
   };
 
   const filteredOrders = orders.filter((order) =>
-    order.customer_name.toLowerCase().includes(searchTerm.toLowerCase())
+    order.customer.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const indexOfLastOrder = currentPage * rowsPerPage;
@@ -60,16 +60,16 @@ const ManageBooking = () => {
   const totalPages = Math.ceil(filteredOrders.length / rowsPerPage);
 
   return (
-    <div className="container">
+    <div className="container-fluid">
       <h2 className="title">Manage Orders</h2>
       <input
         type="text"
-        className="search-box"
+        className="form-control"
         placeholder="Search by customer name..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <table className="table">
+      <table className="order-table">
         <thead>
           <tr>
             <th>Order ID</th>
@@ -85,17 +85,17 @@ const ManageBooking = () => {
             currentOrders.map((order) => (
               <tr key={order.order_id}>
                 <td>{order.order_id}</td>
-                <td>{order.customer_name}</td>
+                <td>{order.customer.name}</td>
                 <td>{new Date(order.order_date).toLocaleDateString()}</td>
                 <td>{order.status}</td>
-                <td>${order.total_price}</td>
+                <td>₹{order.total_price}</td>
                 <td>
                   <Link to={`/admin/view-booking/${order.order_id}`}>
                     <button className="btn">View</button>
                   </Link>
-                  <Link to={`/admin/edit-booking/${order.order_id}`}>
+                  {/* <Link to={`/admin/edit-booking/${order.order_id}`}>
                     <button className="btn">Edit</button>
-                  </Link>
+                  </Link> */}
                   <button
                     className="btn delete-btn"
                     onClick={() => handleDelete(order.order_id)}

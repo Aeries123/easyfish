@@ -32,29 +32,33 @@ const AdminViewBookingForm = () => {
   return (
     <div className="container">
       <h2 className="title">Booking Details</h2>
-      <div className="details">
-        <p>
-          <strong>Order ID:</strong> {order.order_id}
-        </p>
-        <p>
-          <strong>Customer Name:</strong> {order.customer_name}
-        </p>
-        <p>
-          <strong>Email:</strong> {order.email || "N/A"}
-        </p>
-        <p>
-          <strong>Phone:</strong> {order.phone || "N/A"}
-        </p>
-        <p>
-          <strong>Order Date:</strong>{" "}
-          {new Date(order.order_date).toLocaleDateString()}
-        </p>
-        <p>
-          <strong>Status:</strong> {order.status}
-        </p>
-        <p>
-          <strong>Total Price:</strong> ${order.total_price}
-        </p>
+
+      {/* Booking Details Table */}
+      <div className="booking-details">
+        <table>
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Order Date</th>
+              <th>Status</th>
+              <th>Total Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{order.order_id}</td>
+              <td>{order.customer_name}</td>
+              <td>{order.email || "N/A"}</td>
+              <td>{order.phone || "N/A"}</td>
+              <td>{new Date(order.order_date).toLocaleDateString()}</td>
+              <td>{order.status}</td>
+              <td>₹{Number(order.total_price).toFixed(2)}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
       {/* Order Items Section */}
@@ -77,8 +81,8 @@ const AdminViewBookingForm = () => {
                   <td>{item.order_item_id}</td>
                   <td>{item.variant_id}</td>
                   <td>{item.quantity}</td>
-                  <td>${Number(item.price).toFixed(2)}</td>
-                  <td>${Number(item.total).toFixed(2)}</td>
+                  <td>₹{Number(item.price).toFixed(2)}</td>
+                  <td>₹{Number(item.total).toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>
@@ -87,11 +91,8 @@ const AdminViewBookingForm = () => {
       )}
 
       <div className="actions">
-        <Link to="/admin/manage-bookings">
+        <Link to="/admin/manage-booking">
           <button className="btn">Back to Bookings</button>
-        </Link>
-        <Link to={`/admin/edit-booking/${order.order_id}`}>
-          <button className="btn">Edit</button>
         </Link>
       </div>
     </div>

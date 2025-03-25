@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import "./AdminEditProduct.css";
 
 const AdminEditProduct = () => {
   const { id } = useParams(); // Get product ID from URL
@@ -7,7 +8,7 @@ const AdminEditProduct = () => {
   const BASE_URL = process.env.REACT_APP_BASE_URL; // Ensure your .env file has this value
 
   const [formData, setFormData] = useState({
-    category_id: "",
+    category_name: "",
     product_name: "",
     description: "",
     added_by: "",
@@ -26,7 +27,7 @@ const AdminEditProduct = () => {
 
         if (response.ok) {
           setFormData({
-            category_id: data.category_id || "",
+            category_name: data.category_name || "",
             product_name: data.product_name || "",
             description: data.description || "",
             added_by: data.added_by || "",
@@ -39,13 +40,18 @@ const AdminEditProduct = () => {
       }
     };
 
+    fetchProductDetails();
+  }, [id]);
+
+  // Fetch categories
+  useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/api/test_category`);
+        const response = await fetch(`${BASE_URL}/api/categories`);
         const data = await response.json();
 
-        if (response.ok && Array.isArray(data.data)) {
-          setCategories(data.data);
+        if (response.ok && Array.isArray(data.categories)) {
+          setCategories(data.categories);
         } else {
           setErrorMessage("Error fetching categories.");
         }
@@ -54,9 +60,8 @@ const AdminEditProduct = () => {
       }
     };
 
-    fetchProductDetails();
     fetchCategories();
-  }, [id]);
+  }, []);
 
   // Handle input change
   const handleInputChange = (e) => {
@@ -78,7 +83,7 @@ const AdminEditProduct = () => {
 
       if (response.ok) {
         setSuccessMessage("Product updated successfully!");
-        setTimeout(() => navigate("/admin/products"), 2000);
+        setTimeout(() => navigate("/admin/manage-packages"), 2000);
       } else {
         setErrorMessage(result.error || "Failed to update product.");
       }
@@ -99,14 +104,14 @@ const AdminEditProduct = () => {
           <label>Category:</label>
           <select
             className="form-control"
-            name="category_id"
-            value={formData.category_id}
+            name="category_name"
+            value={formData.category_name}
             onChange={handleInputChange}
             required
           >
             <option value="">Select Category</option>
             {categories.map((category) => (
-              <option key={category.category_id} value={category.category_id}>
+              <option key={category.category_id} value={category.category_name}>
                 {category.category_name}
               </option>
             ))}
@@ -135,9 +140,7 @@ const AdminEditProduct = () => {
           ></textarea>
         </div>
 
-       
-
-        <button type="submit" className="btn btn-primary">Save Changes</button>
+        <button type="submit" className="save-change">Save Changes</button>
       </form>
 
       <button onClick={() => navigate(-1)} className="btn btn-secondary mt-3">

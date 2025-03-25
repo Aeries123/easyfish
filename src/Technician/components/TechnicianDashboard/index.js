@@ -106,7 +106,7 @@ const TechnicianDashboard = () => {
   };
 
   return (
-    <div className="dashboard-container">
+    <div className="totaldashboard-container">
       <h2 className="tech-dashboard-heading">Technician Dashboard</h2>
       {loading && <p className="loading-text">Loading appointments...</p>}
       {error && <p className="error-text">Error: {error}</p>}
