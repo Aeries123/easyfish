@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';  // Import js-cookie
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+ 
 const ManageNotification = () => {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -9,15 +10,16 @@ const ManageNotification = () => {
   const [notificationsPerPage] = useState(5);
   const [searchQuery, setSearchQuery] = useState('');
   const BASE_URL = process.env.REACT_APP_BASE_URL || "http://127.0.0.1:5000";
-
+ 
   useEffect(() => {
     fetchNotifications();
   }, []);
-
+ 
   const fetchNotifications = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/api/notificationss`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }  // Include token if required
+      const token = Cookies.get('authToken'); // Get token from cookies
+      const response = await axios.get(`${BASE_URL}/api/notifications`, {
+        headers: { Authorization: `Bearer ${token}` }  // Use token from cookies
       });
       setNotifications(response.data.notifications || []);
     } catch (error) {
@@ -26,11 +28,12 @@ const ManageNotification = () => {
       setLoading(false);
     }
   };
-
+ 
   const toggleReadStatus = async (id, isRead) => {
     try {
-      await axios.put(`${BASE_URL}/api/notificationss/${id}`, { is_read: !isRead }, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      const token = Cookies.get('authToken');
+      await axios.put(`${BASE_URL}/api/notifications/${id}`, { is_read: !isRead }, {
+        headers: { Authorization: `Bearer ${token}` }
       });
       setNotifications(notifications.map(notification =>
         notification.id === id ? { ...notification, is_read: !isRead } : notification
@@ -39,26 +42,27 @@ const ManageNotification = () => {
       console.error("Error updating notification status:", error);
     }
   };
-
+ 
   const deleteNotification = async (id) => {
     try {
-      await axios.delete(`${BASE_URL}/api/notificationss/${id}`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      const token = Cookies.get('authToken');
+      await axios.delete(`${BASE_URL}/api/notifications/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
       });
       setNotifications(notifications.filter(notification => notification.id !== id));
     } catch (error) {
       console.error("Error deleting notification:", error);
     }
   };
-
+ 
   const filteredNotifications = notifications.filter(notification =>
     notification.message.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
+ 
   const indexOfLastNotification = currentPage * notificationsPerPage;
   const indexOfFirstNotification = indexOfLastNotification - notificationsPerPage;
   const currentNotifications = filteredNotifications.slice(indexOfFirstNotification, indexOfLastNotification);
-
+ 
   return (
     <div className="container-fluid mt-5">
       <h2>Manage Notifications</h2>
@@ -140,5 +144,5 @@ const ManageNotification = () => {
     </div>
   );
 };
-
+ 
 export default ManageNotification;

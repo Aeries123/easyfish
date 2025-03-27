@@ -10,7 +10,6 @@ import ManageCategory from "./components/ManageCategory";
 import LabTechnicianForm from "./components/LabTechnicianForm";
 import Payment from "./components/Payment";
 import Notification from "./components/Notification";
-import Testresults from "./components/Testresults";
 import TestParameters from "./components/TestParameters";
 import TestSampleTypes from "./components/Test_sample_types";
 import Customer from "./components/Customer";
@@ -19,7 +18,7 @@ import ManageCustomer from "./components/ManageCustomers/ManageCustomer";
 import Footer from "./components/AdminFooter/Footer";
 import Header from "./components/AdminHeader/Header";
 import ManageAppointment from "./components/ManageAppointments/ManageAppointment";
-import ManageTimeSlots from "./components/ManageTimeSlots/ManageTimeSlots";
+// import ManageTimeSlots from "./components/ManageTimeSlots/ManageTimeSlots";
 import TestsForm from "./components/Tests/tests";
 import Addresses from "./components/addresses";
 import AdminForm from "./components/Adminform";
@@ -33,11 +32,8 @@ import ManageAdmin from "./components/ManageAdmin";
 import ManageAddress from "./components/ManageAddress";
 import ManageReview from "./components/ManageReview";
 import ManagePayment from "./components/ManagePayment";
-import ManageTestResults from "./components/ManageTestResults";
 import ManageTests from "./components/ManageTests";
 import ManageUsers from "./components/manageUsers";
-import TimeSlots from "./components/Timeslots";
-import Users from "./components/Users";
 import ManageTestParameters from "./components/ManageTestParameters";
 import ManageTestSampleTypes from "./components/ManageTestSampleTypes";
 import ManageTestVisitTypes from "./components/manageTestVisitTypes";
@@ -63,7 +59,7 @@ import ApproveLeave from "./components/ApproveLeave";
 import AdminEditProduct from "./components/AdminEditProduct/AdminEditProduct";
 import AdminViewProduct from "./components/AdminViewProduct/AdminViewProduct";
 import "./AdminRoutes.css";
-import ManageEnquiry from "../Customer/components/ManageEnquiry";
+// import ManageEnquiry from "../Customer/components/ManageEnquiry";
 import UserPrescriptions from "./components/UserPrescriptions";
 import Packages from "./components/Packages";
 import ManagePayments from "./components/ManagePayments/ManagePayments";
@@ -90,8 +86,7 @@ const AdminRoutes = () => {
         )}{" "}
         <div
           className="admin-route-admin-route-card-container"
-          style={{ alignSelf: "flex-start" }}
-        >
+          style={{ alignSelf: "flex-start" ,marginTop: isLoginPage ? "0px" : "80px",}}        >
           <Routes>
             <Route path="/admin/" element={<AdminDashboard />} />
             <Route path="/admin/review" element={<Review />} />
@@ -132,23 +127,18 @@ const AdminRoutes = () => {
 
             <Route path="/admin/package" element={<Packages />} />
             <Route path="/admin/payment" element={<Payment />} />
-            <Route path="/admin/notification" element={<Notification />} />
-            <Route path="/admin/test-results" element={<Testresults />} />
-            <Route path="/admin/test-parameters" element={<TestParameters />} />
-            <Route
-              path="/admin/test-sample-types"
-              element={<TestSampleTypes />}
-            />
+           
+           
             <Route path="/admin/customer" element={<Customer />} />
             <Route path="/admin/manage-customer" element={<ManageCustomer />} />
             <Route
               path="/admin/manage-appointment"
               element={<ManageAppointment />}
             />
-            <Route
+            {/* <Route
               path="/admin/manage-time-slots"
               element={<ManageTimeSlots />}
-            />
+            /> */}
             <Route path="/admin/tests-form" element={<TestsForm />} />
             <Route
               path="/admin/prescriptions"
@@ -165,7 +155,6 @@ const AdminRoutes = () => {
               element={<AppointmentSummary />}
             />
             <Route path="/admin/bookings-form" element={<BookingsForm />} />
-            <Route path="/admin/approve-leave" element={<ApproveLeave />} />
             <Route path="/admin/category" element={<Category />} />
             <Route path="/admin/manage-booking" element={<ManageBooking />} />
             <Route
@@ -173,31 +162,14 @@ const AdminRoutes = () => {
               element={<ManageNotification />}
             />
             <Route path="/admin/manage-admin" element={<ManageAdmin />} />
-            <Route path="/admin/manage-enquiry" element={<ManageEnquiry />} />
 
             <Route path="/admin/manage-address" element={<ManageAddress />} />
             <Route path="/admin/manage-review" element={<ManageReview />} />
             <Route path="/admin/manage-payment" element={<ManagePayment />} />
-            <Route
-              path="/admin/manage-test-results"
-              element={<ManageTestResults />}
-            />
-            <Route path="/admin/manage-tests" element={<ManageTests />} />
-            <Route path="/admin/manage-users" element={<ManageUsers />} />
-            <Route path="/admin/time-slots" element={<TimeSlots />} />
-            <Route path="/admin/users" element={<Users />} />
-            <Route
-              path="/admin/manage-test-parameters"
-              element={<ManageTestParameters />}
-            />
-            <Route
-              path="/admin/manage-test-sample-types"
-              element={<ManageTestSampleTypes />}
-            />
-            <Route
-              path="/admin/manage-test-visit-types"
-              element={<ManageTestVisitTypes />}
-            />
+           
+          
+           
+          
             <Route
               path="/admin/edit-booking/:id"
               element={<AdminEditBookingsForm />}
@@ -216,32 +188,10 @@ const AdminRoutes = () => {
               path="/admin/edit-category/:categoryId"
               element={<AdminEditCategory />}
             />
-            <Route
-              path="/admin/edit-tests/:testId"
-              element={<AdminEditTests />}
-            />
-            <Route
-              path="/admin/view-tests/:testId"
-              element={<AdminViewTests />}
-            />
+          
+           
+           
 
-            <Route
-              path="/admin/view-customer/:customerId"
-              element={<AdminViewCustomer />}
-            />
-            <Route
-              path="/admin/edit-customer/:customerId"
-              element={<AdminEditCustomer />}
-            />
-
-            <Route
-              path="/admin/view-address/:customerId"
-              element={<AdminViewAddress />}
-            />
-            <Route
-              path="/admin/edit-address/:AddressId"
-              element={<AdminEditAddress />}
-            />
 
             <Route path="/admin/add-product" element={<AdminAddProduct />} />
 
