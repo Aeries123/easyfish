@@ -10,12 +10,14 @@ const AdminEditCategory = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 
   useEffect(() => {
     const fetchCategory = async () => {
       try {
         const response = await fetch(
-          `http://127.0.0.1:5000/api/categories/${categoryId}`
+          `${BASE_URL}/api/categories/${categoryId}`
         );
         const data = await response.json();
 
@@ -64,7 +66,7 @@ const AdminEditCategory = () => {
       }
 
       const response = await fetch(
-        `http://127.0.0.1:5000/api/categories/${categoryId}`,
+        `${BASE_URL}/api/categories/${categoryId}`,
         {
           method: "PUT",
           body: formData, // Send as form-data

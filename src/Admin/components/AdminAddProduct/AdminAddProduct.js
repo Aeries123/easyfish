@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./AdminAddProduct.css";
 
-const BASE_URL = "http://127.0.0.1:5000";
 
 const AdminAddProduct = () => {
   const [categories, setCategories] = useState([]);
@@ -9,6 +8,8 @@ const AdminAddProduct = () => {
   const [description, setDescription] = useState("");
   const [categoryName, setCategoryName] = useState("");
   const [addedBy, setAddedBy] = useState("Admin");
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 
   useEffect(() => {
     const fetchCategories = async () => {

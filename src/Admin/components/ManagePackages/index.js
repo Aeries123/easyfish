@@ -51,6 +51,9 @@ const ManageProducts = () => {
     }
   };
 
+
+
+  
   // Search Filter Function
   const filteredProducts = products.filter((product) =>
     product[filterBy]?.toString().toLowerCase().includes(searchQuery.toLowerCase())
