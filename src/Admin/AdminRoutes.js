@@ -60,45 +60,43 @@ const AdminRoutes = () => {
         )}{" "}
         <div
           className="admin-route-admin-route-card-container"
-          style={{ alignSelf: "flex-start" ,marginTop: isLoginPage ? "0px" : "80px",}}        >
+          style={{
+            alignSelf: "flex-start",
+            marginTop: isLoginPage ? "0px" : "80px",
+          }}
+        >
           <Routes>
             <Route path="/admin/" element={<AdminDashboard />} />
 
             <Route path="/admin/login" element={<AdminLogin />} />
 
             <Route path="/admin/manage-category" element={<ManageCategory />} />
-           
-            <Route path="/admin/manage-reviews" element={<ManageReviews />} />
-           
 
-           
+            <Route path="/admin/manage-reviews" element={<ManageReviews />} />
+
             <Route path="/admin/manage-payments" element={<ManagePayments />} />
+
             <Route
               path="/admin/manage-payments/:id"
               element={<ManageAdminPayment />}
             />
+
             <Route path="/admin/manage-packages" element={<ManagePackages />} />
 
             <Route
               path="/admin/edit-product/:id"
               element={<AdminEditProduct />}
             />
+
             <Route
               path="/admin/view-product/:id"
               element={<AdminViewProduct />}
             />
 
             <Route path="/admin/package" element={<Packages />} />
-           
-           
+
             <Route path="/admin/manage-customer" element={<ManageCustomer />} />
-           
-          
-           
 
-
-            
-           
             <Route path="/admin/bookings-form" element={<BookingsForm />} />
             <Route path="/admin/category" element={<Category />} />
             <Route path="/admin/manage-booking" element={<ManageBooking />} />
@@ -112,12 +110,11 @@ const AdminRoutes = () => {
             <Route path="/admin/manage-review" element={<ManageReview />} />
             <Route path="/admin/manage-payment" element={<ManagePayment />} />
 
-            <Route path="/admin/delivery_boy" element={<AdminAddDeliverboy />} />
+            <Route
+              path="/admin/delivery_boy"
+              element={<AdminAddDeliverboy />}
+            />
 
-           
-          
-           
-          
             <Route
               path="/admin/edit-booking/:id"
               element={<AdminEditBookingsForm />}
@@ -136,10 +133,6 @@ const AdminRoutes = () => {
               path="/admin/edit-category/:categoryId"
               element={<AdminEditCategory />}
             />
-          
-           
-           
-
 
             <Route path="/admin/add-product" element={<AdminAddProduct />} />
 
@@ -147,12 +140,14 @@ const AdminRoutes = () => {
               path="/admin/view-payment/:paymentId"
               element={<ManageAdminPayment />}
             />
-                        <Route path="/admin/manage-bestseller" element={<ManageBestSeller />} />
-                        <Route path="/admin/manage-assigned" element={<AdminAssignedDeliveryboy />} />
-
-
-
-
+            <Route
+              path="/admin/manage-bestseller"
+              element={<ManageBestSeller />}
+            />
+            <Route
+              path="/admin/manage-assigned"
+              element={<AdminAssignedDeliveryboy />}
+            />
           </Routes>
         </div>
       </div>
