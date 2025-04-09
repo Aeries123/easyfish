@@ -14,7 +14,7 @@ function App() {
       {/* <Header /> */}
       <div className="app-container">
         {/* Conditional rendering based on path */}
-        {window.location.pathname.startsWith("/admin") && (
+        {window.location.pathname.startsWith("/") && (
           <AdminRoutes />)}
       </div>
       {/* <Footer /> */}

@@ -8,7 +8,6 @@ const ManageBooking = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
   const BASE_URL = process.env.REACT_APP_BASE_URL || "http://127.0.0.1:5000";
-  console.log(orders,"abcd")
 
   useEffect(() => {
     fetchOrders();
@@ -53,10 +52,7 @@ const ManageBooking = () => {
 
   const indexOfLastOrder = currentPage * rowsPerPage;
   const indexOfFirstOrder = indexOfLastOrder - rowsPerPage;
-  const currentOrders = filteredOrders.slice(
-    indexOfFirstOrder,
-    indexOfLastOrder
-  );
+  const currentOrders = filteredOrders.slice(indexOfFirstOrder, indexOfLastOrder);
   const totalPages = Math.ceil(filteredOrders.length / rowsPerPage);
 
   return (
@@ -75,6 +71,8 @@ const ManageBooking = () => {
             <th>Order ID</th>
             <th>Customer Name</th>
             <th>Order Date</th>
+            <th>Delivery Boy ID</th>
+            <th>Delivery Boy Name</th>
             <th>Status</th>
             <th>Total Price</th>
             <th>Actions</th>
@@ -87,15 +85,14 @@ const ManageBooking = () => {
                 <td>{order.order_id}</td>
                 <td>{order.customer.name}</td>
                 <td>{new Date(order.order_date).toLocaleDateString()}</td>
+                <td>{order.assign || "Not Assigned"}</td>
+                <td>{order.delivery_boy_name || "N/A"}</td>
                 <td>{order.status}</td>
                 <td>₹{order.total_price}</td>
                 <td>
                   <Link to={`/admin/view-booking/${order.order_id}`}>
                     <button className="btn">View</button>
                   </Link>
-                  {/* <Link to={`/admin/edit-booking/${order.order_id}`}>
-                    <button className="btn">Edit</button>
-                  </Link> */}
                   <button
                     className="btn delete-btn"
                     onClick={() => handleDelete(order.order_id)}
@@ -107,7 +104,7 @@ const ManageBooking = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="6" className="no-data">
+              <td colSpan="8" className="no-data">
                 No orders found.
               </td>
             </tr>
