@@ -71,7 +71,7 @@ const ManageBooking = () => {
             <th>Order ID</th>
             <th>Customer Name</th>
             <th>Order Date</th>
-            <th>Delivery Boy ID</th>
+            <th>Delivery Boy status</th>
             <th>Delivery Boy Name</th>
             <th>Status</th>
             <th>Total Price</th>

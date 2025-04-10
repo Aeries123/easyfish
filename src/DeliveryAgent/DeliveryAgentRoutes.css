@@ -1,0 +1,23 @@
+.delivery-route-app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.delivery-main-container {
+  display: flex;
+  flex: 1;
+}
+
+.delivery-route-sidebar {
+  width: 250px; /* or whatever fits your design */
+  background-color: #f8f9fa;
+}
+
+.delivery-route-content-container {
+  flex: 1;
+  padding: 20px;
+  background-color: #fff;
+  min-height: calc(100vh - 80px); /* subtract header height */
+  margin-top: 60px;
+}

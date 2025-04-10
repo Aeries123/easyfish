@@ -1,0 +1,30 @@
+/* Footer Container */
+.footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  font-size: 14px;
+}
+
+/* Animated Scrolling Text */
+.marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: scrollText 10s linear infinite;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+/* Animation Keyframes for scrolling */
+@keyframes scrollText {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}

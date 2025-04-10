@@ -2,7 +2,6 @@ import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 
 import DeliveryDashboard from "./components/DeliveryDashboard/DeliveryDashboard";
-// import DeliveryProfile from "./components/DeliveryProfile";
 import OrderDetails from "./components/OrderDetails/OrderDetails";
 import Orders from "./components/Orders/Orders";
 import DeliveryLogin from "./components/DeliveryLogin/DeliveryLogin";
@@ -16,31 +15,32 @@ const DeliveryRoutes = () => {
   const isLoginPage = location.pathname === "/delivery/login";
 
   return (
-    <div>
-      <div className="delivery-route-app-container">
-        {!isLoginPage && (
-          <div>
+    <div className="delivery-route-app-container">
+      {!isLoginPage ? (
+        <>
+          <DeliveryHeader />
+          <div className="delivery-main-container">
             <DeliverySidebar className="delivery-route-sidebar" />
-            <DeliveryHeader />
+            <div className="delivery-route-content-container">
+              <Routes>
+                <Route path="/delivery" element={<DeliveryDashboard />} />
+                <Route path="/delivery/orders" element={<Orders />} />
+                <Route
+                  path="/delivery/order/:orderId"
+                  element={<OrderDetails />}
+                />
+              </Routes>
+            </div>
           </div>
-        )}
-        <div
-          className="delivery-route-content-container"
-          style={{
-            alignSelf: "flex-start",
-            marginTop: isLoginPage ? "0px" : "80px",
-          }}
-        >
+          <DeliveryFooter />
+        </>
+      ) : (
+        <>
           <Routes>
-            <Route path="/delivery/" element={<DeliveryDashboard />} />
             <Route path="/delivery/login" element={<DeliveryLogin />} />
-            <Route path="/delivery/orders" element={<Orders />} />
-            {/* <Route path="/delivery/profile" element={<DeliveryProfile />} /> */}
-            <Route path="/delivery/order/:orderId" element={<OrderDetails />} />
           </Routes>
-        </div>
-      </div>
-      <DeliveryFooter />
+        </>
+      )}
     </div>
   );
 };
