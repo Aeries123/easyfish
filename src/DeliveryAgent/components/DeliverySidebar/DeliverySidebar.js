@@ -14,8 +14,13 @@ const DeliverySidebar = () => {
   const links = [
     { path: "/delivery/", label: "Dashboard", icon: <FaTachometerAlt /> },
     { path: "/delivery/orders", label: "My Orders", icon: <FaShoppingBag /> },
-    { path: "/delivery/assigned-orders", label: "Assigned Orders", icon: <FaListAlt /> },
+    {
+      path: "/delivery/assigned-orders",
+      label: "Assigned Orders",
+      icon: <FaListAlt />,
+    },
     { path: "/delivery/profile", label: "Profile", icon: <FaUser /> },
+    { path: "/delivery/settings", label: "Settings", icon: <FaUser /> },
   ];
 
   const navigate = useNavigate();
@@ -51,5 +56,3 @@ const DeliverySidebar = () => {
 };
 
 export default DeliverySidebar;
-
-
